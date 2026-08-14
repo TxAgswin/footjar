@@ -277,6 +277,29 @@
   .taskbtn:hover{background:var(--blue-d)}
   .taskbtn .tn{display:inline-block;background:var(--or);color:#fff;border-radius:999px;
     font-size:10.5px;font-weight:700;padding:1px 7px;margin-left:6px;min-width:18px}
+  .liBtn{background:#0A66C2;color:#fff;border-color:#0A66C2}
+  .liBtn:hover{background:#08528F;border-color:#08528F}
+  .li{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);padding:20px 22px;margin:0 0 22px;display:none}
+  .li.open{display:block}
+  .li h3{margin:0 0 3px;font-size:17px}
+  .li .sub{margin:0 0 14px;font-size:13px;color:var(--gray)}
+  .li ol{margin:0 0 14px;padding-left:20px;font-size:13.5px;color:var(--gray);line-height:1.75}
+  .li ol b{color:var(--ink)}
+  .li a.golink{color:#0A66C2;font-weight:650;text-decoration:none}
+  .li a.golink:hover{text-decoration:underline}
+  .li textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;font:13px/1.5 ui-monospace,Consolas,monospace;resize:vertical;
+    background:#FBFCFF;color:var(--ink)}
+  .li textarea:focus{outline:0;border-color:var(--blue)}
+  .lifound{margin:13px 0 0;font-size:13.5px}
+  .lirow{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line)}
+  .lirow b{font-size:13.5px}
+  .lirow span{font-size:12.5px;color:var(--gray)}
+  .lirow em{margin-left:auto;font-style:normal;font-size:10px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border-radius:999px}
+  .li-new{background:var(--or-t);color:var(--or-d)}
+  .li-have{background:#EEF1F8;color:var(--gray)}
   .todo{background:var(--card);border:1px solid var(--line);border-radius:16px;
     box-shadow:var(--shadow);padding:20px 22px;margin:0 0 22px;display:none}
   .todo.open{display:block}
@@ -361,11 +384,24 @@
         <option value="status">Status</option>
       </select>
       <button class="btn taskbtn" id="taskBtn">Today's tasks<span class="tn" id="taskN">0</span></button>
+      <button class="btn liBtn" id="liBtn">Add from LinkedIn</button>
       <button class="btn primary" id="exportBtn">Export jobs.json</button>
-      <button class="btn" id="importBtn">Import</button>
-      <button class="btn" id="resetBtn" title="Discard local edits and reload the seed data">Reset</button>
-      <input type="file" id="importFile" accept=".json,application/json" style="display:none">
     </div>
+  </div>
+  <div class="li" id="liPanel">
+    <h3>Add roles from your LinkedIn saved jobs</h3>
+    <p class="sub">Foot Jar cannot reach into LinkedIn on its own, so this is a paste. Thirty seconds.</p>
+    <ol>
+      <li>Open your <a class="golink" href="https://www.linkedin.com/my-items/saved-jobs/" target="_blank" rel="noopener">LinkedIn saved jobs</a>.</li>
+      <li>Select the whole page with <b>Ctrl A</b>, then copy with <b>Ctrl C</b>. Do each page if you have several.</li>
+      <li>Paste below and hit <b>Find roles</b>. Anything already tracked is ignored.</li>
+    </ol>
+    <textarea id="liPaste" placeholder="Paste the LinkedIn page here"></textarea>
+    <div style="display:flex;gap:9px;margin-top:11px;flex-wrap:wrap">
+      <button class="btn liBtn" id="liFind">Find roles</button>
+      <button class="btn primary" id="liAdd" style="display:none">Add to pipeline</button>
+    </div>
+    <div class="lifound" id="liFound"></div>
   </div>
   <div class="todo" id="todo">
     <h3>Today's tasks</h3>
@@ -374,7 +410,7 @@
     <div id="taskList"></div>
   </div>
   <p class="synced" id="synced"></p>
-  <p class="hint">Tip: click any <b>step</b>, <b>contact</b>, or <b>outcome</b> chip to update it. Changes save in this browser automatically &mdash; use <b>Export</b> to save <code>jobs.json</code> for Drive or to hand back to Claude.</p>
+  <p class="hint">Tip: click any <b>step</b>, <b>contact</b>, or <b>outcome</b> chip to update it. Changes save in this browser automatically &mdash; hit <b>Export</b> to hand your changes back to Claude.</p>
 
   <div id="jobs"></div>
   <footer>Source of truth: <code>jobs.json</code> &nbsp;&middot;&nbsp; Probabilities are modeled estimates, not guarantees.</footer>
@@ -509,13 +545,14 @@ function contactCS(c){
 }
 
 function renderHeader(){
-  const ph = SEED.meta && SEED.meta.photo_base64;
-  const av = document.querySelector(".sme img");
-  if(ph && av && av.src.indexOf("photo") === -1) av.src = ph;
   document.getElementById("updated").textContent =
     "Pipeline as of " + new Date(DATA.meta.updated+"T00:00:00").toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
   const photo = SEED.meta.photo_base64 || DATA.meta.photo_base64;
-  if(photo) document.getElementById("avatar").innerHTML = '<img src="'+photo+'" alt="Brad Sebastian">';
+  /* The old #avatar element lived in the hero, which the sidebar replaced. The
+     headshot now goes to the sidebar image, and every lookup is guarded so a
+     missing element can never take the whole render down with it. */
+  const av = document.querySelector(".sme img");
+  if(photo && av) av.src = photo;
 }
 function renderKPIs(){
   const J = jobs().filter(j => !passed(j));
@@ -811,6 +848,72 @@ function renderTasks(){
     : '<p class="empty2">Nothing outstanding. Everything drafted has been sent and everything ' +
       'built has been submitted.</p>';
 }
+/* ---------------------------------------------------------------------------
+   ADD FROM LINKEDIN.  A browser page cannot read linkedin.com, so this parses a
+   paste of the saved-jobs list instead. LinkedIn renders each entry as a title
+   line followed by "Company · Location", which is stable enough to key on.
+   Everything lands as Saved with no score — a role Claude has not analysed must
+   never look like one that has been.
+--------------------------------------------------------------------------- */
+const LI_NOISE = /^(notes?|add note|apply|easy apply|saved|save|promoted|viewed|reposted|posted|be an early applicant|company alum|school alum|actively reviewing|no longer accepting|view job|see all|job tracker|in progress|interview|archived|date posted|not seeing some jobs)/i;
+let LI_FOUND = [];
+function liParse(txt){
+  const L = txt.split("\n").map(x => x.replace(/\s+/g," ").trim());
+  const out = [], seen = {};
+  for(let i = 1; i < L.length; i++){
+    const m = L[i].match(/^(.+?)\s+[·|]\s+(.+)$/);
+    if(!m) continue;
+    if(!/[A-Za-z]{2},?\s*[A-Z]{2}\b|remote|hybrid|on-?site|greater/i.test(m[2])) continue;
+    let t = "";
+    for(let k = i - 1; k >= 0 && k >= i - 3; k--){
+      const c = L[k];
+      if(!c || LI_NOISE.test(c) || c.length < 4) continue;
+      t = c; break;
+    }
+    if(!t) continue;
+    const company = m[1].trim(), role = t.trim();
+    const key = (company + "|" + role).toLowerCase();
+    if(seen[key]) continue; seen[key] = 1;
+    const have = jobs().some(j =>
+      (j.company||"").toLowerCase().replace(/[^a-z0-9]/g,"") === company.toLowerCase().replace(/[^a-z0-9]/g,""));
+    out.push({company: company, role: role, location: m[2].trim(), have: have});
+  }
+  return out;
+}
+document.getElementById("liBtn").addEventListener("click", function(){
+  document.getElementById("liPanel").classList.toggle("open");
+});
+document.getElementById("liFind").addEventListener("click", function(){
+  LI_FOUND = liParse(document.getElementById("liPaste").value || "");
+  const isNew = LI_FOUND.filter(r => !r.have);
+  document.getElementById("liAdd").style.display = isNew.length ? "" : "none";
+  document.getElementById("liAdd").textContent = "Add " + isNew.length + " to pipeline";
+  document.getElementById("liFound").innerHTML = LI_FOUND.length
+    ? LI_FOUND.map(r => '<div class="lirow"><b>' + r.company + '</b><span>' + r.role +
+        ' &middot; ' + r.location + '</span><em class="' + (r.have ? "li-have" : "li-new") + '">' +
+        (r.have ? "already tracked" : "new") + '</em></div>').join("")
+    : '<p style="color:var(--soft);font-size:13px">Nothing found. Make sure you copied the whole page, not just one card.</p>';
+});
+document.getElementById("liAdd").addEventListener("click", function(){
+  const add = LI_FOUND.filter(r => !r.have);
+  add.forEach(r => {
+    let id = r.company.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,16) || ("job" + Date.now());
+    while(jobs().some(j => j.id === id)) id += "x";
+    DATA.jobs.push({id:id, company:r.company, role:r.role, location:r.location,
+      geo:(r.location.split(",")[0]||"").trim(), domain:"", status:"Saved",
+      req:"Added from LinkedIn " + fmt(today()), salary_target:"TBD", method:"",
+      rank_score:0, landing_base:0, second_interview:null, offer:null,
+      source:"linkedin", source_detail:"", contacts:[], excluded:[], activity:[],
+      note:"NOT YET ANALYSED. Added from a LinkedIn paste, so the score is 0 and nothing has been read. Ask Claude to run the job kit before treating this as a real opportunity.",
+      steps: STEPS.reduce(function(a,k){ a[k]=null; return a; }, {})});
+  });
+  commit();
+  document.getElementById("liPaste").value = "";
+  document.getElementById("liFound").innerHTML = "";
+  document.getElementById("liAdd").style.display = "none";
+  toast("Added " + add.length + " \u2014 ask Claude to run the kit on them");
+});
+
 document.getElementById("taskBtn").addEventListener("click", function(){
   document.getElementById("todo").classList.toggle("open");
 });
@@ -834,7 +937,12 @@ function renderSync(){
          " in this browser not yet in the file</b> &middot; hit Export and paste it to Claude"
        : " &middot; browser and file agree");
 }
-function renderAll(){ renderHeader(); renderKPIs(); renderLand(); renderJobs(); renderTasks(); renderNav(); renderSync(); }
+function renderAll(){
+  /* Each step is isolated. A styling change that removes one element must never
+     be able to blank the entire pipeline, which is exactly what happened once. */
+  [renderHeader, renderKPIs, renderLand, renderJobs, renderTasks, renderNav, renderSync]
+    .forEach(fn => { try{ fn(); }catch(e){ console.error("render step failed:", fn.name, e); } });
+}
 
 // Steps that are PROVEN by an embedded document are derived from the file itself,
 // using the file's real date. These can never drift out of sync with reality.
@@ -902,19 +1010,6 @@ document.getElementById("exportBtn").addEventListener("click", function(){
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob); a.download = "jobs.json"; a.click();
   URL.revokeObjectURL(a.href); toast("Exported jobs.json");
-});
-document.getElementById("importBtn").addEventListener("click", function(){ document.getElementById("importFile").click(); });
-document.getElementById("importFile").addEventListener("change", function(ev){
-  const f = ev.target.files[0]; if(!f) return;
-  const r = new FileReader();
-  r.onload = function(){
-    try{ const d = JSON.parse(r.result); if(!d.jobs) throw 0; DATA = d; save(); renderAll(); toast("Imported"); }
-    catch(err){ toast("Import failed - not a valid jobs.json"); }
-  };
-  r.readAsText(f); ev.target.value = "";
-});
-document.getElementById("resetBtn").addEventListener("click", function(){
-  if(confirm("Discard local edits and reload the original data?")){ DATA = clone(SEED); save(); renderAll(); toast("Reset"); }
 });
 
 let toastT;
