@@ -385,6 +385,24 @@
   .saved{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:12.5px;
     padding:9px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s;z-index:9}
   .saved.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---- the action panel inside a task ---- */
+.tact{display:none;margin:10px 0 2px;border-top:1px solid #EDF0F7;padding-top:11px}
+.task:hover .tact{display:block}
+.dr{background:#F7F9FF;border:1px solid #E3E8F5;border-radius:9px;padding:11px 13px;
+  font-size:13px;line-height:1.6;color:#333A4D;white-space:pre-wrap;max-height:190px;
+  overflow:auto}
+.dr.none{color:#8A93AB;font-style:italic;background:#FAFBFE}
+.tbtns{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;align-items:center}
+.tb{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:7px;
+  border:1px solid #D8DEEC;background:#fff;color:#12172B;cursor:pointer;
+  font:600 12.5px/1 'Segoe UI',system-ui,sans-serif;text-decoration:none;transition:.15s}
+.tb:hover{border-color:#0041D7;color:#0041D7;background:#F5F8FF}
+.tb.copy.ok{border-color:#2E7D57;color:#2E7D57;background:#EEF9F3}
+.tb.go{background:#0A66C2;border-color:#0A66C2;color:#fff}
+.tb.go:hover{background:#08528F;border-color:#08528F;color:#fff}
+.tb.sent{margin-left:auto}
+.task.done .tact{display:none}
 </style>
 </head>
 <body>
@@ -902,7 +920,7 @@ function tasks(){
       const warm = /referral|intro/i.test((c.channel||"") + " " + (c.title||"") + " " + (c.note||""));
       const pri = warm ? 1 : (isApplied ? 3 : 4);
       out.push({
-        key: j.id + "|c" + i, pri: pri,
+        key: j.id + "|c" + i, pri: pri, c: c, job: j,
         label: (warm ? "Ask " : "Reach out to ") + c.name + " at " + j.company,
         why: (warm ? "<em>Warm introduction.</em> " : "") + c.title + " &middot; " + c.channel,
         act: () => { c.sent = true; c.date = today(); }
@@ -924,7 +942,7 @@ function tasks(){
       const n = daysSince(c.date);
       if(n < 6 || n > 60) return;
       out.push({
-        key: j.id + "|f" + i, pri: 5,
+        key: j.id + "|f" + i, pri: 5, c: c, job: j, followup: true,
         label: "Follow up with " + c.name + " at " + j.company,
         why: "Sent " + n + " days ago, nothing back. One short note, then let it rest.",
         act: () => { c.date = today(); }
@@ -948,12 +966,56 @@ function renderTasks(){
         const k = tier(t.pri);
         return '<div class="task' + (TDONE[t.key] ? " done" : "") + '">' +
           '<span class="tick" data-task="' + t.key + '"></span>' +
-          '<span class="tbody"><b>' + t.label + '</b><span class="tw">' + t.why + '</span></span>' +
+          '<span class="tbody"><b>' + t.label + '</b><span class="tw">' + t.why + '</span>' +
+            actionPanel(t) +
+          '</span>' +
           '<span class="trank ' + k[0] + '">' + k[1] + '</span></div>';
       }).join("")
     : '<p class="empty2">Nothing outstanding. Everything drafted has been sent and everything ' +
       'built has been submitted.</p>';
 }
+
+/* ---------------------------------------------------------------------------
+   THE ACTION PANEL.  A to-do that only says "reach out to Marla" still leaves
+   all the work to do. This carries the drafted note, a copy button, and a link
+   that lands on the right person, so the task IS the doing of it.
+
+   On the LinkedIn link: this is a SEARCH url built from the name and company,
+   never a guessed profile url. A guessed vanity slug that resolves to a
+   different human is worse than no link at all -- it would send a real message
+   to a stranger. If a verified profile url is ever stored on the contact, that
+   is used instead.
+--------------------------------------------------------------------------- */
+function liSearch(name, company){
+  return "https://www.linkedin.com/search/results/people/?keywords=" +
+         encodeURIComponent((name || "") + " " + (company || "")).trim();
+}
+function esc(t){
+  return String(t || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function actionPanel(t){
+  const c = t.c; if(!c) return "";
+  const co = t.job ? t.job.company : "";
+  const url = c.url || liSearch(c.name, co);
+  const ch = (c.channel || "").toLowerCase();
+  const where = /mail|email/.test(ch) ? "email"
+              : /call|phone|text/.test(ch) ? "phone" : "linkedin";
+  const openLabel = where === "email" ? "Open email" :
+                    where === "phone" ? "Find the number" : "Open in LinkedIn";
+  const draft = c.draft || "";
+  const body = draft
+    ? '<div class="dr" data-draft="' + esc(draft).replace(/"/g,"&quot;") + '">' +
+        esc(draft).replace(/\n/g,"<br>") + '</div>'
+    : '<div class="dr none">No note drafted yet. Ask Claude to write this one and it ' +
+      'will appear here, ready to copy.</div>';
+  return '<div class="tact">' + body +
+    '<div class="tbtns">' +
+      (draft ? '<button type="button" class="tb copy">Copy message</button>' : "") +
+      '<a class="tb go" target="_blank" rel="noopener" href="' + url + '">' + openLabel + '</a>' +
+      '<button type="button" class="tb sent" data-task="' + t.key + '">Mark sent</button>' +
+    '</div></div>';
+}
+
 /* ---------------------------------------------------------------------------
    ADD FROM LINKEDIN.  A browser page cannot read linkedin.com, so this parses a
    paste of the saved-jobs list instead. LinkedIn renders each entry as a title
@@ -1022,6 +1084,19 @@ document.getElementById("liAdd").addEventListener("click", function(){
 
 document.getElementById("taskBtn").addEventListener("click", function(){
   document.getElementById("todo").classList.toggle("open");
+});
+document.getElementById("taskList").addEventListener("click", function(e){
+  const cp = e.target.closest(".tb.copy");
+  if(!cp) return;
+  e.stopPropagation();
+  const box = cp.closest(".tact").querySelector(".dr");
+  const txt = (box && box.dataset.draft) || "";
+  const done = () => {
+    cp.textContent = "Copied \u2713"; cp.classList.add("ok");
+    setTimeout(() => { cp.textContent = "Copy message"; cp.classList.remove("ok"); }, 1800);
+  };
+  if(navigator.clipboard) navigator.clipboard.writeText(txt).then(done, () => window.prompt("Copy this:", txt));
+  else window.prompt("Copy this:", txt);
 });
 document.getElementById("taskList").addEventListener("click", function(e){
   const el = e.target.closest("[data-task]"); if(!el) return;
