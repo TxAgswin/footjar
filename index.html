@@ -807,6 +807,37 @@ nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   .onramp{grid-template-columns:1fr;gap:24px;padding:24px 22px}
   .onramp h3{font-size:25px}
 }
+
+/* ---- brand guide ---- */
+.bh{font-family:var(--serif);font-weight:400;font-size:26px;margin:44px 0 16px;
+  padding-bottom:9px;border-bottom:1px solid var(--line)}
+.bnote{font-size:14px;line-height:1.7;color:var(--gray);margin:14px 0 0;max-width:74ch}
+.bnote b{color:var(--ink)}
+.markrow{display:flex;gap:14px;flex-wrap:wrap}
+.markbox{flex:1 1 200px;display:flex;align-items:center;justify-content:center;gap:14px;
+  flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:28px 20px;position:relative;min-height:150px}
+.markbox.dark{background:var(--ink2);border-color:var(--ink2)}
+.markbox span{position:absolute;bottom:11px;left:0;right:0;text-align:center;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9AA3B8}
+.markbox.dark span{color:#7F8CAE}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.sw{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.sw>span{display:block;height:46px;border-radius:8px;margin-bottom:10px;
+  border:1px solid rgba(6,26,82,.08)}
+.sw b{display:block;font-size:14px}
+.sw code{font-size:12px;color:var(--blue);font-family:ui-monospace,Consolas,monospace}
+.sw em{display:block;font-style:normal;font-size:12.5px;color:var(--gray);margin-top:5px;
+  line-height:1.5}
+.typerow{display:grid;gap:24px;background:#fff;border:1px solid var(--line);
+  border-radius:14px;padding:26px 28px}
+.tl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9AA3B8;
+  font-weight:600}
+.voicerules{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.voicerules>div{background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px;font-size:14px;line-height:1.65;color:var(--gray)}
+.voicerules b{display:block;color:var(--ink);margin-bottom:5px;font-size:14.5px}
+@media(max-width:820px){ .voicerules{grid-template-columns:1fr} }
 </style></head><body>
 
 <nav><div class="w nav">
@@ -1059,6 +1090,7 @@ nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     <a href="mailto:brad@footjar.com">brad@footjar.com</a>
     <a href="tel:+17132561683">713-256-1683</a>
     <a href="https://www.linkedin.com/in/brad-sebastian" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="/brand/">Brand guide</a>
   </div>
   <div>&copy; 2026 Foot Jar &middot; The Woodlands, TX</div>
 </div></footer>

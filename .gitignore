@@ -2,13 +2,10 @@ Thumbs.db
 .DS_Store
 *.tmp
 
-# scratch pages used to pick stock headshots — not part of the site
-cast.html
-replacements.html
-
-# casting notes describe people by apparent gender and ethnicity. Fine as a
-# working document, bad as a public URL on a page shown to employers.
-faces/CASTING.md
-
-# internal planning doc, not part of the site
-PLAN.md
+# ---------------------------------------------------------------------------
+# PRIVATE. This repository publishes to footjar.com -- anything committed here
+# is readable by anyone who guesses the URL. Financial records, planning
+# documents and working files live in _private/ and must never be tracked.
+# Move that folder out of the repo when convenient; nothing depends on it.
+# ---------------------------------------------------------------------------
+_private/
