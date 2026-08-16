@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="canonical" href="https://footjar.com/">
+<link rel="canonical" href="https://footjar.com/pricing/">
 <meta property="og:type" content="website"><meta property="og:url" content="https://footjar.com/">
 <meta property="og:title" content="Foot Jar — get past the filters, reach a human"><meta property="og:description" content="Everyone is using AI to apply faster, and none of it is working. Foot Jar points it the other way: it reads every posting in full, tells you which ones to skip, writes in your own voice, clears the scanner, then finds the person who can actually say yes.">
 <meta property="og:site_name" content="Foot Jar">
@@ -746,15 +746,78 @@ h2{font-size:40px;line-height:1.14;letter-spacing:-.018em}
 @media(max-width:760px){
   .crow{flex-wrap:wrap;gap:4px} .crow b{flex:1 0 100%} .crow em{text-align:left}
 }
+
+/* ---- stop the page being wider than the phone ----
+   the graph SVG runs overflow:visible for its hover cards, and the carousel
+   translates a wide track. either one adds a few pixels of horizontal scroll,
+   which reads as the whole page wobbling. clip at the root and constrain the
+   two offenders rather than hunting pixels. */
+html,body{max-width:100%;overflow-x:hidden}
+.w{max-width:100%}
+.carou,.ngwrap,.shots{max-width:100%}
+img,svg,video{max-width:100%}
+
+/* ---- mobile navigation ---- */
+.navtoggle{display:none;background:none;border:0;padding:10px;cursor:pointer;
+  margin-left:auto;flex-direction:column;gap:5px}
+.navtoggle span{display:block;width:22px;height:2px;background:var(--ink);
+  border-radius:2px;transition:.22s}
+nav.open .navtoggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+nav.open .navtoggle span:nth-child(2){opacity:0}
+nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+@media(max-width:820px){
+  .nav{flex-wrap:wrap;align-items:center}
+  .navtoggle{display:flex}
+  .links,.navcta{display:none;width:100%}
+  nav.open .links,nav.open .navcta{display:flex;flex-direction:column;
+    align-items:stretch;gap:2px;padding:10px 0 4px;border-top:1px solid var(--line);
+    margin-top:12px}
+  nav.open .links a,nav.open .drop>button{display:block;width:100%;text-align:left;
+    padding:13px 4px;font-size:16px;border-bottom:1px solid #F2F5FB;background:none}
+  nav.open .drop{position:static}
+  nav.open .mega{position:static;display:block;box-shadow:none;border:0;padding:0 0 6px;
+    opacity:1;visibility:visible;transform:none;background:none;min-width:0}
+  nav.open .mega .mi{padding:11px 4px}
+  nav.open .navcta{gap:10px;padding-top:12px}
+  nav.open .navcta .btn,nav.open .navcta .signin{width:100%;text-align:center;
+    justify-content:center;padding:13px 18px;font-size:15px}
+}
+
+/* ---- the on-ramp ---- */
+.onramp{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;
+  max-width:1000px;margin:34px auto 42px;padding:32px 34px;border-radius:22px;
+  background:#fff;border:2px solid var(--or);
+  box-shadow:0 20px 50px rgba(253,107,14,.14)}
+.ortag{display:inline-block;background:var(--or);color:#fff;font-size:11px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;padding:5px 12px;border-radius:99px}
+.onramp h3{font-size:31px;line-height:1.15;margin:14px 0 12px}
+.onramp p{margin:0 0 16px;font-size:15px;line-height:1.65;color:var(--gray)}
+.orprice{display:flex;align-items:baseline;gap:9px;margin-bottom:16px}
+.orprice b{font-family:var(--serif);font-size:52px;font-weight:400;line-height:1}
+.orprice span{font-size:13.5px;color:var(--gray)}
+.orbtn{display:block;text-align:center;background:var(--or);color:#fff;text-decoration:none;
+  font:700 17px/1 var(--ui);padding:18px 26px;border-radius:12px;
+  box-shadow:0 8px 22px rgba(253,107,14,.34);transition:.2s}
+.orbtn:hover{background:var(--orD);transform:translateY(-2px)}
+.ormicro{margin:13px 0 0!important;font-size:12.5px!important;color:#8A93AB!important}
+.orsep{text-align:center;font-size:13px;letter-spacing:.11em;text-transform:uppercase;
+  color:#9AA3B8;margin:0 0 20px;font-weight:600}
+@media(max-width:900px){
+  .onramp{grid-template-columns:1fr;gap:24px;padding:24px 22px}
+  .onramp h3{font-size:25px}
+}
 </style></head><body>
 
 <nav><div class="w nav">
   <a class="brand" href="/"><span style="display:inline-flex;align-items:center;gap:7px" role="img" aria-label="Foot Jar"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foot Jar"><path d="M23 10h18" stroke="#0041D7" stroke-width="3.1" stroke-linecap="round"/><path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#0041D7" stroke-width="3.1"/><path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg><span style="font:600 15px/1 'Segoe UI',system-ui,sans-serif;letter-spacing:-.01em;color:#0041D7">Foot<span style="color:#FD6B0E">Jar</span></span></span></a>
+  <button class="navtoggle" type="button" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span></button>
   <div class="links">
     <div class="drop"><button type="button">Product</button>
-      <div class="mega"><a class="mi" href="#scoring"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span><span><b>Opportunity scoring</b><em>Grade every role against your criteria</em></span></a><a class="mi" href="#timeline"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 5h18v2H3zm0 6h13v2H3zm0 6h8v2H3zm12.5 3.5L14 19l3.5-3.5L21 19l-1.5 1.5-2-2z"/></svg></span><span><b>Pipeline &amp; timeline</b><em>One queue, one progress bar, no spreadsheet</em></span></a><a class="mi" href="#ats"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5zm-1 15l-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9z"/></svg></span><span><b>ATS gate</b><em>Clear the scanner before a human ever sees it</em></span></a><a class="mi" href="#voice"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 14a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 006 6.9V21h2v-3.1A7 7 0 0019 11z"/></svg></span><span><b>Your voice</b><em>Documents that sound like you wrote them</em></span></a><a class="mi" href="#networking"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 8a3 3 0 100-6 3 3 0 000 6zM5 22a3 3 0 100-6 3 3 0 000 6zm14 0a3 3 0 100-6 3 3 0 000 6zM11 9.9l-4.2 6 1.7 1.2 4.2-6zm2 0l-1.7 1.2 4.2 6 1.7-1.2z"/></svg></span><span><b>Networking engine</b><em>Find the person who can actually hire you</em></span></a><a class="mi" href="#always"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Always on</b><em>Your career record, kept warm between searches</em></span></a><a class="mi" href="/pipeline/"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Live pipeline</b><em>Publish your search to a real page</em></span></a></div></div>
-    <a href="#how">How it works</a>
-    <a href="#networking">Networking</a>
+      <div class="mega"><a class="mi" href="/#scoring"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span><span><b>Opportunity scoring</b><em>Grade every role against your criteria</em></span></a><a class="mi" href="/#timeline"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 5h18v2H3zm0 6h13v2H3zm0 6h8v2H3zm12.5 3.5L14 19l3.5-3.5L21 19l-1.5 1.5-2-2z"/></svg></span><span><b>Pipeline &amp; timeline</b><em>One queue, one progress bar, no spreadsheet</em></span></a><a class="mi" href="/#ats"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5zm-1 15l-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9z"/></svg></span><span><b>ATS gate</b><em>Clear the scanner before a human ever sees it</em></span></a><a class="mi" href="/#voice"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 14a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 006 6.9V21h2v-3.1A7 7 0 0019 11z"/></svg></span><span><b>Your voice</b><em>Documents that sound like you wrote them</em></span></a><a class="mi" href="/#networking"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 8a3 3 0 100-6 3 3 0 000 6zM5 22a3 3 0 100-6 3 3 0 000 6zm14 0a3 3 0 100-6 3 3 0 000 6zM11 9.9l-4.2 6 1.7 1.2 4.2-6zm2 0l-1.7 1.2 4.2 6 1.7-1.2z"/></svg></span><span><b>Networking engine</b><em>Find the person who can actually hire you</em></span></a><a class="mi" href="/#always"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Always on</b><em>Your career record, kept warm between searches</em></span></a><a class="mi" href="/pipeline/"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Live pipeline</b><em>Publish your search to a real page</em></span></a></div></div>
+    <a href="/#how">How it works</a>
+    <a href="/#networking">Networking</a>
     <a href="/pricing/">Pricing</a>
   </div>
   <div class="navcta">
@@ -774,17 +837,20 @@ h2{font-size:40px;line-height:1.14;letter-spacing:-.018em}
     documents, the ATS gate, and the research into who can actually move your application.</p>
   </div>
 
-  <!-- the front door. the scoring engine doing the selling, on the buyer's own list -->
-  <div class="reco">
-    <div class="recol">
-      <span class="tag">Start here</span>
-      <h3>Paste your saved jobs.</h3>
-      <p>Twenty seconds later you get a score on every one, a plain reason for each,
-      and a straight answer on which are worth your time. Then, and only then, a price.</p>
-      <p class="recomicro">No account. No card. It costs us pennies and it is the only
-      honest way to tell you what you need.</p>
+  <!-- The on-ramp. A named price, one instruction, one button. The old version
+       said "Start here" and left the user to work out what start meant. -->
+  <div class="onramp">
+    <div class="orleft">
+      <span class="ortag">Start here</span>
+      <h3>Drop in your saved jobs.<br>We&rsquo;ll tell you which ones to skip.</h3>
+      <p>Every role read in full and scored, with a plain reason for each. Then a
+      recommendation for what you actually need &mdash; usually less than you think.</p>
+      <div class="orprice"><b>$2</b><span>one-off, card on file</span></div>
+      <a class="orbtn" href="/pipeline/">Drop your jobs &rarr;</a>
+      <p class="ormicro">Paste a list, upload a file, or forward the emails.
+      Scored inside an hour. No subscription, cancel nothing.</p>
     </div>
-    <div class="recor">
+    <div class="orright">
       <div class="recobox">
         <div class="recoline">Marketing Manager &middot; Target Hospitality</div>
         <div class="recoline">Director of Growth Marketing &middot; PCCA</div>
@@ -801,6 +867,8 @@ h2{font-size:40px;line-height:1.14;letter-spacing:-.018em}
       </div>
     </div>
   </div>
+
+  <p class="orsep">Or buy a package outright</p>
 
   <div class="plans">
     <div class="plan">
@@ -869,7 +937,7 @@ h2{font-size:40px;line-height:1.14;letter-spacing:-.018em}
 </div></section><footer><div class="w frow">
   <div><span style="display:inline-flex;align-items:center;gap:7px" role="img" aria-label="Foot Jar"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foot Jar"><path d="M23 10h18" stroke="#0041D7" stroke-width="3.1" stroke-linecap="round"/><path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#0041D7" stroke-width="3.1"/><path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg><span style="font:600 15px/1 'Segoe UI',system-ui,sans-serif;letter-spacing:-.01em;color:#0041D7">Foot<span style="color:#FD6B0E">Jar</span></span></span></div>
   <div>
-    <a href="mailto:bradsebastian98@gmail.com">bradsebastian98@gmail.com</a>
+    <a href="mailto:brad@footjar.com">brad@footjar.com</a>
     <a href="tel:+17132561683">713-256-1683</a>
     <a href="https://www.linkedin.com/in/brad-sebastian" target="_blank" rel="noopener">LinkedIn</a>
   </div>
@@ -1000,6 +1068,21 @@ h2{font-size:40px;line-height:1.14;letter-spacing:-.018em}
   document.addEventListener("click", function(){
     pinned=null; wrap.classList.remove("open"); clear(); });
   litPath(null);
+})();
+</script>
+<script>
+(function(){
+  var n=document.querySelector("nav"), b=n && n.querySelector(".navtoggle");
+  if(!b) return;
+  b.addEventListener("click", function(){
+    var open = n.classList.toggle("open");
+    b.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  // a tap on any link closes it again
+  n.addEventListener("click", function(e){
+    if(e.target.closest("a")) { n.classList.remove("open");
+                                b.setAttribute("aria-expanded","false"); }
+  });
 })();
 </script>
 </body></html>
