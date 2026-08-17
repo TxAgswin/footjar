@@ -49,7 +49,7 @@ h3{font-size:21px;margin:0 0 8px;letter-spacing:-.01em}
 /* ---------------- nav ---------------- */
 nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.96);
  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;gap:8px;height:74px}
+.nav{display:flex;align-items:center;gap:8px;height:74px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;flex:0 0 auto;text-decoration:none}
 .links{display:flex;gap:4px;margin-left:22px;flex:1;align-items:center}
 .links>a,.drop>button{color:var(--ink);text-decoration:none;font-size:15.5px;font-weight:600;
@@ -274,7 +274,7 @@ footer a:hover{color:var(--blue)}
   h1{font-size:33px;letter-spacing:-.028em}h2{font-size:26px}.cta h2{font-size:27px}
   .hsub{font-size:17.5px}.sub{font-size:16.5px}
   .w{padding:0 16px}
-  .nav{height:64px}
+  .nav{height:auto;min-height:64px}
   .navcta .btn{padding:10px 15px;font-size:14px}
   .signin{padding:8px 10px;font-size:14.5px}
   .hcta .btn{width:100%}
@@ -436,7 +436,7 @@ footer a:hover{color:var(--blue)}
   h1{font-size:33px;letter-spacing:-.028em}h2{font-size:26px}.cta h2{font-size:27px}
   .hsub{font-size:17.5px}.sub{font-size:16.5px}
   .w{padding:0 16px}
-  .nav{height:64px}
+  .nav{height:auto;min-height:64px}
   .navcta .btn{padding:10px 15px;font-size:14px}
   .signin{padding:8px 10px;font-size:14.5px}
   .hcta .btn{width:100%}
@@ -779,18 +779,22 @@ nav.open .navtoggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 nav.open .navtoggle span:nth-child(2){opacity:0}
 nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-@media(max-width:820px){
+@media(max-width:960px){
   .nav{flex-wrap:wrap;align-items:center}
   .navtoggle{display:flex}
   .links,.navcta{display:none;width:100%}
   nav.open .links,nav.open .navcta{display:flex;flex-direction:column;
     align-items:stretch;gap:2px;padding:10px 0 4px;border-top:1px solid var(--line);
-    margin-top:12px}
+    margin-top:12px;flex:1 0 100%;min-width:0}
+  nav.open .links{max-height:calc(100vh - 150px);overflow-y:auto}
+  nav .brand{flex:0 0 auto}
+  nav.open{padding-bottom:10px}
   nav.open .links a,nav.open .drop>button{display:block;width:100%;text-align:left;
     padding:13px 4px;font-size:16px;border-bottom:1px solid #F2F5FB;background:none}
   nav.open .drop{position:static}
   nav.open .mega{position:static;display:block;box-shadow:none;border:0;padding:0 0 6px;
-    opacity:1;visibility:visible;transform:none;background:none;min-width:0}
+    opacity:1;visibility:visible;transform:none;background:none;
+    width:auto;min-width:0;max-width:100%;grid-template-columns:1fr}
   nav.open .mega .mi{padding:11px 4px}
   nav.open .navcta{gap:10px;padding-top:12px}
   nav.open .navcta .btn,nav.open .navcta .signin{width:100%;text-align:center;
