@@ -7,88 +7,119 @@
 <style>
 *{box-sizing:border-box}
 :root{--blue:#0041D7;--or:#FD6B0E;--ink:#12172B;--ink2:#061A52;--gray:#5A6178;
-  --line:#E3E8F5;--tint:#EEF3FF;--serif:'Instrument Serif',Georgia,serif;
+  --soft:#98A0B8;--line:#E3E8F5;--serif:'Instrument Serif',Georgia,serif;
   --ui:Inter,-apple-system,'Segoe UI',sans-serif}
 body{margin:0;background:#FBF8F4;color:var(--ink);font:15px/1.6 var(--ui);
-  min-height:100vh;display:grid;place-items:center;padding:28px}
-.card{width:100%;max-width:430px;background:#fff;border:1px solid var(--line);
-  border-radius:20px;padding:40px 38px 34px;
-  box-shadow:0 1px 2px rgba(6,26,82,.05),0 30px 70px rgba(6,26,82,.12)}
-.mk{display:flex;align-items:center;gap:9px;margin-bottom:26px}
-.mk b{font:600 19px var(--ui);color:var(--blue);letter-spacing:-.01em}
+  min-height:100vh;display:grid;place-items:center;padding:26px}
+.card{width:100%;max-width:412px;background:#fff;border:1px solid var(--line);
+  border-radius:18px;padding:36px 34px 30px;
+  box-shadow:0 1px 2px rgba(6,26,82,.05),0 26px 64px rgba(6,26,82,.11)}
+.mk{display:flex;align-items:center;gap:9px;margin-bottom:22px}
+.mk b{font:600 18px var(--ui);color:var(--blue);letter-spacing:-.01em}
 .mk b i{font-style:normal;color:var(--or)}
-h1{font:400 31px/1.15 var(--serif);margin:0 0 8px;color:var(--ink2)}
-p.sub{margin:0 0 26px;color:var(--gray);font-size:15px}
-label{display:block;font:600 12.5px var(--ui);letter-spacing:.04em;
-  text-transform:uppercase;color:var(--gray);margin-bottom:7px}
-input{width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:10px;
-  font:400 15.5px var(--ui);color:var(--ink);outline:none;background:#fff}
-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
-button{width:100%;margin-top:16px;padding:14px;border:0;border-radius:10px;
-  background:var(--or);color:#fff;font:600 15.5px var(--ui);cursor:pointer;transition:.15s}
-button:hover:not(:disabled){background:#E45A00}
-button:disabled{opacity:.55;cursor:default}
-.micro{margin:16px 0 0;font-size:12.5px;color:var(--gray);line-height:1.6}
+h1{font:400 28px/1.2 var(--serif);margin:0 0 6px;color:var(--ink2)}
+.lede{margin:0 0 22px;color:var(--gray);font-size:14.5px}
+/* social */
 .sso{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
-  padding:12px 16px;margin-bottom:9px;border:1.5px solid var(--line);border-radius:10px;
-  background:#fff;color:var(--ink);font:600 15px var(--ui);cursor:pointer;transition:.15s}
+  padding:11px 16px;margin-bottom:9px;border:1.5px solid var(--line);border-radius:10px;
+  background:#fff;color:var(--ink);font:600 14.5px var(--ui);cursor:pointer;transition:.15s}
 .sso:hover{background:#F7F9FF;border-color:#C9D6F5}
-.sso svg{width:19px;height:19px;flex:0 0 19px}
+.sso svg{width:18px;height:18px;flex:0 0 18px}
 .sso.li{background:#0A66C2;border-color:#0A66C2;color:#fff}
 .sso.li:hover{background:#095196;border-color:#095196}
 .sso.fb{background:#1877F2;border-color:#1877F2;color:#fff}
-.sso.fb:hover{background:#1462c9;border-color:#1462c9}
-.or{display:flex;align-items:center;gap:12px;margin:20px 0 18px;color:#98A0B8;
-  font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
+.or{display:flex;align-items:center;gap:11px;margin:18px 0 16px;color:var(--soft);
+  font-size:12px;letter-spacing:.05em;text-transform:uppercase}
 .or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
-.msg{margin-top:18px;padding:13px 15px;border-radius:10px;font-size:14px;line-height:1.55;display:none}
+/* form */
+.fld{margin-bottom:13px}
+.lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+label{font:600 12px var(--ui);letter-spacing:.05em;text-transform:uppercase;color:var(--gray)}
+.lab a{font:500 12.5px var(--ui);color:var(--blue);text-decoration:none;text-transform:none;letter-spacing:0}
+.lab a:hover{text-decoration:underline}
+input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:9px;
+  font:400 15px var(--ui);color:var(--ink);outline:none;background:#fff}
+input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
+.primary{width:100%;margin-top:6px;padding:13px;border:0;border-radius:9px;background:var(--or);
+  color:#fff;font:600 15px var(--ui);cursor:pointer;transition:.15s}
+.primary:hover:not(:disabled){background:#E45A00}
+.primary:disabled{opacity:.55;cursor:default}
+.alt{width:100%;margin-top:9px;padding:11px;border:1.5px solid var(--line);border-radius:9px;
+  background:#fff;color:var(--gray);font:600 14px var(--ui);cursor:pointer}
+.alt:hover{background:#F7F9FF;color:var(--blue)}
+.foot{margin:20px 0 0;text-align:center;font-size:14px;color:var(--gray)}
+.foot a{color:var(--blue);text-decoration:none;font-weight:600;cursor:pointer}
+.foot a:hover{text-decoration:underline}
+.micro{margin:16px 0 0;font-size:12px;color:var(--soft);line-height:1.6;text-align:center}
+.msg{margin-top:16px;padding:12px 14px;border-radius:9px;font-size:13.5px;line-height:1.55;display:none}
 .msg.ok{display:block;background:#E9F6EF;color:#14683F;border:1px solid #BFE3D0}
 .msg.err{display:block;background:#FDECE7;color:#9B3B1E;border:1px solid #F6CDBE}
-.in{display:none}
-.in.on{display:block}
-.row{display:flex;justify-content:space-between;align-items:baseline;
-  padding:11px 0;border-bottom:1px solid #F2F5FB;font-size:14.5px}
-.row b{font-weight:600}
-.who{font-size:13.5px;color:var(--gray);margin:0 0 20px}
-.out{background:#fff;color:var(--gray);border:1.5px solid var(--line);margin-top:22px}
-.out:hover:not(:disabled){background:#F7F9FF;color:var(--blue)}
+.hide{display:none}
+/* signed-in */
+.who{display:flex;align-items:center;gap:11px;padding:13px 15px;background:#F7F9FF;
+  border:1px solid #E7ECF7;border-radius:11px;margin-bottom:18px}
+.who .av{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;
+  display:grid;place-items:center;font:700 13px var(--ui);flex:0 0 34px}
+.who span{font-size:14px;color:var(--ink);word-break:break-all}
+.note{background:#FFF4EC;border:1px solid #FFD9BE;border-radius:11px;padding:15px 17px;
+  font-size:13.5px;line-height:1.6;color:#7A4A22;margin-bottom:16px}
+.note b{color:#5C3616}
+.row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;
+  border-bottom:1px solid #F2F5FB;font-size:14px;color:var(--gray)}
+.row b{font-weight:600;color:var(--ink)}
 </style></head><body>
 <div class="card">
   <div class="mk">
-    <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+    <svg width="23" height="23" viewBox="0 0 64 64" fill="none">
       <path d="M23 10h18" stroke="#0041D7" stroke-width="3.1" stroke-linecap="round"/>
       <path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#0041D7" stroke-width="3.1"/>
       <path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg>
     <b>Foot<i>Jar</i></b>
   </div>
 
-  <div id="signin">
-    <h1>Sign in.</h1>
-    <p class="sub">One tap, or an email address. No password to remember or lose.</p>
+  <!-- ============ signed out ============ -->
+  <div id="out">
+    <h1 id="ttl">Sign in</h1>
+    <p class="lede" id="lede">Welcome back.</p>
 
     <div id="oauth"></div>
-
-    <div class="or"><span>or use your email</span></div>
+    <div class="or"><span>or</span></div>
 
     <form id="f">
-      <label for="em">Email address</label>
-      <input id="em" type="email" required autocomplete="email" placeholder="you@example.com">
-      <button id="go" type="submit">Send me a link</button>
+      <div class="fld">
+        <div class="lab"><label for="em">Email</label></div>
+        <input id="em" type="email" required autocomplete="email" placeholder="you@example.com">
+      </div>
+      <div class="fld" id="pwfld">
+        <div class="lab">
+          <label for="pw">Password</label>
+          <a id="forgot">Forgot password?</a>
+        </div>
+        <input id="pw" type="password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button class="primary" id="go" type="submit">Sign in</button>
     </form>
-    <p class="micro"><b>No credit card. No trial.</b> Your data is yours and is not visible
-    to anyone else, including us in the browser.</p>
+    <button class="alt" id="magic" type="button">Email me a sign-in link instead</button>
+
+    <p class="foot" id="swap">New here? <a id="swapa">Create an account</a></p>
+    <p class="micro">By continuing you agree to our
+      <a href="/terms/" style="color:inherit;text-decoration:underline">Terms</a> and
+      <a href="/privacy/" style="color:inherit;text-decoration:underline">Privacy Policy</a>.</p>
   </div>
 
-  <div id="app" class="in">
-    <h1>You are in.</h1>
-    <p class="who" id="who"></p>
+  <!-- ============ signed in ============ -->
+  <div id="in" class="hide">
+    <h1>You&rsquo;re signed in</h1>
+    <p class="lede">Your account is live.</p>
+    <div class="who"><span class="av" id="av"></span><span id="email"></span></div>
+    <div class="note"><b>The dashboard is not connected yet.</b> Your account and database
+      are working, but your pipeline still lives in the local file on your desktop. Loading
+      your real data into this account is the next step.</div>
     <div class="row"><span>Opportunities</span><b id="n_opp">&mdash;</b></div>
     <div class="row"><span>Contacts</span><b id="n_con">&mdash;</b></div>
     <div class="row"><span>Documents</span><b id="n_doc">&mdash;</b></div>
     <div class="row"><span>Recruiters</span><b id="n_rec">&mdash;</b></div>
-    <div class="row"><span>Networking passes used this month</span><b id="n_pass">&mdash;</b></div>
-    <p class="micro" id="rlsnote"></p>
-    <button class="out" id="signout" type="button">Sign out</button>
+    <button class="alt" id="signout" type="button" style="margin-top:18px">Sign out</button>
   </div>
 
   <div class="msg" id="msg"></div>
@@ -96,79 +127,99 @@ button:disabled{opacity:.55;cursor:default}
 
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+const sb = createClient(
+  "https://lsjqmfhsekymyriybdxv.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanFtZmhzZWt5bXlyaXliZHh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5Mzc0NzksImV4cCI6MjEwMjUxMzQ3OX0.dug67zkdxV6Cnf1zoAniJkryvfPCICAQrd2z2-RlICw");
 
-const URL  = "https://lsjqmfhsekymyriybdxv.supabase.co";
-const ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanFtZmhzZWt5bXlyaXliZHh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5Mzc0NzksImV4cCI6MjEwMjUxMzQ3OX0.dug67zkdxV6Cnf1zoAniJkryvfPCICAQrd2z2-RlICw";
-const sb = createClient(URL, ANON);
+const $ = i => document.getElementById(i);
+const say = (t,c) => { const m=$("msg"); m.textContent=t; m.className="msg "+c; };
+const clear = () => { $("msg").className="msg"; };
 
-const $ = id => document.getElementById(id);
-const say = (t, cls) => { const m = $("msg"); m.textContent = t; m.className = "msg " + cls; };
-
-/* Flip a provider to false until it is configured in Supabase, so nobody
-   clicks a button that cannot work yet. */
-const PROVIDERS = [
-  { id: "google",       label: "Continue with Google",   on: false, cls: "",
-    icon: '<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.2c0-.8-.07-1.5-.2-2.2H12v4.2h6.1a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.5-5 3.5-8.4z"/><path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9a7 7 0 0 1-10.4-3.7H1.7v3A11.5 11.5 0 0 0 12 23.5z"/><path fill="#FBBC05" d="M5.5 14.1a6.9 6.9 0 0 1 0-4.4v-3H1.7a11.5 11.5 0 0 0 0 10.4z"/><path fill="#EA4335" d="M12 4.9c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.7 6.7l3.8 3a6.9 6.9 0 0 1 6.5-4.8z"/></svg>' },
-  { id: "linkedin_oidc", label: "Continue with LinkedIn", on: true, cls: "li",
-    icon: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.78-2.79-1.79 0-2.06 1.32-2.06 2.7V21h-4z"/></svg>' },
-  { id: "facebook",     label: "Continue with Facebook", on: false, cls: "fb",
-    icon: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6A22 22 0 0 0 14.3 3.5c-2.4 0-4 1.45-4 4.12V9.9H7.6V13h2.7v8z"/></svg>' },
+/* --- social. Flip `on` when a provider is configured in Supabase. --- */
+const P = [
+ { id:"linkedin_oidc", label:"Continue with LinkedIn", on:true, cls:"li",
+   icon:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.78-2.79-1.79 0-2.06 1.32-2.06 2.7V21h-4z"/></svg>' },
+ { id:"google", label:"Continue with Google", on:false, cls:"",
+   icon:'<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.2c0-.8-.07-1.5-.2-2.2H12v4.2h6.1a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.5-5 3.5-8.4z"/><path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9a7 7 0 0 1-10.4-3.7H1.7v3A11.5 11.5 0 0 0 12 23.5z"/><path fill="#FBBC05" d="M5.5 14.1a6.9 6.9 0 0 1 0-4.4v-3H1.7a11.5 11.5 0 0 0 0 10.4z"/><path fill="#EA4335" d="M12 4.9c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.7 6.7l3.8 3a6.9 6.9 0 0 1 6.5-4.8z"/></svg>' },
+ { id:"facebook", label:"Continue with Facebook", on:false, cls:"fb",
+   icon:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6A22 22 0 0 0 14.3 3.5c-2.4 0-4 1.45-4 4.12V9.9H7.6V13h2.7v8z"/></svg>' },
 ];
+$("oauth").innerHTML = P.filter(p=>p.on).map(p =>
+  `<button class="sso ${p.cls}" data-p="${p.id}" type="button">${p.icon}<span>${p.label}</span></button>`).join("");
+$("oauth").onclick = async e => {
+  const b = e.target.closest("button[data-p]"); if(!b) return;
+  const { error } = await sb.auth.signInWithOAuth(
+    { provider:b.dataset.p, options:{ redirectTo: location.origin + "/app/" } });
+  if (error) say(error.message,"err");
+};
 
-$("oauth").innerHTML = PROVIDERS.filter(p => p.on).map(p =>
-  `<button class="sso ${p.cls}" data-p="${p.id}" type="button">${p.icon}<span>${p.label}</span></button>`
-).join("");
-
-$("oauth").addEventListener("click", async e => {
-  const btn = e.target.closest("button[data-p]");
-  if (!btn) return;
-  const { error } = await sb.auth.signInWithOAuth({
-    provider: btn.dataset.p,
-    options: { redirectTo: window.location.href }
-  });
-  if (error) say(error.message, "err");
-});
-
-$("f").addEventListener("submit", async e => {
-  e.preventDefault();
-  $("go").disabled = true; $("go").textContent = "Sending…";
-  const { error } = await sb.auth.signInWithOtp({
-    email: $("em").value.trim(),
-    options: { emailRedirectTo: window.location.href }
-  });
-  $("go").disabled = false; $("go").textContent = "Send me a link";
-  if (error) say(error.message, "err");
-  else say("Check your inbox. The link signs you straight in and expires in an hour.", "ok");
-});
-
-$("signout").addEventListener("click", async () => {
-  await sb.auth.signOut(); location.reload();
-});
-
-async function count(table, extra) {
-  let q = sb.from(table).select("*", { count: "exact", head: true });
-  if (extra) q = extra(q);
-  const { count: c, error } = await q;
-  return error ? "error" : c;
+/* --- sign in / create account --- */
+let mode = "in";
+function paint(){
+  const signin = mode === "in";
+  $("ttl").textContent  = signin ? "Sign in" : "Create your account";
+  $("lede").textContent = signin ? "Welcome back."
+    : "An email address and a password. That is the whole sign-up.";
+  $("go").textContent   = signin ? "Sign in" : "Create account";
+  $("pw").setAttribute("autocomplete", signin ? "current-password" : "new-password");
+  $("swap").innerHTML   = signin
+    ? 'New here? <a id="swapa">Create an account</a>'
+    : 'Already have an account? <a id="swapa">Sign in</a>';
+  $("swapa").addEventListener("click", toggle);
 }
+function toggle(){ mode = mode === "in" ? "up" : "in"; clear(); paint(); }
+$("swapa").addEventListener("click", toggle);
 
-async function show(session) {
-  $("signin").classList.remove("on"); $("signin").style.display = "none";
-  $("app").classList.add("on");
-  $("who").textContent = session.user.email;
-  const first = new Date(); first.setDate(1); first.setHours(0,0,0,0);
-  $("n_opp").textContent  = await count("opportunities");
-  $("n_con").textContent  = await count("contacts");
-  $("n_doc").textContent  = await count("documents");
-  $("n_rec").textContent  = await count("recruiters");
-  $("n_pass").textContent = await count("usage_ledger",
-    q => q.eq("item","networking_pass").gte("occurred_at", first.toISOString()));
-  $("rlsnote").innerHTML =
-    "These counts come straight from Postgres with row-level security on. " +
-    "Zeros mean the tables are empty, not that anything is broken.";
+$("f").onsubmit = async e => {
+  e.preventDefault(); clear();
+  const email=$("em").value.trim(), pw=$("pw").value;
+  if (!pw) { say("Enter a password, or use the sign-in link below.","err"); return; }
+  $("go").disabled=true; $("go").textContent="Working…";
+  const { error } = mode==="in"
+    ? await sb.auth.signInWithPassword({ email, password: pw })
+    : await sb.auth.signUp({ email, password: pw,
+        options:{ emailRedirectTo: location.origin + "/app/" } });
+  $("go").disabled=false; $("go").textContent = mode==="in" ? "Sign in" : "Create account";
+  if (error) say(error.message,"err");
+  else if (mode==="up") say("Check your email to confirm the address, then sign in.","ok");
+};
+
+$("magic").onclick = async () => {
+  clear();
+  const email=$("em").value.trim();
+  if(!email){ say("Put your email in first.","err"); return; }
+  const { error } = await sb.auth.signInWithOtp(
+    { email, options:{ emailRedirectTo: location.origin + "/app/" } });
+  error ? say(error.message,"err")
+        : say("Link sent. It signs you straight in and expires in an hour.","ok");
+};
+
+$("forgot").onclick = async () => {
+  clear();
+  const email=$("em").value.trim();
+  if(!email){ say("Put your email in first, then hit forgot password.","err"); return; }
+  const { error } = await sb.auth.resetPasswordForEmail(email,
+    { redirectTo: location.origin + "/app/" });
+  error ? say(error.message,"err") : say("Reset link sent to " + email + ".","ok");
+};
+
+$("signout").onclick = async () => { await sb.auth.signOut(); location.replace("/app/"); };
+
+/* --- session --- */
+async function count(t){ const {count:c,error}=await sb.from(t)
+  .select("*",{count:"exact",head:true}); return error ? "—" : c; }
+
+async function show(s){
+  $("out").classList.add("hide"); $("in").classList.remove("hide"); clear();
+  const em = s.user.email || "signed in";
+  $("email").textContent = em;
+  $("av").textContent = (em[0]||"?").toUpperCase();
+  $("n_opp").textContent = await count("opportunities");
+  $("n_con").textContent = await count("contacts");
+  $("n_doc").textContent = await count("documents");
+  $("n_rec").textContent = await count("recruiters");
 }
-
-const { data: { session } } = await sb.auth.getSession();
+const { data:{ session } } = await sb.auth.getSession();
 if (session) show(session);
-sb.auth.onAuthStateChange((_e, s) => { if (s) show(s); });
+sb.auth.onAuthStateChange((_e,s)=>{ if(s) show(s); });
 </script></body></html>
