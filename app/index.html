@@ -403,6 +403,7 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
           <div><b id="who"></b><em id="planN2">Free plan</em></div></div>
         <button class="ami" data-go="acct">Your profile</button>
         <button class="ami" data-go="acct">Plan and allowances</button>
+        <button class="ami" id="rerun">Re-run setup</button>
         <a class="ami" href="/" target="_blank" rel="noopener">footjar.com &#8599;</a>
         <a class="ami" href="/privacy/" target="_blank" rel="noopener">Privacy</a>
         <div class="asep"></div>
@@ -1056,9 +1057,62 @@ function wireAdd(){
   showPreview(extract(t));};}
 
 
+/* ---------- reading a résumé, client side ---------- */
+async function pdfText(file){
+ if(!window.pdfjsLib){
+  await new Promise((ok,no)=>{const t=document.createElement("script");
+   t.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+   t.onload=ok;t.onerror=no;document.head.appendChild(t);});
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc=
+   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}
+ const buf=await file.arrayBuffer();
+ const doc=await window.pdfjsLib.getDocument({data:buf}).promise;
+ let out="";
+ for(let i=1;i<=doc.numPages;i++){
+  const pg=await doc.getPage(i), tc=await pg.getTextContent();
+  let last=null, line="";
+  tc.items.forEach(it=>{
+   const y=Math.round(it.transform[5]);
+   if(last!==null && Math.abs(y-last)>3){ out+=line.trim()+"\n"; line=""; }
+   line+=it.str+" "; last=y;});
+  out+=line.trim()+"\n";}
+ return out;}
+
+const TITLEWORD=/(director|manager|head of|vp|vice president|chief|president|lead|principal|senior|specialist|coordinator|analyst|engineer|officer|partner|consultant)/i;
+function readResume(text){
+ const raw=String(text||"").replace(/\r/g,"");
+ const lines=raw.split("\n").map(l=>l.trim()).filter(Boolean);
+ const out={};
+ out.email=(raw.match(/[\w.+-]+@[\w-]+\.[\w.]{2,}/)||[])[0]||null;
+ const ph=raw.match(/(\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/);
+ out.phone=ph?ph[0].trim():null;
+ out.linkedin=(raw.match(/(?:https?:\/\/)?(?:www\.)?linkedin\.com\/in\/[\w-]+/i)||[])[0]||null;
+ const loc=raw.match(/\b([A-Z][A-Za-z.\- ]{2,24}),\s?([A-Z]{2})\b/);
+ out.city=loc?loc[0]:null;
+ // name: first line that is short, has 2-4 words, no digits, no @
+ for(const l of lines.slice(0,8)){
+  const w=l.split(/\s+/);
+  if(w.length>=2&&w.length<=4&&l.length<44&&!/[@\d|]/.test(l)&&!TITLEWORD.test(l)
+     &&/^[A-Z]/.test(l)){ out.name=l.replace(/[,.]$/,""); break; }}
+ // headline: first line that reads like a title
+ for(const l of lines.slice(0,12)){
+  if(l!==out.name&&TITLEWORD.test(l)&&l.length<70){ out.headline=l.replace(/\s*[|·—-]\s*.*$/,"").trim(); break; }}
+ // employers: capitalised lines near title-ish lines
+ const emp=[];
+ lines.forEach((l,i)=>{
+  if(emp.length>=6) return;
+  if(/^[A-Z][\w&.,'\- ]{3,44}$/.test(l)&&!TITLEWORD.test(l)&&l!==out.name
+     &&(TITLEWORD.test(lines[i-1]||"")||TITLEWORD.test(lines[i+1]||""))) emp.push(l);});
+ out.employers=[...new Set(emp)];
+ out.years=(()=>{const y=[...raw.matchAll(/\b(19|20)\d{2}\b/g)].map(m=>+m[0])
+   .filter(n=>n>1975&&n<=new Date().getFullYear());
+   return y.length?Math.min(new Date().getFullYear()-Math.min(...y),45):null;})();
+ out.text=raw.slice(0,20000);
+ return out;}
+
 /* ================= onboarding ================= */
 const OB={step:0, name:"", role:"", level:"senior", city:"", floor:"",
-          bg:null, bgText:"", sources:{}, job:null};
+          bg:null, bgText:"", sources:{}, job:null, parsed:null};
 
 const SRC_LOGOS={
  linkedin:['#0A66C2','<path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.78-2.79-1.79 0-2.06 1.32-2.06 2.7V21h-4z"/>'],
@@ -1110,6 +1164,28 @@ function obRail(){
 function obDots(){
  return `<div class="odots">${[0,1,2,3].map(i=>
   `<span class="odot${OB.step===i?" on":OB.step>i?" done":""}"></span>`).join("")}</div>`;}
+
+function obResume(){
+ return `${obDots()}<h2>Start with your r&eacute;sum&eacute;.</h2>
+ <p class="osub">Drop it in and we build the whole account from it &mdash; your name, your contact
+  details, your work history, the numbers you have hit. Nothing to type.</p>
+ <div class="obox" id="rzDrop" style="text-align:center;padding:34px 20px">
+   <div id="rzIdle">
+     <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#98A0B8" stroke-width="1.7"
+       stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px">
+       <path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+     <div style="font:600 15.5px var(--ui);color:var(--ink)">Drop your r&eacute;sum&eacute; here</div>
+     <div style="font-size:13px;color:var(--soft);margin-top:5px">PDF or plain text &middot; or
+       <label style="color:var(--blue);cursor:pointer;text-decoration:underline">choose a file
+         <input type="file" id="rzFile" class="hide" accept=".pdf,.txt,.md,.doc,.docx"></label></div>
+   </div>
+   <div id="rzBusy" class="hide" style="font:600 15px var(--ui);color:var(--or)">Reading it&hellip;</div>
+ </div>
+ <div id="rzOut"></div>
+ <p style="font-size:12.5px;color:var(--soft);margin:4px 0 0">
+   Do not have one handy? <a id="rzSkip" style="color:var(--blue);cursor:pointer">Fill it in by hand instead</a>.</p>
+ <div class="onav"><button class="oskip" data-skip>Skip for now</button>
+  <button class="onext" data-next ${OB.parsed?"":"disabled"}>Continue</button></div>`;}
 
 function obStep0(){
  return `${obDots()}<h2>First, the basics.</h2>
@@ -1193,7 +1269,7 @@ function obBuild(){
   `<div class="bstep" data-i="${i}"><span class="bdot">&#10003;</span><b>${t}</b></div>`).join("")}</div>`;}
 
 function obDraw(){
- const body = OB.step===0?obStep0() : OB.step===1?obStep1() :
+ const body = OB.step===0?obResume() : OB.step===1?obStep0() :
               OB.step===2?obStep2() : OB.step===3?obStep3() : obBuild();
  $("onb").innerHTML = obRail() + `<div class="omain">${body}</div>`;
  obWire();
@@ -1208,6 +1284,41 @@ function obSaveStep0(){
 
 function obWire(){
  const M=$("onb");
+
+ const rz=$("rzDrop");
+ if(rz){
+  const take=async f=>{
+   if(!f) return;
+   $("rzIdle").classList.add("hide"); $("rzBusy").classList.remove("hide");
+   let txt="";
+   try{ txt = /pdf$/i.test(f.name)||f.type==="application/pdf"
+     ? await pdfText(f) : await f.text(); }
+   catch(e){ txt=""; }
+   $("rzBusy").classList.add("hide"); $("rzIdle").classList.remove("hide");
+   if(!txt.trim()){
+    $("rzOut").innerHTML=`<p class="note" style="color:var(--red);margin-top:12px">
+      Could not read that one — it may be a scanned image. Paste the text instead, or fill it in by hand.</p>`;
+    return;}
+   const r=readResume(txt); OB.parsed=r;
+   OB.name=r.name||OB.name; OB.role=r.headline||OB.role; OB.city=r.city||OB.city;
+   OB.bgText=r.text; OB.bg="resume";
+   if(r.years) OB.level = r.years>=8?"senior":r.years>=3?"mid":"entry";
+   const row=(l,v)=>v?`<div class="xrow"><b>${l}</b><span>${esc(v)}</span></div>`:"";
+   $("rzOut").innerHTML=`<div class="panel" style="margin-top:16px;border-color:#C9E4D2;background:#F5FBF8">
+     <h3 style="color:var(--green)">Read it &#10003;</h3>
+     ${row("Name",r.name)}${row("Headline",r.headline)}${row("Email",r.email)}
+     ${row("Phone",r.phone)}${row("Location",r.city)}${row("LinkedIn",r.linkedin)}
+     ${row("Experience",r.years?r.years+" years":null)}
+     ${row("Employers",(r.employers||[]).join(" · "))}
+     <p class="note" style="margin-top:10px">You can correct any of this on the next screen.</p></div>`;
+   M.querySelector("[data-next]").disabled=false;};
+
+  ["dragenter","dragover"].forEach(n=>rz.addEventListener(n,e=>{e.preventDefault();rz.classList.add("hot");}));
+  ["dragleave","drop"].forEach(n=>rz.addEventListener(n,e=>{e.preventDefault();rz.classList.remove("hot");}));
+  rz.addEventListener("drop",e=>take(e.dataTransfer.files[0]));
+  const fi=$("rzFile"); if(fi) fi.onchange=e=>take(e.target.files[0]);
+  const sk=$("rzSkip"); if(sk) sk.onclick=()=>{OB.step=1;obDraw();};
+ }
  M.querySelectorAll("[data-lvl]").forEach(el=>el.onclick=()=>{OB.level=el.dataset.lvl;obDraw();});
 
  M.querySelectorAll("[data-bg]").forEach(el=>el.onclick=()=>{
@@ -1270,8 +1381,11 @@ async function obRun(){
  const {data:{user}}=await sb.auth.getUser();
  await tick(0,700);
  const floor=(OB.floor||"").replace(/[^\d]/g,"");
+ const P=OB.parsed||{};
  await sb.from("profiles").update({
-   full_name: OB.name||null,
+   full_name: OB.name||P.name||null,
+   phone:     P.phone||null,
+   linkedin_url: P.linkedin?(P.linkedin.startsWith("http")?P.linkedin:"https://"+P.linkedin):null,
    headline:  OB.role||null,
    city:      OB.city||null,
    open_to:   OB.role||null,
@@ -1308,7 +1422,7 @@ async function obRun(){
 
 function needsOnboarding(){ return !(D.profile && D.profile.full_name); }
 function startOnboarding(){
- OB.name = (D.profile&&D.profile.full_name) || (D.email||"").split("@")[0].replace(/[._]/g," ");
+ OB.name = (D.profile&&D.profile.full_name) || "";
  const d=document.createElement("div"); d.id="onb"; document.body.appendChild(d);
  document.body.style.overflow="hidden";
  obDraw();
@@ -1322,6 +1436,9 @@ function wireShell(){
  $("amenu").onclick=e=>{const b=e.target.closest("[data-go]");
   if(b){view=b.dataset.go;$("amenu").classList.remove("on");drawNav();draw();}};
  $("signout2").onclick=async()=>{await sb.auth.signOut();location.replace("/app/");};
+ $("rerun").onclick=()=>{$("amenu").classList.remove("on");
+   OB.step=0; OB.parsed=null; OB.name=""; OB.role=""; OB.city=""; OB.floor="";
+   OB.bg=null; OB.bgText=""; OB.sources={}; OB.job=null; startOnboarding();};
  $("brandHome").onclick=()=>{view="dash";drawNav();draw();};}
 
 function wireDash(){
