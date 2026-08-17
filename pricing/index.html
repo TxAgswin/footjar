@@ -708,28 +708,41 @@ h2{font-size:40px;line-height:1.14;letter-spacing:-.018em}
 .recoout i.no{background:#8595BE}
 .recoout em{display:block;margin-top:11px;padding-top:11px;font-style:normal;font-weight:600;
   font-size:14px;color:#fff;border-top:1px solid rgba(255,255,255,.16)}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px;margin:0 auto}
+.filmwrap{position:relative;width:100%;max-width:1180px;margin:0 auto;aspect-ratio:16/9;
+  border-radius:18px;overflow:hidden;background:#04102E;
+  box-shadow:0 40px 90px -40px rgba(6,26,82,.5);border:1px solid var(--line)}
+.filmwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.filmnote{text-align:center;font-size:13px;color:var(--gray);margin:16px 0 0}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1180px;
+  margin:0 auto;align-items:stretch}
 .plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 24px;
   position:relative;display:flex;flex-direction:column}
 .plan.best{border-color:var(--or);box-shadow:0 14px 36px rgba(253,107,14,.16)}
-.plan h4{font-family:var(--serif);font-weight:400;font-size:24px;margin:0 0 4px}
+.plan h4{font-family:var(--serif);font-weight:400;font-size:26px;margin:0 0 6px}
 .pwho{font-size:13.5px;color:var(--gray);margin:0 0 16px;min-height:38px}
-.plan .amt{font-family:var(--serif);font-size:42px;font-weight:400;margin-bottom:16px}
-.plan ul{list-style:none;padding:0;margin:0}
+.plan .amt{font-family:var(--serif);font-size:44px;font-weight:400;color:var(--blue);
+  margin-bottom:4px}
+.amtu{font-size:13px;color:var(--gray);margin:0 0 18px}
+.plan ul{list-style:none;padding:0;margin:18px 0 0;flex:1}
+.plan{padding-bottom:24px}
+.plan li.inc{color:#98A0B8;font-weight:600}
+.plan li.inc:before{background:var(--ink2);opacity:.28}
 .plan li{font-size:14px;line-height:1.5;color:#333A4D;padding:7px 0 7px 20px;position:relative}
 .plan li:before{content:"";position:absolute;left:0;top:14px;width:7px;height:7px;
   border-radius:50%;background:var(--or);opacity:.55}
-.ptag{position:absolute;top:-11px;left:24px;background:var(--or);color:#fff;font-size:11px;
-  font-weight:700;letter-spacing:.06em;padding:4px 11px;border-radius:99px}
+.ptag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--or);
+  color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  padding:6px 14px;border-radius:999px;white-space:nowrap}
 .anchor{max-width:640px;margin:28px auto 0;text-align:center;font-size:14.5px;
   color:var(--gray);line-height:1.7}
 .keep{max-width:760px;margin:46px auto 0;padding:28px 32px;border-radius:18px;
   background:var(--orT);border:1px solid #FBD9BE}
 .keep h3{font-size:26px;margin:10px 0 12px}
 .keep p{margin:0 0 11px;font-size:15px;line-height:1.7;color:#6B4A2A}
+@media(max-width:620px){ .plans{grid-template-columns:1fr} }
 @media(max-width:900px){
   .reco{grid-template-columns:1fr;gap:22px}
-  .plans{grid-template-columns:1fr}
+  .plans{grid-template-columns:repeat(2,1fr)}
   .pwho{min-height:0}
 }
 
@@ -838,6 +851,29 @@ nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   padding:16px 18px;font-size:14px;line-height:1.65;color:var(--gray)}
 .voicerules b{display:block;color:var(--ink);margin-bottom:5px;font-size:14.5px}
 @media(max-width:820px){ .voicerules{grid-template-columns:1fr} }
+
+/* ---- pricing entry row ---- */
+.entry{display:grid;grid-template-columns:1fr 1.55fr;gap:16px;max-width:1000px;
+  margin:34px auto 30px;align-items:start}
+.plan.wide{padding:30px 30px 28px}
+.plan.wide h4{font-size:29px}
+.plan.wide .amt{font-size:50px}
+.plan .pbtn{display:inline-block;width:auto;align-self:flex-start;margin-top:20px;
+  padding:10px 20px;font-size:14px}
+.plan .pbtn{display:inline-block;width:auto;align-self:flex-start;margin-top:22px;
+  padding:10px 20px;font-size:14px;text-align:left}
+.pnocard{font-size:12px;color:var(--gray);margin:9px 0 0}
+.pbtn{display:block;text-align:center;background:var(--or);color:#fff;text-decoration:none;
+  font:700 15px/1 var(--ui);padding:14px 20px;border-radius:10px;margin:4px 0 18px;
+  box-shadow:0 6px 18px rgba(253,107,14,.26);transition:.18s}
+.pbtn:hover{background:var(--orD);transform:translateY(-1px)}
+.plan.wide .pbtn{font-size:16.5px;padding:16px 22px}
+.pbtn.ghost{background:#fff;color:var(--or);border:1.5px solid var(--or);box-shadow:none}
+.pbtn.ghost:hover{background:var(--orT)}
+.pcred.nocard{color:#1E7A47;font-weight:700}
+.plan.wide .recoout{margin-top:16px}
+@media(max-width:900px){ .entry{grid-template-columns:1fr} }
+
 </style></head><body>
 
 <nav><div class="w nav">
@@ -847,7 +883,7 @@ nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   <div class="links">
     <div class="drop"><button type="button">Product</button>
       <div class="mega"><a class="mi" href="/#scoring"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span><span><b>Opportunity scoring</b><em>Grade every role against your criteria</em></span></a><a class="mi" href="/#timeline"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 5h18v2H3zm0 6h13v2H3zm0 6h8v2H3zm12.5 3.5L14 19l3.5-3.5L21 19l-1.5 1.5-2-2z"/></svg></span><span><b>Pipeline &amp; timeline</b><em>One queue, one progress bar, no spreadsheet</em></span></a><a class="mi" href="/#ats"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5zm-1 15l-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9z"/></svg></span><span><b>ATS gate</b><em>Clear the scanner before a human ever sees it</em></span></a><a class="mi" href="/#voice"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 14a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 006 6.9V21h2v-3.1A7 7 0 0019 11z"/></svg></span><span><b>Your voice</b><em>Documents that sound like you wrote them</em></span></a><a class="mi" href="/#networking"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 8a3 3 0 100-6 3 3 0 000 6zM5 22a3 3 0 100-6 3 3 0 000 6zm14 0a3 3 0 100-6 3 3 0 000 6zM11 9.9l-4.2 6 1.7 1.2 4.2-6zm2 0l-1.7 1.2 4.2 6 1.7-1.2z"/></svg></span><span><b>Networking engine</b><em>Find the person who can actually hire you</em></span></a><a class="mi" href="/#always"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Always on</b><em>Your career record, kept warm between searches</em></span></a><a class="mi" href="/pipeline/"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Live pipeline</b><em>Publish your search to a real page</em></span></a></div></div>
-    <a href="/#how">How it works</a>
+    <a href="/how-it-works/">How it works</a>
     <a href="/#networking">Networking</a>
     <a href="/pricing/">Pricing</a>
   </div>
@@ -856,30 +892,20 @@ nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     <a class="btn btn-p" href="/pipeline/">Run your top 5 free</a>
   </div>
 </div></nav><header style="padding:64px 0 8px"><div class="w hero">
-      <h1 style="font-size:46px">Pricing</h1>
+      <h1 style="font-size:52px">Everything else helps you apply.<br>This one tells you when not to.</h1>
       <p class="hsub">Foot Jar points it the other way. It reads every posting in
     full, tells you which ones to skip, writes in your own voice, clears the scanner &mdash;
     then finds the human who can actually say yes.</p></div></header><section class="row" id="pricing"><div class="w">
-  <div class="netlede">
-    <span class="tag">Pricing</span>
-    <h2>Everything else helps you apply.<br>This one tells you when not to.</h2>
-    <p class="sub">Reading and scoring a role is free, always &mdash; that is the part that
-    should never cost you anything. You pay when you want the work done: the tailored
-    documents, the ATS gate, and the research into who can actually move your application.</p>
-  </div>
-
-  <!-- The on-ramp. A named price, one instruction, one button. The old version
-       said "Start here" and left the user to work out what start meant. -->
   <div class="onramp">
     <div class="orleft">
       <span class="ortag">Start here</span>
       <h3>Drop in your saved jobs.<br>We&rsquo;ll tell you which ones to skip.</h3>
       <p>Every role read in full and scored, with a plain reason for each. Then a
       recommendation for what you actually need &mdash; usually less than you think.</p>
-      <div class="orprice"><b>$2</b><span>one-off, card on file</span></div>
+      <div class="orprice"><b>Free</b><span>no card, no trial</span></div>
       <a class="orbtn" href="/pipeline/">Drop your jobs &rarr;</a>
-      <p class="ormicro">Paste a list, upload a file, or forward the emails.
-      Scored inside an hour. No subscription, cancel nothing.</p>
+      <p class="ormicro"><b>Free to start, no credit card.</b> Paste a list, upload a file,
+      or forward the emails. Scored inside an hour. Cancel nothing.</p>
     </div>
     <div class="orright">
       <div class="recobox">
@@ -894,63 +920,68 @@ nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
         <span><i class="ok"></i>4 worth going after properly</span>
         <span><i class="mid"></i>7 worth an application, no more</span>
         <span><i class="no"></i>11 we would skip &mdash; reasons on each</span>
-        <em>Recommended: Search &middot; $249</em>
+        <em>Recommended: Search &middot; $39 a month</em>
       </div>
     </div>
   </div>
 
-  <p class="orsep">Or buy a package outright</p>
+  <p class="orsep">Or pick a plan</p>
 
   <div class="plans">
     <div class="plan">
+      <h4>Free</h4>
+      <p class="pwho">See whether it has taste before you spend anything.</p>
+      <div class="amt">$0</div>
+      <p class="amtu">/mo</p>
+      <ul><li><b>5 roles scored</b> a month</li><li>Read in full, not keyword-matched</li><li>A verdict and a reason on each</li><li>Told plainly when to skip one</li><li>A <b>free evaluation</b> of where you stand</li><li>A <b>strategy recommendation</b> for your search</li></ul>
+      <a class="pbtn ghost" href="/pipeline/">Get started</a>
+      <p class="pnocard">No credit card required</p>
+    </div>
+    <div class="plan">
       <h4>Scout</h4>
       <p class="pwho">Still employed. Watching, not hunting.</p>
-      <div class="amt">$99</div>
-      <p class="pcred">100 credits &middot; 99&cent; each</p>
-      <ul>
-        <li>About <b>10 roles</b> worked and <b>3 networking passes</b></li>
-        <li>Voice interview included, no credits</li>
-        <li>Unlimited scoring, always</li>
-      </ul>
+      <div class="amt">$9</div>
+      <p class="amtu">/mo</p>
+      <ul><li class="inc">Everything in Free, plus:</li><li><b>Import your saved jobs</b> from LinkedIn</li><li>Import a search, a link or a CSV</li><li><b>Unlimited</b> scoring</li><li>A ranked list with a call on every role</li><li>Pipeline kept warm while you watch</li></ul>
+      <a class="pbtn ghost" href="/pipeline/">Buy now</a>
+    </div>
+    <div class="plan">
+      <h4>Search</h4>
+      <p class="pwho">Actively looking. This is the real one.</p>
+      <div class="amt">$39</div>
+      <p class="amtu">/mo</p>
+      <ul><li class="inc">Everything in Scout, plus:</li><li><b>5 r&eacute;sum&eacute;s</b> and <b>5 cover letters</b> a month</li><li><b>Voice interview</b> included</li><li>ATS gate on every document</li><li>Pipeline and contacts kept</li></ul>
+      <a class="pbtn ghost" href="/pipeline/">Buy now</a>
     </div>
     <div class="plan best">
       <span class="ptag">Most people land here</span>
-      <h4>Search</h4>
-      <p class="pwho">Actively looking. This is the real one.</p>
-      <div class="amt">$249</div>
-      <p class="pcred">300 credits &middot; 83&cent; each</p>
-      <ul>
-        <li>About <b>30 roles</b> worked and <b>12 networking passes</b></li>
-        <li>Every person verified, outreach drafted</li>
-        <li>Voice interview included, no credits</li>
-        <li>Unlimited scoring, always</li>
-      </ul>
-    </div>
-    <div class="plan">
       <h4>Campaign</h4>
       <p class="pwho">Looking is the job right now.</p>
-      <div class="amt">$499</div>
-      <p class="pcred">700 credits &middot; 71&cent; each</p>
-      <ul>
-        <li>About <b>70 roles</b> worked and <b>30 networking passes</b></li>
-        <li>Unlimited voice sessions</li>
-        <li>A human reads your first three packages</li>
-        <li>Unlimited scoring, always</li>
-      </ul>
+      <div class="amt">$89</div>
+      <p class="amtu">/mo</p>
+      <ul><li class="inc">Everything in Search, plus:</li><li><b>15 r&eacute;sum&eacute;s</b> and <b>15 cover letters</b> a month</li><li><b>Networking passes</b> &mdash; every person verified</li><li>Outreach drafted for every contact</li><li><b>Recruiter shortlist</b> &mdash; the firms that place your title in your city</li><li>Double-submission guard</li></ul>
+      <a class="pbtn ghost" href="/pipeline/">Buy now</a>
+    </div>
+    <div class="plan">
+      <h4>Executive</h4>
+      <p class="pwho">For when the role is senior and one offer changes the year.</p>
+      <div class="amt">$249</div>
+      <p class="amtu">/mo</p>
+      <ul><li class="inc">Everything in Campaign, plus:</li><li><b>Unlimited</b> roles and documents</li><li>Board and executive path mapping</li><li>Unlimited voice sessions</li><li>Positioning built around your record</li><li>A human reads your first three packages</li></ul>
+      <a class="pbtn ghost" href="/pipeline/">Buy now</a>
+    </div>
+    <div class="plan">
+      <h4>Outplacement</h4>
+      <p class="pwho">Bought by the employer, for the people they are letting go.</p>
+      <div class="amt">Per head</div>
+      <p class="amtu">&nbsp;</p>
+      <ul><li class="inc">Everything in Campaign, for every leaver</li><li>Scoring, documents and networking passes</li><li>Written in <b>their</b> voice, not a template</li><li>Recruiter shortlist for each person</li><li>From 25 people</li><li>A real budget line, not an invented tier</li></ul>
+      <a class="pbtn ghost" href="/pipeline/">Talk to us</a>
     </div>
   </div>
-  <div class="credits">
-    <span class="tag">What a credit buys</span>
-    <div class="crow"><b>Score a role</b><span>Read in full, graded, reason given</span><em>Free</em></div>
-    <div class="crow"><b>Fit analysis</b><span>Match matrix, gaps, salary anchor, verdict</span><em>2</em></div>
-    <div class="crow"><b>R&eacute;sum&eacute; + cover letter</b><span>Tailored to the posting, through the ATS gate</span><em>3</em></div>
-    <div class="crow"><b>Networking pass</b><span>Tiered contacts, each one verified, outreach drafted</span><em>8</em></div>
-    <div class="crow"><b>Voice interview</b><span>The conversation that teaches it to write like you</span><em>Included</em></div>
-    <p class="cnote">Credits never expire while your account is warm. Top up any time at
-    $1.18 &mdash; or buy the next package, which is always cheaper.</p>
-  </div>
-  <p class="anchor">A hundred and fifty thousand dollar job. Two hundred and forty nine
-  dollars. That is <b>one sixth of one percent</b> of the first year, and everybody knows it.</p>
+
+  <p class="anchor">Every plan is month to month. Cancel the week you land &mdash; that is
+  the point, and it is the opposite of how this category is built.</p>
 
   <div class="keep">
     <div>
