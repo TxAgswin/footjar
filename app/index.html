@@ -131,6 +131,20 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
 .kpi.click:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:var(--sh)}
 .panel.click{cursor:pointer}.panel.click:hover{border-color:#C9D6F5}
 .pmore{font:600 12px var(--ui);color:var(--blue);margin-top:12px;display:inline-block}
+/* ---- one-box capture ---- */
+.drop{border:1.8px dashed #C9D6F5;border-radius:14px;background:#FBFCFF;padding:14px;transition:.15s}
+.drop.hot{border-color:var(--or);background:var(--orT)}
+.drop textarea{width:100%;min-height:190px;border:0;background:none;outline:none;resize:vertical;
+ font:400 14.5px/1.7 var(--ui);color:var(--ink)}
+.drop textarea::placeholder{color:#A8B2C8}
+.dropbar{display:flex;align-items:center;gap:12px;padding-top:12px;border-top:1px solid #E7ECF7;flex-wrap:wrap}
+.dhint{font-size:12px;color:var(--soft)}
+.dropbar .primary{margin-left:auto}
+.shot{max-width:100%;border-radius:10px;border:1px solid var(--line);margin-top:12px;display:block}
+.xrow{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid #F2F5FB}
+.xrow b{flex:0 0 130px;font:600 12px var(--ui);letter-spacing:.05em;text-transform:uppercase;color:var(--gray)}
+.xrow span{flex:1;font-size:14.5px;color:var(--ink)}
+.xrow input{flex:1;padding:8px 11px;border:1.5px solid var(--line);border-radius:8px;font:400 14px var(--ui)}
 /* ---- document rows ---- */
 .drow{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
 .drow.open{border-color:#C9D6F5;box-shadow:var(--sh)}
@@ -257,6 +271,80 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
 @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.rail{grid-template-columns:repeat(2,1fr)}
  .tiles{grid-template-columns:1fr}.mini,.src{display:none}}
 </style>
+<style>
+/* ============ onboarding ============ */
+#onb{position:fixed;inset:0;z-index:200;background:#fff;display:grid;
+  grid-template-columns:330px 1fr;overflow:auto}
+.orail{background:var(--ink2);color:#9FB0D8;padding:34px 30px}
+.orail .mk{margin-bottom:30px}
+.orail .mk b{color:#fff}
+.orail h4{font:400 22px/1.3 var(--serif);color:#fff;margin:0 0 8px}
+.orail p{font-size:13.5px;line-height:1.65;color:#9FB0D8;margin:0 0 24px}
+.opromise{display:flex;gap:11px;align-items:flex-start;margin-bottom:13px;font-size:13.5px;line-height:1.5}
+.opromise i{width:17px;height:17px;border-radius:50%;background:rgba(255,255,255,.13);flex:0 0 17px;
+  display:grid;place-items:center;font-style:normal;font-size:10px;color:#7FE0AC;margin-top:2px}
+.opromise.on i{background:#1D7A4C;color:#fff}
+.opromise.on{color:#fff}
+.omain{padding:44px 46px 60px;max-width:760px}
+.odots{display:flex;gap:7px;margin-bottom:26px}
+.odot{width:26px;height:5px;border-radius:99px;background:#E7ECF7}
+.odot.on{background:var(--or)}.odot.done{background:var(--blue)}
+.omain h2{font:400 34px/1.15 var(--serif);color:var(--ink2);margin:0 0 8px}
+.omain .osub{font-size:15.5px;color:var(--gray);margin:0 0 28px;line-height:1.6}
+.ogrid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:8px}
+.ofld{margin-bottom:15px}
+.ofld label{display:block;font:600 12px var(--ui);letter-spacing:.05em;text-transform:uppercase;
+  color:var(--gray);margin-bottom:6px}
+.ofld input,.ofld select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;
+  font:400 15px var(--ui);outline:none}
+.ofld input:focus,.ofld select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
+.opick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.opt{border:1.5px solid var(--line);border-radius:11px;padding:14px 15px;cursor:pointer;transition:.14s;background:#fff}
+.opt:hover{border-color:#C9D6F5}
+.opt.on{border-color:var(--or);background:var(--orT)}
+.opt b{display:block;font-size:14px;font-weight:600}
+.opt span{display:block;font-size:12px;color:var(--gray);margin-top:2px}
+.osrc{display:flex;align-items:center;gap:13px;border:1.5px solid var(--line);border-radius:12px;
+  padding:14px 16px;margin-bottom:9px;background:#fff;transition:.14s}
+.osrc.ready{cursor:pointer}
+.osrc.ready:hover{border-color:var(--or)}
+.osrc.on{border-color:#1D7A4C;background:#F2FAF6}
+.osrc.soon{opacity:.62}
+.oico{width:36px;height:36px;border-radius:9px;flex:0 0 36px;display:grid;place-items:center}
+.oico svg{width:18px;height:18px}
+.osrc .ot{flex:1;min-width:0}
+.osrc .ot b{display:block;font-size:14.5px;font-weight:600}
+.osrc .ot span{display:block;font-size:12.5px;color:var(--gray);margin-top:1px}
+.otag{font:700 9.5px var(--ui);letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:99px;white-space:nowrap}
+.otag.soon{background:#EEF1F8;color:var(--soft)}
+.otag.ready{background:var(--tint);color:var(--blue)}
+.otag.done{background:#E4F0E9;color:var(--green)}
+.onav{display:flex;align-items:center;gap:12px;margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+.oback{background:none;border:0;color:var(--gray);font:600 14px var(--ui);cursor:pointer}
+.onext{margin-left:auto;background:var(--or);color:#fff;border:0;border-radius:10px;
+  padding:13px 30px;font:600 15px var(--ui);cursor:pointer}
+.onext:hover:not(:disabled){background:var(--orD)}
+.onext:disabled{opacity:.5;cursor:default}
+.oskip{background:none;border:0;color:var(--soft);font:500 13.5px var(--ui);cursor:pointer;text-decoration:underline}
+.obox{border:1.8px dashed #C9D6F5;border-radius:13px;background:#FBFCFF;padding:16px;margin-bottom:14px}
+.obox textarea{width:100%;min-height:150px;border:0;background:none;outline:none;resize:vertical;
+  font:400 14px/1.7 var(--ui)}
+.obox.hot{border-color:var(--or);background:var(--orT)}
+/* the build screen */
+.bstep{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:11px;
+  padding:13px 16px;margin-bottom:8px;background:#fff;opacity:.45;transition:.3s}
+.bstep.on{opacity:1;border-color:var(--or);background:var(--orT)}
+.bstep.done{opacity:1;border-color:#C9E4D2;background:#F5FBF8}
+.bdot{width:20px;height:20px;border-radius:50%;flex:0 0 20px;border:2px solid var(--line);
+  display:grid;place-items:center;font-size:10px;color:#fff}
+.bstep.done .bdot{background:var(--green);border-color:var(--green)}
+.bstep.on .bdot{border-color:var(--or);border-top-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bstep b{font-size:14px;font-weight:600}
+@media(max-width:900px){#onb{grid-template-columns:1fr}.orail{display:none}
+ .omain{padding:26px 18px 50px}.opick,.ogrid{grid-template-columns:1fr}}
+</style>
+
 <!-- ================= signed out ================= -->
 <div id="out">
  <div class="card">
@@ -461,9 +549,11 @@ const ICO={home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
  neg:'<path d="M12 3v18"/><path d="M6 8h9a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6"/>',
  rec:'<circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-4.2 3.4-6.2 7.5-6.2s7.5 2 7.5 6.2z"/>',
  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/>',
- acct:'<circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/>'};
+ acct:'<circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/>',
+ add:'<path d="M12 5v14M5 12h14"/>'};
 const NAV=[
  {k:"dash",   n:"",            i:"home", solo:true},
+ {k:"add",    n:"Add a role",  i:"add"},
  {k:"pipe",   n:"Pipeline",    i:"pipe"},
  {k:"docs",   n:"Documents",   i:"doc"},
  {k:"net",    n:"Networking",  i:"net"},
@@ -490,6 +580,7 @@ function drawNav(){
 
 /* ---------- views ---------- */
 const TITLES={dash:["Dashboard",()=>D.opps.length+" opportunities on file"],
+ add:["Add a role",()=>"One box. Paste it, drop a picture of it, or drop a link."],
  pipe:["Pipeline",()=>D.opps.filter(o=>o.status!=="passed").length+" live · "+D.opps.filter(o=>o.status==="passed").length+" passed"],
  docs:["Documents",()=>"Résumés, letters, analyses and thank-you notes"],
  net:["Networking",()=>D.contacts.length+" contacts"],
@@ -783,6 +874,32 @@ function vProfileForm(){
    <div class="aev"><div class="ah"><span class="ad">Signed in with</span></div>
     <div class="as">${esc(D.provider||"email")}</div></div></div>`;}
 
+function vAdd(){
+ return `<div class="panel">
+  <h3>Give us the posting, any way you have it</h3>
+  <p style="font-size:14px;color:var(--gray);margin:8px 0 18px">
+   No job title field. No company field. Paste the whole thing, take a screenshot of it,
+   or drop the link. We work out the rest.</p>
+  <div class="drop" id="drop">
+   <textarea id="dropText" placeholder="Paste the posting here — or press Ctrl+V with a screenshot on your clipboard, or drag a file in. A link on its own works too."></textarea>
+   <div class="dropbar">
+    <label class="rbtn" style="cursor:pointer">Choose a file
+     <input type="file" id="dropFile" accept="image/*,.pdf,.txt,.docx" class="hide"></label>
+    <span class="dhint">Screenshot &middot; PDF &middot; plain text &middot; a URL</span>
+    <button class="primary" id="dropGo" style="width:auto;margin:0;padding:11px 22px">Read it</button>
+   </div>
+  </div>
+  <div id="dropPrev"></div>
+ </div>
+
+ <div class="panel"><h3>Why it works this way</h3>
+  <p style="font-size:14px;color:var(--gray);margin-top:8px;line-height:1.75">
+  Every other tool in this category asks you to fill in a job title, a company, and then
+  paste the description into a third box. You already had all of that on screen a second
+  ago. <b style="color:var(--ink)">A screenshot is the cleanest route there is</b> &mdash;
+  it works on a paywalled page, a PDF, a posting inside a phone app, even a photo of a
+  printout, and nothing is ever fetched from anyone else&rsquo;s server.</p></div>`;}
+
 function vDocs(){
  const rows=D.opps.map(o=>{
    const fs=(D.files[o.id]||[]);
@@ -817,11 +934,12 @@ function vDocs(){
 function draw(){
  const t=TITLES[view]||["",()=>""];
  $("secT").textContent=t[0]; $("secS").textContent=t[1]();
- $("view").innerHTML = view==="dash"?vDash() : view==="pipe"?vPipe() : vList(view);
+ $("view").innerHTML = view==="dash"?vDash() : view==="pipe"?vPipe() : view==="add"?vAdd() : vList(view);
  if(view==="pipe")wirePipe();
  else if(view==="dash")wireDash();
  else if(view==="docs")wireDocs();
- else if(view==="acct")wireAcct();}
+ else if(view==="acct")wireAcct();
+ else if(view==="add")wireAdd();}
 
 function wirePipe(){
  $("view").querySelectorAll(".ohead").forEach(h=>{
@@ -832,6 +950,369 @@ function wirePipe(){
    b.onclick=e=>{e.stopPropagation();
     card.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===b));
     card.querySelector("[data-pane]").innerHTML=paneOf(o,b.dataset.t);};});});}
+
+/* ---------- reading a posting out of whatever we were given ---------- */
+const NOISE=/^(apply|easy apply|save|share|report|show more|see more|about the job|posted|promoted|\d+ applicants?)$/i;
+function extract(text){
+ const raw=String(text||"").replace(/\r/g,"");
+ const url=(raw.match(/https?:\/\/[^\s"'<>]+/)||[])[0]||null;
+ const lines=raw.split("\n").map(l=>l.trim()).filter(l=>l&&!NOISE.test(l));
+ let title=null, company=null, location=null, salary=null;
+
+ // salary, wherever it appears
+ const sal=raw.match(/\$\s?\d{2,3}(?:[,.]\d{3})?\s?[kK]?\s?(?:-|–|to)\s?\$?\s?\d{2,3}(?:[,.]\d{3})?\s?[kK]?/);
+ if(sal) salary=sal[0].replace(/\s+/g," ").trim();
+
+ // location: a City, ST pattern
+ const loc=raw.match(/\b([A-Z][A-Za-z.\- ]{2,28}),\s?(?:([A-Z]{2})\b|Texas|California|New York)/);
+ if(loc) location=loc[0];
+
+ // title: first line that reads like a role
+ const ROLE=/(director|manager|head of|vp|vice president|chief|lead|specialist|coordinator|analyst|engineer|officer|president|partner|associate)/i;
+ for(const l of lines.slice(0,14)){
+   if(l.length<=90 && ROLE.test(l) && !/^https?:/i.test(l)){ title=l.replace(/\s*[·|—-]\s*.*$/,"").trim(); break; }
+ }
+ if(!title && lines.length) title=lines[0].slice(0,90);
+
+ // company: the "at X" / "X · Location" shapes, or the line after the title
+ const at=raw.match(/\bat\s+([A-Z][\w&.,'\- ]{2,40})/);
+ const ti=lines.indexOf(lines.find(l=>l===title));
+ if(ti>-1 && lines[ti+1] && lines[ti+1].length<60 && !ROLE.test(lines[ti+1]))
+   company=lines[ti+1].replace(/\s*[·|—-].*$/,"").trim();
+ if(!company && at) company=at[1].trim();
+ if(company && /,\s?[A-Z]{2}$/.test(company)) company=null;   // that was a location
+
+ return {title,company,location,salary,url,description:raw.trim()};
+}
+
+function previewCard(x, note){
+ const row=(l,id,v)=>`<div class="xrow"><b>${l}</b><input id="${id}" value="${esc(v||"")}"></div>`;
+ return `<div class="panel" style="margin-top:16px"><h3>What we read</h3>
+  ${note?`<p class="note" style="margin:8px 0 12px">${note}</p>`:""}
+  ${row("Job title","x_title",x.title)}
+  ${row("Company","x_company",x.company)}
+  ${row("Location","x_location",x.location)}
+  ${row("Salary","x_salary",x.salary)}
+  ${row("Link","x_url",x.url)}
+  <div class="xrow" style="border:0"><b>Description</b>
+   <span style="color:var(--gray);font-size:13px">${x.description.length.toLocaleString()} characters captured</span></div>
+  <div style="display:flex;gap:10px;margin-top:16px;align-items:center">
+   <button class="primary" id="xSave" style="width:auto;margin:0;padding:12px 24px">Add to pipeline</button>
+   <span id="xMsg" style="font-size:13px;color:var(--green)"></span></div>
+  <p class="note" style="margin-top:12px">Anything wrong, just type over it. Scoring is free and runs on the description, not these fields.</p>
+ </div>`;}
+
+let PENDING=null;
+function showPreview(x,note){
+ PENDING=x;
+ $("dropPrev").innerHTML=previewCard(x,note);
+ $("xSave").onclick=async()=>{
+  const g=i=>{const e=$(i);return e&&e.value.trim()?e.value.trim():null;};
+  const row={company:g("x_company")||"Unknown company", role:g("x_title")||"Untitled role",
+   location:g("x_location"), posting_url:g("x_url"), req:null, status:"saved",
+   source:(g("x_url")||"").includes("linkedin")?"linkedin":
+          (g("x_url")||"").includes("indeed")?"indeed":"other",
+   note:PENDING.description.slice(0,8000)};
+  const {error}=await sb.from("opportunities").insert(row);
+  const m=$("xMsg");
+  if(error){m.style.color="var(--red)";m.textContent=error.message;return;}
+  m.style.color="var(--green)"; m.textContent="Added.";
+  await load(); drawNav();
+  setTimeout(()=>{view="pipe";drawNav();draw();},700);};}
+
+function wireAdd(){
+ const dz=$("drop"), ta=$("dropText");
+ const readFile=f=>{
+  if(!f) return;
+  if(/^image\//.test(f.type)){
+   const fr=new FileReader();
+   fr.onload=e=>{ $("dropPrev").innerHTML=`<div class="panel" style="margin-top:16px">
+     <h3>Screenshot received</h3>
+     <p class="note" style="margin:8px 0 0">Reading text out of a picture needs the vision
+     step, which is the next build. For now paste the text as well and we will use that.</p>
+     <img class="shot" src="${e.target.result}"></div>`; };
+   fr.readAsDataURL(f); return;}
+  const fr=new FileReader();
+  fr.onload=e=>{ ta.value=String(e.target.result).slice(0,60000); };
+  fr.readAsText(f);};
+
+ ["dragenter","dragover"].forEach(n=>dz.addEventListener(n,e=>{
+   e.preventDefault();dz.classList.add("hot");}));
+ ["dragleave","drop"].forEach(n=>dz.addEventListener(n,e=>{
+   e.preventDefault();dz.classList.remove("hot");}));
+ dz.addEventListener("drop",e=>{ const f=e.dataTransfer.files[0]; if(f) readFile(f);
+   else { const t=e.dataTransfer.getData("text"); if(t) ta.value=t; }});
+ ta.addEventListener("paste",e=>{
+   const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(i=>i.type.startsWith("image/"));
+   if(it){ e.preventDefault(); readFile(it.getAsFile()); }});
+ $("dropFile").onchange=e=>readFile(e.target.files[0]);
+ $("dropGo").onclick=()=>{
+  const t=ta.value.trim();
+  if(!t){ $("dropPrev").innerHTML=`<p class="empty">Nothing to read yet.</p>`; return; }
+  if(/^https?:\/\/\S+$/.test(t)){
+   showPreview({title:null,company:null,location:null,salary:null,url:t,description:t},
+    "That is a link on its own. Fetching a page server-side is the next build \u2014 for now paste the text too, or use a screenshot.");
+   return;}
+  showPreview(extract(t));};}
+
+
+/* ================= onboarding ================= */
+const OB={step:0, name:"", role:"", level:"senior", city:"", floor:"",
+          bg:null, bgText:"", sources:{}, job:null};
+
+const SRC_LOGOS={
+ linkedin:['#0A66C2','<path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.78-2.79-1.79 0-2.06 1.32-2.06 2.7V21h-4z"/>'],
+ google:['#EA4335','<path d="M12 11v3.2h5.3a4.6 4.6 0 0 1-4.9 3.5 5.7 5.7 0 1 1 3.7-10l2.4-2.4A9 9 0 1 0 12 21c5.2 0 8.7-3.6 8.7-8.8 0-.6-.06-1.1-.16-1.6z"/>'],
+ outlook:['#0F7B8A','<path d="M3 5.5h11v13H3z" opacity=".9"/><path d="M15.5 9l5.5-2.4v10.8L15.5 15z"/><circle cx="8.5" cy="12" r="3.1" fill="#fff"/>'],
+ facebook:['#1877F2','<path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6A22 22 0 0 0 14.3 3.5c-2.4 0-4 1.45-4 4.12V9.9H7.6V13h2.7v8z"/>'],
+ excel:['#1D7A4C','<path d="M5 3h9l5 5v13H5z" opacity=".22"/><path d="M14 3v5h5"/><path d="M8.4 11.6h2l1.1 1.9 1.1-1.9h2l-2.1 3.3 2.2 3.5h-2l-1.2-2-1.2 2h-2l2.2-3.5z"/>'],
+ phone:['#C9942F','<path d="M7 3h10v18H7z" opacity=".22"/><path d="M9.5 5.5h5M10.5 18.5h3"/>'],
+ apple:['#111','<path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.15-2.8.85-3.5.85s-1.8-.83-3-.8c-1.5.02-2.9.9-3.7 2.28-1.6 2.76-.4 6.86 1.1 9.1.75 1.1 1.6 2.34 2.8 2.3 1.13-.05 1.56-.73 2.93-.73s1.75.73 2.95.7c1.22-.02 2-1.12 2.74-2.23a9.8 9.8 0 0 0 1.24-2.55c-.03-.01-2.38-.91-2.4-3.62z"/><path d="M14.2 5.6c.62-.75 1.04-1.8.93-2.85-.9.04-1.98.6-2.62 1.35-.57.66-1.07 1.73-.94 2.75 1 .08 2.02-.5 2.63-1.25z"/>']};
+
+const NET_SOURCES=[
+ {k:"linkedin",n:"LinkedIn connections",d:"Upload the Connections.csv from your own LinkedIn export",ready:true,tag:"Ready"},
+ {k:"excel",   n:"Spreadsheet",         d:"An .xlsx or .csv you already keep. Name and company is enough",ready:true,tag:"Ready"},
+ {k:"google",  n:"Google Contacts",     d:"Adds email ties and last-contacted dates",ready:false,tag:"Soon"},
+ {k:"outlook", n:"Outlook Contacts",    d:"The work address book, where the real history lives",ready:false,tag:"Soon"},
+ {k:"facebook",n:"Facebook friends",    d:"People you have known twenty years. Weak on titles, strong on trust",ready:false,tag:"Soon"},
+ {k:"phone",   n:"Phone contacts",      d:"vCard or CSV. The strongest ties you have",ready:false,tag:"Soon"}];
+
+const BG_SOURCES=[
+ {k:"resume",  n:"Upload a résumé",     d:"The fastest route, and the richest",ready:true,tag:"Ready",ico:"excel"},
+ {k:"linkedin",n:"LinkedIn profile PDF",d:"Your profile → More → Save to PDF, then drop it here",ready:true,tag:"Ready",ico:"linkedin"},
+ {k:"paste",   n:"Paste it in",         d:"Any text. We work out the structure",ready:true,tag:"Ready",ico:"excel"},
+ {k:"scratch", n:"Start from scratch",  d:"Fill it in yourself. Takes a few minutes",ready:true,tag:"Ready",ico:"phone"}];
+
+const PROMISES=[
+ "Build your career record",
+ "Score the roles you are looking at",
+ "Write the honest evaluation — gaps and your salary floor",
+ "Tailor a résumé and cover letter in your voice",
+ "Clear the ATS gate before anyone reads it",
+ "Map the warm path to the person who can hire you"];
+
+function srcIco(k){const[c,p]=SRC_LOGOS[k]||SRC_LOGOS.excel;
+ return `<span class="oico" style="background:${c}1a"><svg viewBox="0 0 24 24" fill="${c}">${p}</svg></span>`;}
+
+function obRail(){
+ return `<div class="orail">
+  <div class="mk"><svg width="22" height="22" viewBox="0 0 64 64" fill="none">
+   <path d="M23 10h18" stroke="#fff" stroke-width="3.1" stroke-linecap="round"/>
+   <path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#fff" stroke-width="3.1"/>
+   <path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg>
+   <b style="font:600 17px var(--ui)">Foot<i style="font-style:normal;color:var(--or)">Jar</i></b></div>
+  <h4>Four short steps.</h4>
+  <p>Then we build the whole thing for you, before you pay anything.</p>
+  ${PROMISES.map((t,i)=>`<div class="opromise${OB.step>Math.min(i,3)?" on":""}"><i>&#10003;</i><span>${t}</span></div>`).join("")}
+  <p style="margin-top:26px;font-size:12.5px;color:#7C8AAE">No card. Nothing is shared with
+   anyone. You can delete all of it in one click, any time.</p></div>`;}
+
+function obDots(){
+ return `<div class="odots">${[0,1,2,3].map(i=>
+  `<span class="odot${OB.step===i?" on":OB.step>i?" done":""}"></span>`).join("")}</div>`;}
+
+function obStep0(){
+ return `${obDots()}<h2>First, the basics.</h2>
+ <p class="osub">Nothing here is set in stone — it just gives everything we write for you
+  somewhere to start.</p>
+ <div class="ofld"><label for="o_name">What should we call you?</label>
+  <input id="o_name" value="${esc(OB.name)}" placeholder="Brad Sebastian" autocomplete="name"></div>
+ <div class="ogrid">
+  <div class="ofld"><label for="o_role">The role you are going after</label>
+   <input id="o_role" value="${esc(OB.role)}" placeholder="Director of Marketing"></div>
+  <div class="ofld"><label for="o_city">Where</label>
+   <input id="o_city" value="${esc(OB.city)}" placeholder="Houston, TX"></div>
+ </div>
+ <label style="display:block;font:600 12px var(--ui);letter-spacing:.05em;text-transform:uppercase;color:var(--gray);margin-bottom:8px">How far along are you?</label>
+ <div class="opick">${[["entry","Early","0–2 years"],["mid","Mid","2–8 years"],["senior","Senior","8+ years"]]
+   .map(o=>`<div class="opt${OB.level===o[0]?" on":""}" data-lvl="${o[0]}"><b>${o[1]}</b><span>${o[2]}</span></div>`).join("")}</div>
+ <div class="ofld"><label for="o_floor">Your salary floor — the number you will not go below</label>
+  <input id="o_floor" value="${esc(OB.floor)}" placeholder="$135,000" inputmode="numeric"></div>
+ <p style="font-size:12.5px;color:var(--soft);margin:-6px 0 0">This one matters. It is what stops
+  you being talked down in a negotiation, and nothing sees it but you.</p>
+ <div class="onav"><button class="oskip" data-skip>Skip for now</button>
+  <button class="onext" data-next>Continue</button></div>`;}
+
+function obStep1(){
+ return `${obDots()}<h2>Now, your career.</h2>
+ <p class="osub">Everything Foot Jar writes comes from your real record — your numbers, your
+  wins, the way you actually talk. Give us whatever you already have.</p>
+ ${BG_SOURCES.map(s=>`<div class="osrc ready${OB.bg===s.k?" on":""}" data-bg="${s.k}">
+   ${srcIco(s.ico)}<span class="ot"><b>${s.n}</b><span>${s.d}</span></span>
+   <span class="otag ${OB.bg===s.k?"done":"ready"}">${OB.bg===s.k?"Chosen":s.tag}</span></div>`).join("")}
+ <div id="bgArea" style="margin-top:16px"></div>
+ <div class="onav"><button class="oback" data-back>Back</button>
+  <button class="oskip" data-skip>Skip for now</button>
+  <button class="onext" data-next>Continue</button></div>`;}
+
+function obStep2(){
+ const n=Object.keys(OB.sources).length;
+ return `${obDots()}<h2>Let&rsquo;s look at your network.</h2>
+ <p class="osub">This is the part nobody else does properly. Your network already contains a
+  warm route into most companies you would want to work at — it is just scattered across
+  places that do not talk to each other.</p>
+ ${NET_SOURCES.map(s=>`<div class="osrc ${s.ready?"ready":"soon"}${OB.sources[s.k]?" on":""}"
+   ${s.ready?`data-net="${s.k}"`:""}>
+   ${srcIco(s.k)}<span class="ot"><b>${s.n}</b><span>${s.d}</span></span>
+   <span class="otag ${OB.sources[s.k]?"done":s.ready?"ready":"soon"}">${OB.sources[s.k]?"Added":s.tag}</span></div>`).join("")}
+ <input type="file" id="netFile" class="hide" accept=".csv,.xlsx,.txt">
+ <p style="font-size:12.5px;color:var(--soft);margin-top:14px;line-height:1.65">
+  <b style="color:var(--ink)">We never scrape anybody.</b> LinkedIn connections come from the
+  export you request from LinkedIn yourself — Settings → Data Privacy → Get a copy of your data.
+  It arrives by email in about ten minutes and it is yours by right.</p>
+ <div class="onav"><button class="oback" data-back>Back</button>
+  <button class="oskip" data-skip>Skip for now</button>
+  <button class="onext" data-next>${n?"Continue":"I will do this later"}</button></div>`;}
+
+function obStep3(){
+ return `${obDots()}<h2>One role to start with.</h2>
+ <p class="osub">Paste a posting, drop a screenshot of one, or drop a link. No job title box,
+  no company box — we read it.</p>
+ <div class="obox" id="obDrop">
+  <textarea id="obText" placeholder="Paste the posting — or press Ctrl+V with a screenshot on your clipboard, or drag a file in.">${esc(OB.job?OB.job.description:"")}</textarea>
+ </div>
+ <div id="obJobPrev"></div>
+ <div class="onav"><button class="oback" data-back>Back</button>
+  <button class="oskip" data-skip>Skip for now</button>
+  <button class="onext" data-next>Build my account</button></div>`;}
+
+const BUILD_STEPS=[
+ "Creating your career record",
+ "Reading what you gave us",
+ "Setting up your pipeline",
+ "Scoring the role",
+ "Writing the honest evaluation",
+ "Checking your salary floor against the market",
+ "Mapping the warm path",
+ "Getting your dashboard ready"];
+
+function obBuild(){
+ return `<h2>Setting things up.</h2>
+ <p class="osub">This takes about a minute. Stay on the page.</p>
+ <div id="bsteps">${BUILD_STEPS.map((t,i)=>
+  `<div class="bstep" data-i="${i}"><span class="bdot">&#10003;</span><b>${t}</b></div>`).join("")}</div>`;}
+
+function obDraw(){
+ const body = OB.step===0?obStep0() : OB.step===1?obStep1() :
+              OB.step===2?obStep2() : OB.step===3?obStep3() : obBuild();
+ $("onb").innerHTML = obRail() + `<div class="omain">${body}</div>`;
+ obWire();
+}
+
+function obSaveStep0(){
+ OB.name =($("o_name") ||{}).value||OB.name;
+ OB.role =($("o_role") ||{}).value||OB.role;
+ OB.city =($("o_city") ||{}).value||OB.city;
+ OB.floor=($("o_floor")||{}).value||OB.floor;
+}
+
+function obWire(){
+ const M=$("onb");
+ M.querySelectorAll("[data-lvl]").forEach(el=>el.onclick=()=>{OB.level=el.dataset.lvl;obDraw();});
+
+ M.querySelectorAll("[data-bg]").forEach(el=>el.onclick=()=>{
+  OB.bg=el.dataset.bg; obDraw();
+  const a=$("bgArea"); if(!a) return;
+  if(OB.bg==="paste"){
+   a.innerHTML=`<div class="obox"><textarea id="bgText" placeholder="Paste your résumé, your LinkedIn profile text, or just your work history.">${esc(OB.bgText)}</textarea></div>`;
+   $("bgText").oninput=e=>OB.bgText=e.target.value;
+  } else if(OB.bg==="scratch"){
+   a.innerHTML=`<p class="note" style="font-size:13px;color:var(--gray)">No problem — you can
+    fill your profile in later from the account page, and everything still works.</p>`;
+  } else {
+   a.innerHTML=`<div class="obox" style="text-align:center">
+     <label class="rbtn" style="cursor:pointer;display:inline-block">Choose a file
+      <input type="file" id="bgFile" class="hide" accept=".pdf,.doc,.docx,.txt"></label>
+     <p style="font-size:12.5px;color:var(--soft);margin:10px 0 0" id="bgName">PDF, Word or plain text</p></div>`;
+   $("bgFile").onchange=e=>{const f=e.target.files[0]; if(!f)return;
+     OB.bgText="[file] "+f.name; $("bgName").textContent=f.name+" — ready";};
+  }});
+
+ M.querySelectorAll("[data-net]").forEach(el=>el.onclick=()=>{
+  const k=el.dataset.net, fi=$("netFile");
+  fi.onchange=e=>{const f=e.target.files[0]; if(!f)return;
+    OB.sources[k]={file:f.name}; obDraw();};
+  fi.click();});
+
+ const dz=$("obDrop");
+ if(dz){
+  const ta=$("obText");
+  ["dragenter","dragover"].forEach(n=>dz.addEventListener(n,e=>{e.preventDefault();dz.classList.add("hot");}));
+  ["dragleave","drop"].forEach(n=>dz.addEventListener(n,e=>{e.preventDefault();dz.classList.remove("hot");}));
+  dz.addEventListener("drop",e=>{const f=e.dataTransfer.files[0];
+    if(f&&/^image\//.test(f.type)){OB.job={shot:f.name,description:"[screenshot] "+f.name};
+      $("obJobPrev").innerHTML=`<p class="note" style="color:var(--gray)">Screenshot received — reading pictures is the next build, so paste the text as well if you have it.</p>`;}
+    else if(f){const fr=new FileReader();fr.onload=x=>ta.value=String(x.target.result).slice(0,60000);fr.readAsText(f);}
+    else {const t=e.dataTransfer.getData("text"); if(t)ta.value=t;}});
+  ta.addEventListener("paste",e=>{
+    const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(i=>i.type.startsWith("image/"));
+    if(it){e.preventDefault(); OB.job={shot:"clipboard",description:"[screenshot]"};
+      $("obJobPrev").innerHTML=`<p class="note" style="color:var(--gray)">Screenshot received.</p>`;}});
+ }
+
+ const back=M.querySelector("[data-back]"), next=M.querySelector("[data-next]"),
+       skip=M.querySelector("[data-skip]");
+ if(back) back.onclick=()=>{if(OB.step===0)obSaveStep0(); OB.step--; obDraw();};
+ if(skip) skip.onclick=()=>{if(OB.step===0)obSaveStep0(); OB.step++; OB.step>3?obRun():obDraw();};
+ if(next) next.onclick=()=>{
+   if(OB.step===0) obSaveStep0();
+   if(OB.step===3){const t=($("obText")||{}).value||""; if(t.trim()) OB.job=extract(t);}
+   OB.step++; OB.step>3?obRun():obDraw();};
+}
+
+async function obRun(){
+ OB.step=4; obDraw();
+ const steps=[...$("bsteps").children];
+ const tick=async(i,ms)=>{ steps[i].classList.add("on");
+   await new Promise(r=>setTimeout(r,ms));
+   steps[i].classList.remove("on"); steps[i].classList.add("done"); };
+
+ const {data:{user}}=await sb.auth.getUser();
+ await tick(0,700);
+ const floor=(OB.floor||"").replace(/[^\d]/g,"");
+ await sb.from("profiles").update({
+   full_name: OB.name||null,
+   headline:  OB.role||null,
+   city:      OB.city||null,
+   open_to:   OB.role||null,
+   salary_floor: floor?+floor:null,
+   years_experience: OB.level==="senior"?10:OB.level==="mid"?5:1,
+   profile_source: OB.bg==="resume"?"resume":OB.bg==="linkedin"?"linkedin":"manual",
+   privacy_ack_at: new Date().toISOString()
+ }).eq("id",user.id);
+ await tick(1,900);
+ await tick(2,700);
+
+ if(OB.job && OB.job.description && OB.job.description.length>40){
+   await sb.from("opportunities").insert({
+     company: OB.job.company||"Unknown company",
+     role:    OB.job.title||OB.role||"Untitled role",
+     location:OB.job.location||OB.city||null,
+     posting_url: OB.job.url||null,
+     status:"saved",
+     source:(OB.job.url||"").includes("linkedin")?"linkedin":"other",
+     note: String(OB.job.description).slice(0,8000)});
+ }
+ await tick(3,1100);
+ await tick(4,1300);
+ await tick(5,800);
+ await tick(6,1000);
+ await tick(7,600);
+
+ $("onb").remove();
+ document.body.style.overflow="";
+ await load(); drawNav(); view="dash"; draw();
+ const ini=initials(D.profile.full_name||D.email);
+ $("av").innerHTML=ini; $("av2").innerHTML=ini;
+}
+
+function needsOnboarding(){ return !(D.profile && D.profile.full_name); }
+function startOnboarding(){
+ OB.name = (D.profile&&D.profile.full_name) || (D.email||"").split("@")[0].replace(/[._]/g," ");
+ const d=document.createElement("div"); d.id="onb"; document.body.appendChild(d);
+ document.body.style.overflow="hidden";
+ obDraw();
+}
 
 /* ---------- interactions ---------- */
 document.addEventListener("click",e=>{
@@ -903,7 +1384,8 @@ async function start(s){
  $("planN").textContent=(D.profile.plan||"free").replace(/^./,c=>c.toUpperCase());
  $("planN2").textContent=(D.profile.plan||"free")+" plan";
  $("balN").textContent="5 passes";
- wireShell(); drawNav(); draw();}
+ wireShell(); drawNav(); draw();
+ if(needsOnboarding()) startOnboarding();}
 const {data:{session}}=await sb.auth.getSession();
 if(session) start(session);
 sb.auth.onAuthStateChange((_e,s)=>{ if(s&&$("app").classList.contains("hide")) start(s); });
