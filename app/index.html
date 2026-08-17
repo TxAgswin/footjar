@@ -79,6 +79,69 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
  padding:10px}.sdiv,.sfoot{display:none}.snav{width:auto;white-space:nowrap}.wrap,.top{padding-inline:16px}}
 </style></head><body>
 <style>
+/* ---- account menu ---- */
+.acct{margin-left:auto;position:relative}
+.chip{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+ border-radius:99px;padding:5px 10px 5px 13px;font:600 12.5px var(--ui);color:var(--gray);cursor:pointer}
+.chip:hover{border-color:#C9D6F5}
+.chip .plan{color:var(--ink)}
+.chip .bal{color:var(--or);border-left:1px solid var(--line);padding-left:9px}
+.chip .av{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;
+ display:grid;place-items:center;font:700 11px var(--ui);overflow:hidden}
+.chip .av img{width:100%;height:100%;object-fit:cover}
+.chip .cv{width:13px;height:13px;color:var(--soft)}
+.amenu{position:absolute;top:calc(100% + 9px);right:0;min-width:236px;background:#fff;
+ border:1px solid var(--line);border-radius:13px;box-shadow:0 18px 44px rgba(6,26,82,.18);
+ padding:7px;z-index:60;display:none}
+.amenu.on{display:block}
+.ahead{display:flex;gap:11px;align-items:center;padding:9px 10px 12px;border-bottom:1px solid #F1F4FA;margin-bottom:6px}
+.ahead .av{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;
+ display:grid;place-items:center;font:700 13px var(--ui);flex:0 0 36px;overflow:hidden}
+.ahead .av img{width:100%;height:100%;object-fit:cover}
+.ahead b{display:block;font-size:13.5px;word-break:break-all}
+.ahead em{font-style:normal;font-size:11.5px;color:var(--soft)}
+.ami{display:block;width:100%;text-align:left;background:none;border:0;padding:9px 11px;
+ border-radius:8px;font:500 13.5px var(--ui);color:var(--ink);cursor:pointer;text-decoration:none}
+.ami:hover{background:#F5F8FF;color:var(--blue)}
+.ami.danger{color:var(--red)}.ami.danger:hover{background:#FDECE7;color:var(--red)}
+.asep{height:1px;background:#F1F4FA;margin:6px 4px}
+/* ---- clickable dashboard ---- */
+.kpi.click{cursor:pointer;transition:.14s}
+.kpi.click:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:var(--sh)}
+.panel.click{cursor:pointer}.panel.click:hover{border-color:#C9D6F5}
+.pmore{font:600 12px var(--ui);color:var(--blue);margin-top:12px;display:inline-block}
+/* ---- document rows ---- */
+.drow{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+.drow.open{border-color:#C9D6F5;box-shadow:var(--sh)}
+.dhead{display:flex;align-items:center;gap:13px;padding:12px 15px;cursor:pointer}
+.dhead:hover{background:#FBFCFF}
+.dhead .cav{width:15px;height:15px;flex:0 0 15px;color:var(--soft);transition:transform .18s}
+.drow.open .cav{transform:rotate(90deg)}
+.dsum{margin-left:auto;font-size:12.5px;color:var(--gray);white-space:nowrap}
+.dbody{display:none;border-top:1px solid #EEF2FA;padding:12px 15px 15px}
+.drow.open .dbody{display:block}
+.dfile{display:flex;align-items:center;gap:11px;padding:9px 11px;border:1px solid var(--line);
+ border-radius:9px;margin-bottom:7px;background:#fff;text-decoration:none;color:var(--ink)}
+.dfile:hover{border-color:var(--blue);background:#FBFCFF}
+.fico{width:30px;height:30px;border-radius:7px;flex:0 0 30px;display:grid;place-items:center;
+ font:800 8.5px var(--ui);color:#fff;letter-spacing:.03em}
+.fico.pdf{background:#B4472E}.fico.md{background:#0F7B8A}.fico.doc{background:#0041D7}
+.dfile b{font-size:13.5px;font-weight:600}
+.dfile em{font-style:normal;font-size:11px;color:var(--soft);margin-left:auto}
+/* ---- profile form ---- */
+.pform{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pform .full{grid-column:1/-1}
+.pf label{display:block;margin-bottom:5px}
+.pf input,.pf select,.pf textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);
+ border-radius:9px;font:400 14px var(--ui);outline:none;background:#fff}
+.pf input:focus,.pf select:focus,.pf textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
+.avrow{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.avbig{width:66px;height:66px;border-radius:50%;background:var(--blue);color:#fff;display:grid;
+ place-items:center;font:700 22px var(--ui);flex:0 0 66px;overflow:hidden}
+.avbig img{width:100%;height:100%;object-fit:cover}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--gray);line-height:1.6}
+.chk input{width:auto;margin-top:3px;flex:0 0 auto}
+@media(max-width:860px){.pform{grid-template-columns:1fr}.chip .bal,.chip .plan{display:none}}
 /* ============ dashboard ============ */
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
 .kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--sh)}
@@ -199,7 +262,7 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
 <!-- ================= app ================= -->
 <div id="app" class="hide">
  <nav class="side">
-  <div class="sbrand"><svg width="21" height="21" viewBox="0 0 64 64" fill="none">
+  <div class="sbrand" id="brandHome" style="cursor:pointer"><svg width="21" height="21" viewBox="0 0 64 64" fill="none">
     <path d="M23 10h18" stroke="#fff" stroke-width="3.1" stroke-linecap="round"/>
     <path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#fff" stroke-width="3.1"/>
     <path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg>
@@ -213,7 +276,25 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
  <div class="main">
   <div class="top"><div class="tin">
     <div><h1 id="secT">Dashboard</h1><p class="sub" id="secS"></p></div>
-    <div class="chip"><span id="who"></span><span class="av" id="av"></span></div>
+    <div class="acct">
+      <button class="chip" id="chip" type="button">
+        <span class="plan" id="planN">Free</span>
+        <span class="bal" id="balN">5 passes</span>
+        <span class="av" id="av"></span>
+        <svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+          stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="amenu" id="amenu">
+        <div class="ahead"><span class="av big" id="av2"></span>
+          <div><b id="who"></b><em id="planN2">Free plan</em></div></div>
+        <button class="ami" data-go="acct">Your profile</button>
+        <button class="ami" data-go="acct">Plan and allowances</button>
+        <a class="ami" href="/" target="_blank" rel="noopener">footjar.com &#8599;</a>
+        <a class="ami" href="/privacy/" target="_blank" rel="noopener">Privacy</a>
+        <div class="asep"></div>
+        <button class="ami danger" id="signout2">Sign out</button>
+      </div>
+    </div>
   </div></div>
   <div class="wrap" id="view"></div>
  </div>
@@ -299,7 +380,7 @@ function srcIcon(o){
   : `<span class="src" title="${t}">${svg}</span>`;}
 
 /* ---------- data ---------- */
-const D={opps:[],stages:{},contacts:[],recruiters:[],acts:{}};
+const D={opps:[],stages:{},contacts:[],recruiters:[],acts:{},files:{},profile:null,email:"",provider:"",filesReady:false};
 async function load(){
  const [o,s,c,r,a]=await Promise.all([
   sb.from("opportunities").select("*").order("rank_score",{ascending:false}),
@@ -308,6 +389,17 @@ async function load(){
   sb.from("recruiters").select("*").order("fit_score",{ascending:false}),
   sb.from("activities").select("*").order("happened_on",{ascending:false})]);
  D.opps=o.data||[]; D.contacts=c.data||[]; D.recruiters=r.data||[];
+ const pr=await sb.from("profiles").select("*").maybeSingle();
+ D.profile=pr.data||{};
+ if(D.profile.avatar_path){
+   const {data:pub}=sb.storage.from("avatars").getPublicUrl(D.profile.avatar_path);
+   D.profile.avatar_url=pub&&pub.publicUrl;}
+ const dc=await sb.from("documents").select("*");
+ D.files={}; (dc.data||[]).forEach(f=>{
+   const k=f.kind==="cover_letter"?"cover":(f.kind==="analysis"?"analysis":f.kind);
+   (D.files[f.opportunity_id]=D.files[f.opportunity_id]||[]).push({
+     kind:k,title:f.title,bytes:f.bytes||0,file:f.storage_path||"",url:"#"});});
+ D.filesReady=(dc.data||[]).length>0;
  D.stages={}; (s.data||[]).forEach(x=>{(D.stages[x.opportunity_id]=D.stages[x.opportunity_id]||[]).push(x);});
  D.acts={};   (a.data||[]).forEach(x=>{(D.acts[x.opportunity_id]=D.acts[x.opportunity_id]||[]).push(x);});
 }
@@ -379,25 +471,27 @@ const TITLES={dash:["Dashboard",()=>D.opps.length+" opportunities on file"],
 
 function vDash(){
  const live=D.opps.filter(o=>o.status!=="passed");
- const k=[["Opportunities",D.opps.length,0],["Live",live.length,0],
-  ["Warm contacts",D.contacts.length,1],["Recruiters",D.recruiters.length,0]];
+ const k=[["Opportunities",D.opps.length,0,"pipe"],["Live",live.length,0,"pipe"],
+  ["Warm contacts",D.contacts.length,1,"net"],["Recruiters",D.recruiters.length,0,"recs"]];
  const now=Math.round(live.reduce((n,o)=>n+(+o.landing_base||0),0)/Math.max(live.length,1));
  const pot=Math.min(99,now+33);
  const recent=Object.values(D.acts).flat()
   .sort((a,b)=>(b.happened_on||"").localeCompare(a.happened_on||"")).slice(0,6);
- return `<div class="kpis">${k.map(x=>`<div class="kpi${x[2]?" accent":""}">
+ return `<div class="kpis">${k.map(x=>`<div class="kpi click${x[2]?" accent":""}" data-go="${x[3]}">
    <div class="n">${x[1]}</div><div class="l">${x[0]}</div></div>`).join("")}</div>
-  <div class="panel"><h3>Landing likelihood &mdash; portfolio</h3>
+  <div class="panel click" data-go="pipe"><h3>Landing likelihood &mdash; portfolio</h3>
    <div class="bar"><span class="pot" style="width:${pot}%"></span>
     <span class="cur" style="width:${now}%"></span></div>
-   <p class="note">${now}% now &middot; ${pot}% with the networking passes finished</p></div>
-  <div class="panel"><h3>Recent activity</h3>
+   <p class="note">${now}% now &middot; ${pot}% with the networking passes finished</p>
+   <span class="pmore">Open the pipeline &rarr;</span></div>
+  <div class="panel click" data-go="docs"><h3>Recent activity</h3>
    ${recent.length?recent.map(a=>`<div class="aev"><div class="ah">
      <span class="ad">${fdate(a.happened_on)}</span>
      <span class="at">${esc(a.kind||"note")}</span>
      ${a.who?`<span class="aw">${esc(a.who)}</span>`:""}</div>
      ${a.summary?`<div class="as">${esc(a.summary)}</div>`:""}</div>`).join("")
-    :'<p class="empty">Nothing logged yet.</p>'}</div>`;}
+    :'<p class="empty">Nothing logged yet.</p>'}
+   <span class="pmore">Go to documents &rarr;</span></div>`;}
 
 function railOf(o){
  const cur=phaseOf(o);
@@ -491,19 +585,8 @@ function vList(kind){
     ${r.fit_score?`<span class="rank"><span class="rs">${r.fit_score}</span><span class="rl">Fit</span></span>`:""}
     ${r.linkedin_url?`<a class="rbtn" href="${esc(r.linkedin_url)}" target="_blank" rel="noopener">Open</a>`:""}
    </div>`).join("")}</div>`:'<p class="empty">No recruiters yet.</p>';}
- if(kind==="docs"){
-  const rows=D.opps.filter(o=>done(o.id,"resume")||done(o.id,"cover_letter")||done(o.id,"analyzed"))
-   .map(o=>`<div class="tile"><span class="tico"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z" opacity=".25"/><path d="M14 2v4h4"/></svg></span>
-    <span class="tname"><b>${esc(o.company)}</b><em>${[done(o.id,"analyzed")&&"Analysis",done(o.id,"resume")&&"Résumé",done(o.id,"cover_letter")&&"Cover letter"].filter(Boolean).join(" · ")}</em></span></div>`);
-  return (rows.length?`<div class="tiles">${rows.join("")}</div>`:'<p class="empty">Nothing built yet.</p>')
-   +`<div class="soon" style="margin-top:16px"><b>The files themselves are not uploaded yet.</b>
-     Storage is wired but empty &mdash; your PDFs are still in the dashboard file on your desktop.</div>`;}
- if(kind==="acct"){
-  return `<div class="panel"><h3>Account</h3>
-   <div class="aev"><div class="ah"><span class="ad">Email</span></div><div class="as" id="acctEm"></div></div>
-   <div class="aev"><div class="ah"><span class="ad">Plan</span></div><div class="as">Free &mdash; you are user one</div></div>
-   <div class="aev"><div class="ah"><span class="ad">Networking passes</span></div>
-    <div class="as">Search 5/mo &middot; Campaign 25/mo &middot; Executive unlimited</div></div></div>`;}
+ if(kind==="docs") return vDocs();
+ if(kind==="acct") return vProfile();
  if(kind==="cal"){
   return `<div class="soon"><b>Calendar is not built yet.</b> It will carry interviews,
    follow-up dates and application deadlines, pulled from the opportunities rather than typed twice.</div>`;}
@@ -514,12 +597,103 @@ function vList(kind){
  return `<div class="soon"><b>Negotiation across every live offer.</b> Target and floor from the
   fit analysis, their number when it lands, the gap, and a counter in your voice.</div>`;}
 
+function fld(id,lab,v,t){return `<div class="pf"><label for="${id}">${lab}</label>
+ <input id="${id}" type="${t||"text"}" value="${esc(v==null?"":v)}"></div>`;}
+
+function vProfile(){
+ const p=D.profile||{};
+ const av=p.avatar_url
+  ?`<img src="${esc(p.avatar_url)}" alt="">`
+  :esc(initials(p.full_name||D.email));
+ return `<div class="panel">
+  <div class="avrow">
+   <span class="avbig" id="avBig">${av}</span>
+   <div><b style="display:block;font-size:15px">${esc(p.full_name||D.email)}</b>
+    <span style="font-size:12.5px;color:var(--soft)">${esc(p.headline||"No headline yet")}</span>
+    <div style="margin-top:9px;display:flex;gap:8px">
+     <button class="rbtn" id="avPick">Change picture</button>
+     <button class="rbtn" id="fromResume">Fill from my r&eacute;sum&eacute;</button></div></div>
+   <input id="avFile" type="file" accept="image/*" class="hide">
+  </div>
+  <div class="pform">
+   ${fld("p_name","Full name",p.full_name)}
+   ${fld("p_head","Headline",p.headline)}
+   ${fld("p_email","Email",D.email,"email")}
+   ${fld("p_phone","Phone",p.phone,"tel")}
+   ${fld("p_a1","Address",p.address_line1)}
+   ${fld("p_a2","Address line 2",p.address_line2)}
+   ${fld("p_city","City",p.city)}
+   ${fld("p_state","State",p.state)}
+   ${fld("p_zip","Postcode",p.postal_code)}
+   ${fld("p_ctry","Country",p.country)}
+   ${fld("p_li","LinkedIn URL",p.linkedin_url,"url")}
+   ${fld("p_web","Website",p.website_url,"url")}
+   ${fld("p_yrs","Years of experience",p.years_experience,"number")}
+   ${fld("p_notice","Notice period",p.notice_period)}
+   ${fld("p_floor","Salary floor",p.salary_floor,"number")}
+   ${fld("p_target","Salary target",p.salary_target,"number")}
+   <div class="pf"><label for="p_remote">Work preference</label>
+    <select id="p_remote">${["any","remote","hybrid","onsite"].map(o=>
+      `<option value="${o}"${p.remote_pref===o?" selected":""}>${o[0].toUpperCase()+o.slice(1)}</option>`).join("")}</select></div>
+   <div class="pf"><label for="p_auth">Work authorisation</label>
+    <input id="p_auth" value="${esc(p.work_auth||"")}"></div>
+   <div class="full pf"><label for="p_open">Open to</label>
+    <input id="p_open" value="${esc(p.open_to||"")}" placeholder="Director of Marketing, VP Demand Gen…"></div>
+   <div class="full"><label class="chk"><input type="checkbox" id="p_priv"${p.privacy_ack_at?" checked":""}>
+    <span>I understand this information is stored in my own account, is never shown to another user
+    or sold, and I can export or delete it at any time &mdash; as set out in the
+    <a href="/privacy/" target="_blank" style="color:var(--blue)">privacy policy</a>.</span></label></div>
+   <div class="full"><button class="primary" id="pSave" style="max-width:200px">Save profile</button>
+    <span id="pMsg" style="margin-left:12px;font-size:13px;color:var(--green)"></span></div>
+  </div></div>
+
+  <div class="panel"><h3>Plan and allowances</h3>
+   <div class="aev"><div class="ah"><span class="ad">Plan</span></div>
+    <div class="as" style="color:var(--ink);font-weight:600">Free &mdash; you are user one</div></div>
+   <div class="aev"><div class="ah"><span class="ad">Networking passes this month</span></div>
+    <div class="as">0 used &middot; Search includes 5, Campaign 25, Executive unlimited</div></div>
+   <div class="aev"><div class="ah"><span class="ad">Signed in with</span></div>
+    <div class="as">${esc(D.provider||"email")}</div></div></div>`;}
+
+function vDocs(){
+ const rows=D.opps.map(o=>{
+   const fs=(D.files[o.id]||[]);
+   const built=[done(o.id,"analyzed")&&"analysis",done(o.id,"resume")&&"resume",
+                done(o.id,"cover_letter")&&"cover"].filter(Boolean);
+   if(!fs.length && !built.length) return "";
+   const parts=[];
+   const c=k=>fs.filter(f=>f.kind===k).length || (built.includes(k)?1:0);
+   if(c("resume"))   parts.push(c("resume")+" r\u00e9sum\u00e9"+(c("resume")>1?"s":""));
+   if(c("cover"))    parts.push(c("cover")+" cover letter"+(c("cover")>1?"s":""));
+   if(c("analysis")) parts.push(c("analysis")+" analysis");
+   return `<div class="drow" data-id="${o.id}">
+    <div class="dhead">
+     <svg class="cav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+       stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+     <span class="olg" style="background:${colOf(o.company)}">${initials(o.company)}</span>
+     <span class="otitle"><b>${esc(o.company)}</b><span>${esc(o.role)}</span></span>
+     <span class="dsum">${parts.join(" &middot; ")||"nothing built"}</span></div>
+    <div class="dbody">${fs.length?fs.map(f=>{
+       const ext=(f.file.split(".").pop()||"").toLowerCase();
+       const cls=ext==="pdf"?"pdf":(ext==="md"?"md":"doc");
+       return `<a class="dfile" href="${esc(f.url)}" target="_blank" rel="noopener">
+        <span class="fico ${cls}">${ext.toUpperCase()}</span>
+        <b>${esc(f.title)}</b><em>${Math.round(f.bytes/1024)} KB</em></a>`;}).join("")
+      :`<p class="empty">Built, but the file is not uploaded yet.</p>`}</div></div>`;
+  }).filter(Boolean).join("");
+ return (rows||'<p class="empty">Nothing built yet.</p>') +
+  (D.filesReady?"":`<div class="soon" style="margin-top:16px"><b>Your 52 documents are extracted and
+   sitting on your desktop</b> in Foot Jar Business &rsaquo; documents. Uploading them into your
+   account is the next step &mdash; after that they open straight from here.</div>`);}
+
 function draw(){
  const t=TITLES[view]||["",()=>""];
  $("secT").textContent=t[0]; $("secS").textContent=t[1]();
  $("view").innerHTML = view==="dash"?vDash() : view==="pipe"?vPipe() : vList(view);
- if(view==="acct"&&$("acctEm"))$("acctEm").textContent=$("who").textContent;
- if(view==="pipe")wirePipe();}
+ if(view==="pipe")wirePipe();
+ else if(view==="dash")wireDash();
+ else if(view==="docs")wireDocs();
+ else if(view==="acct")wireProfile();}
 
 function wirePipe(){
  $("view").querySelectorAll(".ohead").forEach(h=>{
@@ -531,12 +705,67 @@ function wirePipe(){
     card.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===b));
     card.querySelector("[data-pane]").innerHTML=paneOf(o,b.dataset.t);};});});}
 
+/* ---------- interactions ---------- */
+document.addEventListener("click",e=>{
+ if(!e.target.closest(".acct")) $("amenu")&&$("amenu").classList.remove("on");});
+function wireShell(){
+ $("chip").onclick=e=>{e.stopPropagation();$("amenu").classList.toggle("on");};
+ $("amenu").onclick=e=>{const b=e.target.closest("[data-go]");
+  if(b){view=b.dataset.go;$("amenu").classList.remove("on");drawNav();draw();}};
+ $("signout2").onclick=async()=>{await sb.auth.signOut();location.replace("/app/");};
+ $("brandHome").onclick=()=>{view="dash";drawNav();draw();};}
+
+function wireDash(){
+ $("view").querySelectorAll("[data-go]").forEach(el=>{
+  el.onclick=()=>{view=el.dataset.go;drawNav();draw();};});}
+
+function wireDocs(){
+ $("view").querySelectorAll(".dhead").forEach(h=>{
+  h.onclick=()=>h.parentElement.classList.toggle("open");});}
+
+async function wireProfile(){
+ const g=i=>{const e=$(i);return e?(e.value.trim()||null):null;};
+ $("avPick").onclick=()=>$("avFile").click();
+ $("avFile").onchange=async e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const {data:{user}}=await sb.auth.getUser();
+  const path=user.id+"/avatar_"+Date.now()+"."+(f.name.split(".").pop()||"png");
+  const up=await sb.storage.from("avatars").upload(path,f,{upsert:true});
+  if(up.error){$("pMsg").style.color="var(--red)";$("pMsg").textContent=up.error.message;return;}
+  await sb.from("profiles").update({avatar_path:path}).eq("id",user.id);
+  await load(); draw(); if(view==="acct") wireProfile();};
+ $("fromResume").onclick=()=>{
+  $("pMsg").style.color="var(--gray)";
+  $("pMsg").textContent="Résumé parsing arrives with document upload — next build.";};
+ $("pSave").onclick=async()=>{
+  const {data:{user}}=await sb.auth.getUser();
+  const row={full_name:g("p_name"),headline:g("p_head"),phone:g("p_phone"),
+   address_line1:g("p_a1"),address_line2:g("p_a2"),city:g("p_city"),state:g("p_state"),
+   postal_code:g("p_zip"),country:g("p_ctry"),linkedin_url:g("p_li"),website_url:g("p_web"),
+   years_experience:g("p_yrs")?+g("p_yrs"):null,notice_period:g("p_notice"),
+   salary_floor:g("p_floor")?+g("p_floor"):null,salary_target:g("p_target")?+g("p_target"):null,
+   remote_pref:$("p_remote").value,work_auth:g("p_auth"),open_to:g("p_open"),
+   profile_source:"manual",
+   privacy_ack_at:$("p_priv").checked?new Date().toISOString():null};
+  const {error}=await sb.from("profiles").update(row).eq("id",user.id);
+  $("pMsg").style.color=error?"var(--red)":"var(--green)";
+  $("pMsg").textContent=error?error.message:"Saved.";
+  if(!error){await load(); $("planN2").textContent=(D.profile.plan||"free")+" plan";}};}
+
 /* ---------- session ---------- */
 async function start(s){
  const em=s.user.email||"signed in";
- $("who").textContent=em; $("av").textContent=(em[0]||"?").toUpperCase();
+ D.email=em; D.provider=(s.user.app_metadata&&s.user.app_metadata.provider)||"email";
+ $("who").textContent=em;
  $("out").classList.add("hide"); $("app").classList.remove("hide");
- await load(); drawNav(); draw();}
+ await load();
+ const ini=initials(D.profile.full_name||em);
+ const pic=D.profile.avatar_url?`<img src="${D.profile.avatar_url}" alt="">`:ini;
+ $("av").innerHTML=pic; $("av2").innerHTML=pic;
+ $("planN").textContent=(D.profile.plan||"free").replace(/^./,c=>c.toUpperCase());
+ $("planN2").textContent=(D.profile.plan||"free")+" plan";
+ $("balN").textContent="5 passes";
+ wireShell(); drawNav(); draw();}
 const {data:{session}}=await sb.auth.getSession();
 if(session) start(session);
 sb.auth.onAuthStateChange((_e,s)=>{ if(s&&$("app").classList.contains("hide")) start(s); });
