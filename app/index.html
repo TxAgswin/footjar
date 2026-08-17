@@ -1,225 +1,543 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sign in — Foot Jar</title>
-<meta name="robots" content="noindex">
+<title>Foot Jar</title><meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
-:root{--blue:#0041D7;--or:#FD6B0E;--ink:#12172B;--ink2:#061A52;--gray:#5A6178;
-  --soft:#98A0B8;--line:#E3E8F5;--serif:'Instrument Serif',Georgia,serif;
-  --ui:Inter,-apple-system,'Segoe UI',sans-serif}
-body{margin:0;background:#FBF8F4;color:var(--ink);font:15px/1.6 var(--ui);
-  min-height:100vh;display:grid;place-items:center;padding:26px}
+:root{--blue:#0041D7;--blueD:#0031A6;--ink2:#061A52;--tint:#EEF3FF;--or:#FD6B0E;
+ --orD:#E45A00;--orT:#FFF2E8;--ink:#12172B;--gray:#5A6178;--soft:#98A0B8;--line:#E3E8F5;
+ --bg:#F7F9FF;--card:#fff;--green:#1D7A4C;--amber:#C9942F;--red:#B4472E;--pend:#DFE6F6;
+ --serif:'Instrument Serif',Georgia,serif;--ui:Inter,-apple-system,'Segoe UI',sans-serif;
+ --sh:0 1px 2px rgba(6,26,82,.05),0 10px 28px rgba(6,26,82,.07)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--ui);
+ letter-spacing:-.003em;-webkit-font-smoothing:antialiased}
+.hide{display:none!important}
+/* ============ signed out ============ */
+#out{min-height:100vh;display:grid;place-items:center;padding:26px;background:#FBF8F4}
 .card{width:100%;max-width:412px;background:#fff;border:1px solid var(--line);
-  border-radius:18px;padding:36px 34px 30px;
-  box-shadow:0 1px 2px rgba(6,26,82,.05),0 26px 64px rgba(6,26,82,.11)}
+ border-radius:18px;padding:36px 34px 30px;box-shadow:0 26px 64px rgba(6,26,82,.11)}
 .mk{display:flex;align-items:center;gap:9px;margin-bottom:22px}
-.mk b{font:600 18px var(--ui);color:var(--blue);letter-spacing:-.01em}
-.mk b i{font-style:normal;color:var(--or)}
-h1{font:400 28px/1.2 var(--serif);margin:0 0 6px;color:var(--ink2)}
+.mk b{font:600 18px var(--ui);color:var(--blue)}.mk b i{font-style:normal;color:var(--or)}
+h1.lg{font:400 28px/1.2 var(--serif);margin:0 0 6px;color:var(--ink2)}
 .lede{margin:0 0 22px;color:var(--gray);font-size:14.5px}
-/* social */
-.sso{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
-  padding:11px 16px;margin-bottom:9px;border:1.5px solid var(--line);border-radius:10px;
-  background:#fff;color:var(--ink);font:600 14.5px var(--ui);cursor:pointer;transition:.15s}
+.sso{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:11px 16px;
+ margin-bottom:9px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);
+ font:600 14.5px var(--ui);cursor:pointer;transition:.15s}
 .sso:hover{background:#F7F9FF;border-color:#C9D6F5}
 .sso svg{width:18px;height:18px;flex:0 0 18px}
-.sso.li{background:#0A66C2;border-color:#0A66C2;color:#fff}
-.sso.li:hover{background:#095196;border-color:#095196}
-.sso.fb{background:#1877F2;border-color:#1877F2;color:#fff}
-.or{display:flex;align-items:center;gap:11px;margin:18px 0 16px;color:var(--soft);
-  font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+.sso.li{background:#0A66C2;border-color:#0A66C2;color:#fff}.sso.li:hover{background:#095196}
+.or{display:flex;align-items:center;gap:11px;margin:18px 0 16px;color:var(--soft);font-size:12px;
+ letter-spacing:.05em;text-transform:uppercase}
 .or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
-/* form */
 .fld{margin-bottom:13px}
 .lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 label{font:600 12px var(--ui);letter-spacing:.05em;text-transform:uppercase;color:var(--gray)}
-.lab a{font:500 12.5px var(--ui);color:var(--blue);text-decoration:none;text-transform:none;letter-spacing:0}
-.lab a:hover{text-decoration:underline}
+.lab a{font:500 12.5px var(--ui);color:var(--blue);cursor:pointer;text-transform:none;letter-spacing:0}
 input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:9px;
-  font:400 15px var(--ui);color:var(--ink);outline:none;background:#fff}
+ font:400 15px var(--ui);outline:none}
 input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
 .primary{width:100%;margin-top:6px;padding:13px;border:0;border-radius:9px;background:var(--or);
-  color:#fff;font:600 15px var(--ui);cursor:pointer;transition:.15s}
-.primary:hover:not(:disabled){background:#E45A00}
-.primary:disabled{opacity:.55;cursor:default}
+ color:#fff;font:600 15px var(--ui);cursor:pointer}
+.primary:hover:not(:disabled){background:var(--orD)}.primary:disabled{opacity:.55}
 .alt{width:100%;margin-top:9px;padding:11px;border:1.5px solid var(--line);border-radius:9px;
-  background:#fff;color:var(--gray);font:600 14px var(--ui);cursor:pointer}
+ background:#fff;color:var(--gray);font:600 14px var(--ui);cursor:pointer}
 .alt:hover{background:#F7F9FF;color:var(--blue)}
 .foot{margin:20px 0 0;text-align:center;font-size:14px;color:var(--gray)}
-.foot a{color:var(--blue);text-decoration:none;font-weight:600;cursor:pointer}
-.foot a:hover{text-decoration:underline}
+.foot a{color:var(--blue);font-weight:600;cursor:pointer}
 .micro{margin:16px 0 0;font-size:12px;color:var(--soft);line-height:1.6;text-align:center}
-.msg{margin-top:16px;padding:12px 14px;border-radius:9px;font-size:13.5px;line-height:1.55;display:none}
+.msg{margin-top:16px;padding:12px 14px;border-radius:9px;font-size:13.5px;display:none}
 .msg.ok{display:block;background:#E9F6EF;color:#14683F;border:1px solid #BFE3D0}
 .msg.err{display:block;background:#FDECE7;color:#9B3B1E;border:1px solid #F6CDBE}
-.hide{display:none}
-/* signed-in */
-.who{display:flex;align-items:center;gap:11px;padding:13px 15px;background:#F7F9FF;
-  border:1px solid #E7ECF7;border-radius:11px;margin-bottom:18px}
-.who .av{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;
-  display:grid;place-items:center;font:700 13px var(--ui);flex:0 0 34px}
-.who span{font-size:14px;color:var(--ink);word-break:break-all}
-.note{background:#FFF4EC;border:1px solid #FFD9BE;border-radius:11px;padding:15px 17px;
-  font-size:13.5px;line-height:1.6;color:#7A4A22;margin-bottom:16px}
-.note b{color:#5C3616}
-.row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;
-  border-bottom:1px solid #F2F5FB;font-size:14px;color:var(--gray)}
-.row b{font-weight:600;color:var(--ink)}
+/* ============ app shell ============ */
+#app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+.side{background:var(--ink2);color:#9FB0D8;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.sbrand{display:flex;align-items:center;gap:9px;padding:6px 10px 18px}
+.sbrand b{font:600 16px var(--ui);color:#fff}.sbrand b i{font-style:normal;color:var(--or)}
+.snav{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;font:500 13.5px var(--ui);
+ color:#9FB0D8;cursor:pointer;border:0;background:none;width:100%;text-align:left}
+.snav:hover{background:rgba(255,255,255,.07);color:#fff}
+.snav.on{background:rgba(255,255,255,.12);color:#fff;font-weight:650}
+.snav svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.9;
+ stroke-linecap:round;stroke-linejoin:round}
+.snav .sc{margin-left:auto;font:600 11px var(--ui);color:#7C8AAE}
+.snav.on .sc{color:#C3CFF2}
+.sdiv{height:1px;background:rgba(255,255,255,.1);margin:11px 6px}
+.sfoot{margin-top:auto}
+.main{min-width:0;background:var(--bg)}
+.top{position:sticky;top:0;z-index:20;background:rgba(247,249,255,.94);backdrop-filter:blur(10px);
+ border-bottom:1px solid var(--line);padding:16px 30px 14px}
+.tin{display:flex;align-items:center;gap:14px;max-width:1160px;margin:0 auto}
+.tin h1{font:800 25px var(--ui);letter-spacing:-.02em;margin:0}
+.tin .sub{margin:2px 0 0;font-size:12.5px;color:var(--gray)}
+.chip{margin-left:auto;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+ border-radius:99px;padding:5px 6px 5px 13px;font:600 12.5px var(--ui);color:var(--gray)}
+.chip .av{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:grid;
+ place-items:center;font:700 11px var(--ui)}
+.wrap{max-width:1160px;margin:0 auto;padding:26px 30px 70px}
+@media(max-width:860px){#app{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;
+ padding:10px}.sdiv,.sfoot{display:none}.snav{width:auto;white-space:nowrap}.wrap,.top{padding-inline:16px}}
 </style></head><body>
-<div class="card">
-  <div class="mk">
-    <svg width="23" height="23" viewBox="0 0 64 64" fill="none">
-      <path d="M23 10h18" stroke="#0041D7" stroke-width="3.1" stroke-linecap="round"/>
-      <path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#0041D7" stroke-width="3.1"/>
-      <path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg>
-    <b>Foot<i>Jar</i></b>
-  </div>
-
-  <!-- ============ signed out ============ -->
-  <div id="out">
-    <h1 id="ttl">Sign in</h1>
-    <p class="lede" id="lede">Welcome back.</p>
-
-    <div id="oauth"></div>
-    <div class="or"><span>or</span></div>
-
-    <form id="f">
-      <div class="fld">
-        <div class="lab"><label for="em">Email</label></div>
-        <input id="em" type="email" required autocomplete="email" placeholder="you@example.com">
-      </div>
-      <div class="fld" id="pwfld">
-        <div class="lab">
-          <label for="pw">Password</label>
-          <a id="forgot">Forgot password?</a>
-        </div>
-        <input id="pw" type="password" autocomplete="current-password" placeholder="••••••••">
-      </div>
-      <button class="primary" id="go" type="submit">Sign in</button>
-    </form>
-    <button class="alt" id="magic" type="button">Email me a sign-in link instead</button>
-
-    <p class="foot" id="swap">New here? <a id="swapa">Create an account</a></p>
-    <p class="micro">By continuing you agree to our
-      <a href="/terms/" style="color:inherit;text-decoration:underline">Terms</a> and
-      <a href="/privacy/" style="color:inherit;text-decoration:underline">Privacy Policy</a>.</p>
-  </div>
-
-  <!-- ============ signed in ============ -->
-  <div id="in" class="hide">
-    <h1>You&rsquo;re signed in</h1>
-    <p class="lede">Your account is live.</p>
-    <div class="who"><span class="av" id="av"></span><span id="email"></span></div>
-    <div class="note"><b>The dashboard is not connected yet.</b> Your account and database
-      are working, but your pipeline still lives in the local file on your desktop. Loading
-      your real data into this account is the next step.</div>
-    <div class="row"><span>Opportunities</span><b id="n_opp">&mdash;</b></div>
-    <div class="row"><span>Contacts</span><b id="n_con">&mdash;</b></div>
-    <div class="row"><span>Documents</span><b id="n_doc">&mdash;</b></div>
-    <div class="row"><span>Recruiters</span><b id="n_rec">&mdash;</b></div>
-    <button class="alt" id="signout" type="button" style="margin-top:18px">Sign out</button>
-  </div>
-
+<style>
+/* ============ dashboard ============ */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--sh)}
+.kpi .n{font:800 34px var(--ui);color:var(--ink2);letter-spacing:-.02em;line-height:1}
+.kpi .l{font:500 11px var(--ui);letter-spacing:.07em;text-transform:uppercase;color:var(--gray);margin-top:8px}
+.kpi.accent .n{color:var(--or)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;
+ box-shadow:var(--sh);margin-bottom:18px}
+.panel h3{margin:0 0 4px;font:600 13px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
+.bar{position:relative;height:13px;border-radius:99px;background:#EEF1F8;margin:14px 0 8px;overflow:hidden}
+.bar .pot{position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(45deg,#E7EDFB,#E7EDFB 7px,#F2F5FC 7px,#F2F5FC 14px)}
+.bar .cur{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--or),var(--orD));transition:width .5s}
+.note{font-size:12px;color:var(--soft);margin:6px 0 0}
+/* ============ pipeline ============ */
+.ctrl{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.ctrl .t{font:600 12px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
+.pill{margin-left:auto;display:flex;gap:6px}
+.pill button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 13px;
+ font:600 12.5px var(--ui);color:var(--gray);cursor:pointer}
+.pill button.on{background:var(--tint);border-color:#C9D6F5;color:var(--blue)}
+.opp{background:#fff;border:1px solid var(--line);border-radius:13px;margin-bottom:8px;
+ box-shadow:0 1px 2px rgba(6,26,82,.04);overflow:hidden;transition:box-shadow .15s}
+.opp.open{box-shadow:var(--sh);border-color:#C9D6F5}
+.ohead{display:flex;align-items:center;gap:13px;padding:13px 16px;cursor:pointer;user-select:none}
+.ohead:hover{background:#FBFCFF}
+.cav{width:15px;height:15px;flex:0 0 15px;color:var(--soft);transition:transform .18s}
+.opp.open .cav{transform:rotate(90deg)}
+.olg{width:38px;height:38px;border-radius:10px;flex:0 0 38px;display:grid;place-items:center;
+ color:#fff;font:700 13px var(--ui)}
+.otitle{flex:1;min-width:0}
+.otitle b{display:block;font:600 15px var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.otitle span{display:block;font-size:12.5px;color:var(--gray);margin-top:1px}
+.src{width:22px;height:22px;border-radius:5px;flex:0 0 22px;display:grid;place-items:center;
+ background:#F2F5FC;text-decoration:none}
+.src svg{width:13px;height:13px}
+.rank{flex:0 0 auto;text-align:center;background:var(--tint);border:1px solid #D8E2FB;border-radius:9px;padding:5px 9px}
+.rank .rs{font:800 15px var(--ui);color:var(--blue);line-height:1}
+.rank .rl{font:600 8.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin-top:2px}
+.ph{font:700 10px var(--ui);letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;
+ border-radius:99px;white-space:nowrap}
+.ph.assess{background:#EFEFF6;color:#5A6178}.ph.prepare{background:#EEF3FF;color:var(--blue)}
+.ph.reach{background:var(--orT);color:var(--orD)}.ph.convert{background:#E4F0E9;color:var(--green)}
+.ph.passed{background:#F1F1F4;color:var(--soft)}
+.mini{width:92px;height:6px;border-radius:99px;background:#EEF1F8;overflow:hidden;flex:0 0 92px}
+.mini i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--or))}
+.obody{border-top:1px solid #EEF2FA;padding:18px 18px 20px;display:none}
+.opp.open .obody{display:block}
+/* phase rail */
+.rail{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+.rseg{background:#F7F9FF;border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.rseg.done{background:var(--tint);border-color:#C9D6F5}
+.rseg.now{background:var(--orT);border-color:#FFD9BE}
+.rseg .rn{font:700 10.5px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.rseg.done .rn{color:var(--blue)}.rseg.now .rn{color:var(--orD)}
+.rseg .rv{font:600 13px var(--ui);color:var(--ink);margin-top:4px}
+.rseg .rd{font-size:11.5px;color:var(--soft);margin-top:2px}
+/* tabs */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
+.tab{background:none;border:0;padding:9px 14px;font:600 13px var(--ui);color:var(--gray);cursor:pointer;
+ border-bottom:2px solid transparent;white-space:nowrap}
+.tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.tab .tc{margin-left:6px;font-size:11px;color:var(--soft)}
+.pane{font-size:14px;line-height:1.7;color:#333A4D}
+.empty{color:var(--soft);font-size:13.5px;padding:8px 0}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:10px;
+ padding:11px 13px;background:#fff}
+.tile.miss{opacity:.5;border-style:dashed}
+.tico{width:30px;height:30px;border-radius:7px;background:var(--tint);flex:0 0 30px;display:grid;place-items:center}
+.tico svg{width:14px;height:14px;fill:var(--blue)}
+.tname{flex:1;min-width:0}
+.tname b{display:block;font-size:13.5px}
+.tname em{font-style:normal;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--soft)}
+.rbtn{font:700 11.5px var(--ui);border:1px solid var(--line);border-radius:7px;padding:6px 11px;
+ color:var(--ink);background:#fff;cursor:pointer}
+.rbtn:hover{border-color:var(--blue);color:var(--blue)}
+.aev{padding:10px 0;border-bottom:1px solid #F2F5FB}
+.ah{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.ad{font:600 11.5px var(--ui);color:var(--soft)}
+.at{font:700 9.5px var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--blue);
+ background:var(--tint);padding:3px 8px;border-radius:99px}
+.aw{font:600 12px var(--ui);color:var(--gray)}
+.as{font-size:13px;color:var(--gray);margin-top:3px}
+.soon{background:var(--orT);border:1px solid #FFD9BE;border-radius:11px;padding:14px 16px;
+ font-size:13px;line-height:1.6;color:#7A4A22}
+.soon b{color:#5C3616}
+@media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}.rail{grid-template-columns:repeat(2,1fr)}
+ .tiles{grid-template-columns:1fr}.mini,.src{display:none}}
+</style>
+<!-- ================= signed out ================= -->
+<div id="out">
+ <div class="card">
+  <div class="mk"><svg width="23" height="23" viewBox="0 0 64 64" fill="none">
+   <path d="M23 10h18" stroke="#0041D7" stroke-width="3.1" stroke-linecap="round"/>
+   <path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#0041D7" stroke-width="3.1"/>
+   <path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg>
+   <b>Foot<i>Jar</i></b></div>
+  <h1 class="lg" id="ttl">Sign in</h1>
+  <p class="lede" id="lede">Welcome back.</p>
+  <div id="oauth"></div>
+  <div class="or"><span>or</span></div>
+  <form id="f">
+   <div class="fld"><div class="lab"><label for="em">Email</label></div>
+    <input id="em" type="email" required autocomplete="email" placeholder="you@example.com"></div>
+   <div class="fld"><div class="lab"><label for="pw">Password</label><a id="forgot">Forgot password?</a></div>
+    <input id="pw" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+   <button class="primary" id="go" type="submit">Sign in</button>
+  </form>
+  <button class="alt" id="magic" type="button">Email me a sign-in link instead</button>
+  <p class="foot" id="swap">New here? <a id="swapa">Create an account</a></p>
+  <p class="micro">By continuing you agree to our
+   <a href="/terms/" style="color:inherit;text-decoration:underline">Terms</a> and
+   <a href="/privacy/" style="color:inherit;text-decoration:underline">Privacy Policy</a>.</p>
   <div class="msg" id="msg"></div>
+ </div>
 </div>
 
+<!-- ================= app ================= -->
+<div id="app" class="hide">
+ <nav class="side">
+  <div class="sbrand"><svg width="21" height="21" viewBox="0 0 64 64" fill="none">
+    <path d="M23 10h18" stroke="#fff" stroke-width="3.1" stroke-linecap="round"/>
+    <path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#fff" stroke-width="3.1"/>
+    <path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg>
+   <b>Foot<i>Jar</i></b></div>
+  <div id="nav"></div>
+  <div class="sfoot"><div class="sdiv"></div>
+   <button class="snav" id="signout" type="button">
+    <svg viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></svg>
+    Sign out</button></div>
+ </nav>
+ <div class="main">
+  <div class="top"><div class="tin">
+    <div><h1 id="secT">Dashboard</h1><p class="sub" id="secS"></p></div>
+    <div class="chip"><span id="who"></span><span class="av" id="av"></span></div>
+  </div></div>
+  <div class="wrap" id="view"></div>
+ </div>
+</div>
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const sb = createClient(
-  "https://lsjqmfhsekymyriybdxv.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanFtZmhzZWt5bXlyaXliZHh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5Mzc0NzksImV4cCI6MjEwMjUxMzQ3OX0.dug67zkdxV6Cnf1zoAniJkryvfPCICAQrd2z2-RlICw");
+ "https://lsjqmfhsekymyriybdxv.supabase.co",
+ "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanFtZmhzZWt5bXlyaXliZHh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5Mzc0NzksImV4cCI6MjEwMjUxMzQ3OX0.dug67zkdxV6Cnf1zoAniJkryvfPCICAQrd2z2-RlICw");
+const $=i=>document.getElementById(i);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const say=(t,c)=>{const m=$("msg");m.textContent=t;m.className="msg "+c;};
+const clear=()=>{$("msg").className="msg";};
 
-const $ = i => document.getElementById(i);
-const say = (t,c) => { const m=$("msg"); m.textContent=t; m.className="msg "+c; };
-const clear = () => { $("msg").className="msg"; };
+/* ---------- auth ---------- */
+const P=[{id:"linkedin_oidc",label:"Continue with LinkedIn",on:true,cls:"li",
+ icon:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.78-2.79-1.79 0-2.06 1.32-2.06 2.7V21h-4z"/></svg>'},
+{id:"google",label:"Continue with Google",on:false,cls:"",
+ icon:'<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.2c0-.8-.07-1.5-.2-2.2H12v4.2h6.1a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.5-5 3.5-8.4z"/><path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9a7 7 0 0 1-10.4-3.7H1.7v3A11.5 11.5 0 0 0 12 23.5z"/><path fill="#FBBC05" d="M5.5 14.1a6.9 6.9 0 0 1 0-4.4v-3H1.7a11.5 11.5 0 0 0 0 10.4z"/><path fill="#EA4335" d="M12 4.9c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.7 6.7l3.8 3a6.9 6.9 0 0 1 6.5-4.8z"/></svg>'}];
+$("oauth").innerHTML=P.filter(p=>p.on).map(p=>
+ `<button class="sso ${p.cls}" data-p="${p.id}" type="button">${p.icon}<span>${p.label}</span></button>`).join("");
+$("oauth").onclick=async e=>{const b=e.target.closest("button[data-p]");if(!b)return;
+ const{error}=await sb.auth.signInWithOAuth({provider:b.dataset.p,
+  options:{redirectTo:location.origin+"/app/"}});if(error)say(error.message,"err");};
 
-/* --- social. Flip `on` when a provider is configured in Supabase. --- */
-const P = [
- { id:"linkedin_oidc", label:"Continue with LinkedIn", on:true, cls:"li",
-   icon:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.78-2.79-1.79 0-2.06 1.32-2.06 2.7V21h-4z"/></svg>' },
- { id:"google", label:"Continue with Google", on:false, cls:"",
-   icon:'<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.2c0-.8-.07-1.5-.2-2.2H12v4.2h6.1a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.5-5 3.5-8.4z"/><path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9a7 7 0 0 1-10.4-3.7H1.7v3A11.5 11.5 0 0 0 12 23.5z"/><path fill="#FBBC05" d="M5.5 14.1a6.9 6.9 0 0 1 0-4.4v-3H1.7a11.5 11.5 0 0 0 0 10.4z"/><path fill="#EA4335" d="M12 4.9c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.7 6.7l3.8 3a6.9 6.9 0 0 1 6.5-4.8z"/></svg>' },
- { id:"facebook", label:"Continue with Facebook", on:false, cls:"fb",
-   icon:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6A22 22 0 0 0 14.3 3.5c-2.4 0-4 1.45-4 4.12V9.9H7.6V13h2.7v8z"/></svg>' },
-];
-$("oauth").innerHTML = P.filter(p=>p.on).map(p =>
-  `<button class="sso ${p.cls}" data-p="${p.id}" type="button">${p.icon}<span>${p.label}</span></button>`).join("");
-$("oauth").onclick = async e => {
-  const b = e.target.closest("button[data-p]"); if(!b) return;
-  const { error } = await sb.auth.signInWithOAuth(
-    { provider:b.dataset.p, options:{ redirectTo: location.origin + "/app/" } });
-  if (error) say(error.message,"err");
-};
+let mode="in";
+function paint(){const s=mode==="in";
+ $("ttl").textContent=s?"Sign in":"Create your account";
+ $("lede").textContent=s?"Welcome back.":"An email address and a password. That is the whole sign-up.";
+ $("go").textContent=s?"Sign in":"Create account";
+ $("pw").setAttribute("autocomplete",s?"current-password":"new-password");
+ $("swap").innerHTML=s?'New here? <a id="swapa">Create an account</a>'
+                      :'Already have an account? <a id="swapa">Sign in</a>';
+ $("swapa").addEventListener("click",toggle);}
+function toggle(){mode=mode==="in"?"up":"in";clear();paint();}
+$("swapa").addEventListener("click",toggle);
+$("f").onsubmit=async e=>{e.preventDefault();clear();
+ const email=$("em").value.trim(),pw=$("pw").value;
+ if(!pw){say("Enter a password, or use the sign-in link below.","err");return;}
+ $("go").disabled=true;$("go").textContent="Working…";
+ const{error}=mode==="in"?await sb.auth.signInWithPassword({email,password:pw})
+  :await sb.auth.signUp({email,password:pw,options:{emailRedirectTo:location.origin+"/app/"}});
+ $("go").disabled=false;$("go").textContent=mode==="in"?"Sign in":"Create account";
+ if(error)say(error.message,"err");
+ else if(mode==="up")say("Check your email to confirm the address, then sign in.","ok");};
+$("magic").onclick=async()=>{clear();const email=$("em").value.trim();
+ if(!email){say("Put your email in first.","err");return;}
+ const{error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+"/app/"}});
+ error?say(error.message,"err"):say("Link sent. It expires in an hour.","ok");};
+$("forgot").onclick=async()=>{clear();const email=$("em").value.trim();
+ if(!email){say("Put your email in first.","err");return;}
+ const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/app/"});
+ error?say(error.message,"err"):say("Reset link sent to "+email+".","ok");};
+$("signout").onclick=async()=>{await sb.auth.signOut();location.replace("/app/");};
 
-/* --- sign in / create account --- */
-let mode = "in";
-function paint(){
-  const signin = mode === "in";
-  $("ttl").textContent  = signin ? "Sign in" : "Create your account";
-  $("lede").textContent = signin ? "Welcome back."
-    : "An email address and a password. That is the whole sign-up.";
-  $("go").textContent   = signin ? "Sign in" : "Create account";
-  $("pw").setAttribute("autocomplete", signin ? "current-password" : "new-password");
-  $("swap").innerHTML   = signin
-    ? 'New here? <a id="swapa">Create an account</a>'
-    : 'Already have an account? <a id="swapa">Sign in</a>';
-  $("swapa").addEventListener("click", toggle);
+/* ---------- phases ---------- */
+const PHASE=[
+ {k:"assess", n:"Assess",  stages:["analyzed"]},
+ {k:"prepare",n:"Prepare", stages:["resume","cover_letter"]},
+ {k:"reach",  n:"Reach",   stages:["networking_drafted","notes_sent","applied"]},
+ {k:"convert",n:"Convert", stages:["response","interview"]}];
+const STAGEN={analyzed:"Evaluation",resume:"Résumé",cover_letter:"Cover letter",
+ applied:"Applied",networking_drafted:"Networking",notes_sent:"Notes sent",
+ response:"Response",interview:"Interview"};
+
+/* ---------- source icons ---------- */
+const SRC={
+ linkedin:{n:"LinkedIn",c:"#0A66C2",p:'<path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.78-2.79-1.79 0-2.06 1.32-2.06 2.7V21h-4z"/>'},
+ indeed:{n:"Indeed",c:"#2164F3",p:'<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1.4 15.6h-2.8v-7.2h2.8zM12 8.9a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2z"/>'},
+ ziprecruiter:{n:"ZipRecruiter",c:"#1C8A43",p:'<path d="M4 4h16l-9 7h9v9H4l9-7H4z"/>'},
+ glassdoor:{n:"Glassdoor",c:"#0CAA41",p:'<path d="M17 4v13a3 3 0 0 1-3 3H5v-3h9V4zM7 20V7a3 3 0 0 1 3-3h9v3h-9v13z"/>'},
+ careers:{n:"Company careers page",c:"#5A6178",p:'<path d="M9 4h6v3h4v13H5V7h4zm2 0v3h2V4z"/>'},
+ referral:{n:"Referral",c:"#FD6B0E",p:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.6 2.9-5.4 6-5.4s6 1.8 6 5.4z"/><path d="M17 7l2 2 3.2-3.2" fill="none" stroke="#FD6B0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'},
+ recruiter:{n:"Recruiter",c:"#6A46A6",p:'<circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-4.2 3.4-6.2 7.5-6.2s7.5 2 7.5 6.2z"/>'},
+ other:{n:"Saved manually",c:"#98A0B8",p:'<path d="M6 3h12v18l-6-4-6 4z"/>'}};
+function srcIcon(o){
+ const key=(o.source||"other").toLowerCase().replace(/[^a-z]/g,"");
+ const s=SRC[key]||SRC.other;
+ const svg=`<svg viewBox="0 0 24 24" fill="${s.c}">${s.p}</svg>`;
+ const t=esc(s.n+(o.source_detail?" · "+o.source_detail:""));
+ return o.posting_url
+  ? `<a class="src" href="${esc(o.posting_url)}" target="_blank" rel="noopener" title="${t} — open the posting">${svg}</a>`
+  : `<span class="src" title="${t}">${svg}</span>`;}
+
+/* ---------- data ---------- */
+const D={opps:[],stages:{},contacts:[],recruiters:[],acts:{}};
+async function load(){
+ const [o,s,c,r,a]=await Promise.all([
+  sb.from("opportunities").select("*").order("rank_score",{ascending:false}),
+  sb.from("stages").select("*"),
+  sb.from("contacts").select("*").order("full_name"),
+  sb.from("recruiters").select("*").order("fit_score",{ascending:false}),
+  sb.from("activities").select("*").order("happened_on",{ascending:false})]);
+ D.opps=o.data||[]; D.contacts=c.data||[]; D.recruiters=r.data||[];
+ D.stages={}; (s.data||[]).forEach(x=>{(D.stages[x.opportunity_id]=D.stages[x.opportunity_id]||[]).push(x);});
+ D.acts={};   (a.data||[]).forEach(x=>{(D.acts[x.opportunity_id]=D.acts[x.opportunity_id]||[]).push(x);});
 }
-function toggle(){ mode = mode === "in" ? "up" : "in"; clear(); paint(); }
-$("swapa").addEventListener("click", toggle);
+const done=(id,st)=>(D.stages[id]||[]).some(x=>x.stage===st);
+const stageDate=(id,st)=>((D.stages[id]||[]).find(x=>x.stage===st)||{}).completed_on;
+function phaseOf(o){
+ if(o.status==="passed")return{k:"passed",n:"Passed",i:-1};
+ let i=0;
+ PHASE.forEach((p,x)=>{ if(p.stages.some(s=>done(o.id,s))) i=x; });
+ const cur=PHASE[i];
+ const nextInPhase=cur.stages.some(s=>!done(o.id,s));
+ const j=nextInPhase?i:Math.min(i+1,3);
+ return{k:PHASE[j].k,n:PHASE[j].n,i:j};}
+function pct(o){const t=PHASE.reduce((n,p)=>n+p.stages.length,0);
+ const d=PHASE.reduce((n,p)=>n+p.stages.filter(s=>done(o.id,s)).length,0);
+ return Math.round(d/t*100);}
+const initials=s=>String(s||"?").replace(/[^A-Za-z ]/g,"").split(" ").filter(Boolean)
+ .slice(0,2).map(w=>w[0]).join("").toUpperCase()||"?";
+const COL=["#0041D7","#1D7A4C","#6A46A6","#B4472E","#0F7B8A","#C9942F"];
+const colOf=s=>COL[[...String(s||"")].reduce((n,c)=>n+c.charCodeAt(0),0)%COL.length];
+const fdate=d=>d?new Date(d+"T00:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short"}):"";
 
-$("f").onsubmit = async e => {
-  e.preventDefault(); clear();
-  const email=$("em").value.trim(), pw=$("pw").value;
-  if (!pw) { say("Enter a password, or use the sign-in link below.","err"); return; }
-  $("go").disabled=true; $("go").textContent="Working…";
-  const { error } = mode==="in"
-    ? await sb.auth.signInWithPassword({ email, password: pw })
-    : await sb.auth.signUp({ email, password: pw,
-        options:{ emailRedirectTo: location.origin + "/app/" } });
-  $("go").disabled=false; $("go").textContent = mode==="in" ? "Sign in" : "Create account";
-  if (error) say(error.message,"err");
-  else if (mode==="up") say("Check your email to confirm the address, then sign in.","ok");
-};
+/* ---------- nav ---------- */
+const ICO={home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+ pipe:'<path d="M4 6h16"/><path d="M4 12h11"/><path d="M4 18h7"/>',
+ doc:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',
+ net:'<circle cx="6" cy="7" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.6 8.7 10.7 16M16.4 8.7 13.3 16M8.4 7h7.2"/>',
+ int:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/>',
+ neg:'<path d="M12 3v18"/><path d="M6 8h9a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6"/>',
+ rec:'<circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-4.2 3.4-6.2 7.5-6.2s7.5 2 7.5 6.2z"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/>',
+ acct:'<circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/>'};
+const NAV=[
+ {k:"dash",   n:"",            i:"home", solo:true},
+ {k:"pipe",   n:"Pipeline",    i:"pipe"},
+ {k:"docs",   n:"Documents",   i:"doc"},
+ {k:"net",    n:"Networking",  i:"net"},
+ {k:"ints",   n:"Interviews",  i:"int"},
+ {k:"neg",    n:"Negotiation", i:"neg"},
+ {div:true},
+ {k:"recs",   n:"Recruiters",  i:"rec"},
+ {k:"cal",    n:"Calendar",    i:"cal"},
+ {div:true},
+ {k:"acct",   n:"Account",     i:"acct"}];
+let view="dash";
+function counts(k){
+ if(k==="pipe")return D.opps.filter(o=>o.status!=="passed").length;
+ if(k==="net") return D.contacts.length;
+ if(k==="recs")return D.recruiters.length;
+ return "";}
+function drawNav(){
+ $("nav").innerHTML=NAV.map(n=>n.div?'<div class="sdiv"></div>':
+  `<button class="snav${view===n.k?" on":""}" data-v="${n.k}">
+    <svg viewBox="0 0 24 24">${ICO[n.i]}</svg>${n.solo?"Home":esc(n.n)}
+    ${counts(n.k)?`<span class="sc">${counts(n.k)}</span>`:""}</button>`).join("");
+ $("nav").onclick=e=>{const b=e.target.closest("button[data-v]");if(!b)return;
+  view=b.dataset.v; drawNav(); draw();};}
 
-$("magic").onclick = async () => {
-  clear();
-  const email=$("em").value.trim();
-  if(!email){ say("Put your email in first.","err"); return; }
-  const { error } = await sb.auth.signInWithOtp(
-    { email, options:{ emailRedirectTo: location.origin + "/app/" } });
-  error ? say(error.message,"err")
-        : say("Link sent. It signs you straight in and expires in an hour.","ok");
-};
+/* ---------- views ---------- */
+const TITLES={dash:["Dashboard",()=>D.opps.length+" opportunities on file"],
+ pipe:["Pipeline",()=>D.opps.filter(o=>o.status!=="passed").length+" live · "+D.opps.filter(o=>o.status==="passed").length+" passed"],
+ docs:["Documents",()=>"Résumés, letters, analyses and thank-you notes"],
+ net:["Networking",()=>D.contacts.length+" contacts"],
+ ints:["Interviews",()=>"Every conversation, and what to send afterwards"],
+ neg:["Negotiation",()=>"Your number, their number, and the gap"],
+ recs:["Recruiters",()=>D.recruiters.length+" firms"],
+ cal:["Calendar",()=>"Interviews, follow-ups and deadlines"],
+ acct:["Account",()=>"Plan, allowances and settings"]};
 
-$("forgot").onclick = async () => {
-  clear();
-  const email=$("em").value.trim();
-  if(!email){ say("Put your email in first, then hit forgot password.","err"); return; }
-  const { error } = await sb.auth.resetPasswordForEmail(email,
-    { redirectTo: location.origin + "/app/" });
-  error ? say(error.message,"err") : say("Reset link sent to " + email + ".","ok");
-};
+function vDash(){
+ const live=D.opps.filter(o=>o.status!=="passed");
+ const k=[["Opportunities",D.opps.length,0],["Live",live.length,0],
+  ["Warm contacts",D.contacts.length,1],["Recruiters",D.recruiters.length,0]];
+ const now=Math.round(live.reduce((n,o)=>n+(+o.landing_base||0),0)/Math.max(live.length,1));
+ const pot=Math.min(99,now+33);
+ const recent=Object.values(D.acts).flat()
+  .sort((a,b)=>(b.happened_on||"").localeCompare(a.happened_on||"")).slice(0,6);
+ return `<div class="kpis">${k.map(x=>`<div class="kpi${x[2]?" accent":""}">
+   <div class="n">${x[1]}</div><div class="l">${x[0]}</div></div>`).join("")}</div>
+  <div class="panel"><h3>Landing likelihood &mdash; portfolio</h3>
+   <div class="bar"><span class="pot" style="width:${pot}%"></span>
+    <span class="cur" style="width:${now}%"></span></div>
+   <p class="note">${now}% now &middot; ${pot}% with the networking passes finished</p></div>
+  <div class="panel"><h3>Recent activity</h3>
+   ${recent.length?recent.map(a=>`<div class="aev"><div class="ah">
+     <span class="ad">${fdate(a.happened_on)}</span>
+     <span class="at">${esc(a.kind||"note")}</span>
+     ${a.who?`<span class="aw">${esc(a.who)}</span>`:""}</div>
+     ${a.summary?`<div class="as">${esc(a.summary)}</div>`:""}</div>`).join("")
+    :'<p class="empty">Nothing logged yet.</p>'}</div>`;}
 
-$("signout").onclick = async () => { await sb.auth.signOut(); location.replace("/app/"); };
+function railOf(o){
+ const cur=phaseOf(o);
+ return `<div class="rail">${PHASE.map((p,i)=>{
+  const dn=p.stages.filter(s=>done(o.id,s));
+  const cls=dn.length===p.stages.length?"done":(cur.i===i?"now":"");
+  const last=dn.map(s=>stageDate(o.id,s)).filter(Boolean).sort().pop();
+  return `<div class="rseg ${cls}"><div class="rn">${p.n}</div>
+   <div class="rv">${dn.length} of ${p.stages.length}</div>
+   <div class="rd">${last?fdate(last):p.stages.map(s=>STAGEN[s]).join(" · ")}</div></div>`;
+ }).join("")}</div>`;}
 
-/* --- session --- */
-async function count(t){ const {count:c,error}=await sb.from(t)
-  .select("*",{count:"exact",head:true}); return error ? "—" : c; }
+const TABS=[["ov","Overview"],["docs","Documents"],["net","Networking"],
+            ["ints","Interviews"],["neg","Negotiation"],["comms","Comms"]];
+function paneOf(o,t){
+ const acts=D.acts[o.id]||[];
+ if(t==="ov"){
+  const bits=[["Fit score",o.rank_score!=null?o.rank_score+" / 100":null],
+   ["Salary target",o.salary_target?"$"+Number(o.salary_target).toLocaleString():null],
+   ["Location",o.location],["Requisition",o.req],["How to apply",o.method],
+   ["Landing likelihood",o.landing_base!=null?o.landing_base+"%":null]]
+   .filter(b=>b[1]).map(b=>`<div class="aev"><div class="ah"><span class="ad">${b[0]}</span></div>
+    <div class="as" style="color:var(--ink);font-weight:500">${esc(b[1])}</div></div>`).join("");
+  return bits + (o.excluded?`<div class="soon" style="margin-top:14px"><b>Deliberately not contacted.</b><br>${esc(o.excluded)}</div>`:"");}
+ if(t==="docs"){
+  const T=[["resume","Résumé","ATS résumé for this posting",done(o.id,"resume")],
+   ["cover","Cover letter","In your voice",done(o.id,"cover_letter")],
+   ["analysis","Fit analysis","Gaps and salary floor",done(o.id,"analyzed")],
+   ["thanks","Thank-you letter","After the interview",false]];
+  return `<div class="tiles">${T.map(d=>`<div class="tile${d[3]?"":" miss"}">
+    <span class="tico"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z" opacity=".25"/><path d="M14 2v4h4"/><path d="M8 13h8v1.6H8zm0 3.4h6V18H8z"/></svg></span>
+    <span class="tname"><b>${d[1]}</b><em>${d[2]}</em></span>
+    <span class="rbtn">${d[3]?"Open":"Build"}</span></div>`).join("")}</div>
+   <p class="empty" style="margin-top:12px">Files live on your desktop until document storage is wired up.</p>`;}
+ if(t==="net"){
+  const cs=D.contacts.filter(c=>(c.company||"")===o.company);
+  return cs.length?`<div class="tiles">${cs.map(c=>`<div class="tile">
+    <span class="tico" style="background:#EEF3FF"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-4.2 3.4-6.2 7.5-6.2s7.5 2 7.5 6.2z"/></svg></span>
+    <span class="tname"><b>${esc(c.full_name)}</b><em>${esc(c.title||"")}</em></span>
+    ${c.linkedin_url?`<a class="rbtn" href="${esc(c.linkedin_url)}" target="_blank" rel="noopener">Profile</a>`:""}
+    </div>`).join("")}</div>`
+   :'<p class="empty">No contacts researched for this one yet.</p>';}
+ if(t==="comms")
+  return acts.length?acts.map(a=>`<div class="aev"><div class="ah">
+    <span class="ad">${fdate(a.happened_on)}</span><span class="at">${esc(a.kind||"note")}</span>
+    ${a.who?`<span class="aw">${esc(a.who)}</span>`:""}</div>
+    ${a.summary?`<div class="as">${esc(a.summary)}</div>`:""}</div>`).join("")
+   :'<p class="empty">Nothing logged yet.</p>';
+ if(t==="ints")
+  return `<div class="soon"><b>Interviews are the next build.</b> Initial, follow-up and final
+   as their own records &mdash; who you are meeting, the questions the posting implies, your
+   matching stories, and a thank-you drafted within an hour of finishing.</div>`;
+ return `<div class="soon"><b>Salary negotiation is coming after interviews.</b> Your target and
+  floor already exist in the fit analysis. This adds their number, the gap, a counter written
+  in your voice, and a log of who said what.</div>`;}
 
-async function show(s){
-  $("out").classList.add("hide"); $("in").classList.remove("hide"); clear();
-  const em = s.user.email || "signed in";
-  $("email").textContent = em;
-  $("av").textContent = (em[0]||"?").toUpperCase();
-  $("n_opp").textContent = await count("opportunities");
-  $("n_con").textContent = await count("contacts");
-  $("n_doc").textContent = await count("documents");
-  $("n_rec").textContent = await count("recruiters");
-}
-const { data:{ session } } = await sb.auth.getSession();
-if (session) show(session);
-sb.auth.onAuthStateChange((_e,s)=>{ if(s) show(s); });
+function vPipe(){
+ const live=D.opps.filter(o=>o.status!=="passed"), pass=D.opps.filter(o=>o.status==="passed");
+ const rows=os=>os.map(o=>{const ph=phaseOf(o),p=pct(o);
+  return `<div class="opp" data-id="${o.id}">
+   <div class="ohead">
+    <svg class="cav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+      stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    <span class="olg" style="background:${colOf(o.company)}">${initials(o.company)}</span>
+    ${srcIcon(o)}
+    <span class="otitle"><b>${esc(o.role)}</b><span>${esc(o.company)}${o.location?" · "+esc(o.location):""}</span></span>
+    <span class="mini"><i style="width:${p}%"></i></span>
+    ${o.rank_score!=null?`<span class="rank"><span class="rs">${o.rank_score}</span><span class="rl">Rank</span></span>`:""}
+    <span class="ph ${ph.k}">${ph.n}</span>
+   </div>
+   <div class="obody">
+    ${railOf(o)}
+    <div class="tabs">${TABS.map((t,i)=>`<button class="tab${i?"":" on"}" data-t="${t[0]}">${t[1]}</button>`).join("")}</div>
+    <div class="pane" data-pane>${paneOf(o,"ov")}</div>
+   </div></div>`;}).join("");
+ return `<div class="ctrl"><span class="t">Live &mdash; ${live.length}</span></div>${rows(live)}
+  ${pass.length?`<div class="ctrl" style="margin-top:26px"><span class="t">Passed &mdash; ${pass.length}</span></div>
+   <div style="opacity:.62">${rows(pass)}</div>`:""}`;}
+
+function vList(kind){
+ if(kind==="net"){
+  return D.contacts.length?`<div class="tiles">${D.contacts.map(c=>`<div class="tile">
+    <span class="tico" style="background:#EEF3FF"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-4.2 3.4-6.2 7.5-6.2s7.5 2 7.5 6.2z"/></svg></span>
+    <span class="tname"><b>${esc(c.full_name)}</b><em>${esc([c.title,c.company].filter(Boolean).join(" · "))}</em></span>
+    ${c.linkedin_url?`<a class="rbtn" href="${esc(c.linkedin_url)}" target="_blank" rel="noopener">Profile</a>`:""}
+   </div>`).join("")}</div>`:'<p class="empty">No contacts yet.</p>';}
+ if(kind==="recs"){
+  return D.recruiters.length?`<div class="tiles">${D.recruiters.map(r=>`<div class="tile">
+    <span class="tico" style="background:#F3EEFA"><svg viewBox="0 0 24 24" fill="#6A46A6"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-4.2 3.4-6.2 7.5-6.2s7.5 2 7.5 6.2z"/></svg></span>
+    <span class="tname"><b>${esc(r.firm)}</b><em>${esc(r.focus||"")}</em></span>
+    ${r.fit_score?`<span class="rank"><span class="rs">${r.fit_score}</span><span class="rl">Fit</span></span>`:""}
+    ${r.linkedin_url?`<a class="rbtn" href="${esc(r.linkedin_url)}" target="_blank" rel="noopener">Open</a>`:""}
+   </div>`).join("")}</div>`:'<p class="empty">No recruiters yet.</p>';}
+ if(kind==="docs"){
+  const rows=D.opps.filter(o=>done(o.id,"resume")||done(o.id,"cover_letter")||done(o.id,"analyzed"))
+   .map(o=>`<div class="tile"><span class="tico"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z" opacity=".25"/><path d="M14 2v4h4"/></svg></span>
+    <span class="tname"><b>${esc(o.company)}</b><em>${[done(o.id,"analyzed")&&"Analysis",done(o.id,"resume")&&"Résumé",done(o.id,"cover_letter")&&"Cover letter"].filter(Boolean).join(" · ")}</em></span></div>`);
+  return (rows.length?`<div class="tiles">${rows.join("")}</div>`:'<p class="empty">Nothing built yet.</p>')
+   +`<div class="soon" style="margin-top:16px"><b>The files themselves are not uploaded yet.</b>
+     Storage is wired but empty &mdash; your PDFs are still in the dashboard file on your desktop.</div>`;}
+ if(kind==="acct"){
+  return `<div class="panel"><h3>Account</h3>
+   <div class="aev"><div class="ah"><span class="ad">Email</span></div><div class="as" id="acctEm"></div></div>
+   <div class="aev"><div class="ah"><span class="ad">Plan</span></div><div class="as">Free &mdash; you are user one</div></div>
+   <div class="aev"><div class="ah"><span class="ad">Networking passes</span></div>
+    <div class="as">Search 5/mo &middot; Campaign 25/mo &middot; Executive unlimited</div></div></div>`;}
+ if(kind==="cal"){
+  return `<div class="soon"><b>Calendar is not built yet.</b> It will carry interviews,
+   follow-up dates and application deadlines, pulled from the opportunities rather than typed twice.</div>`;}
+ if(kind==="ints"){
+  return `<div class="soon"><b>Interviews across every job.</b> This is the next build &mdash;
+   initial, follow-up and final as records, each with who you are meeting, likely questions from the
+   posting, your matching stories, and the thank-you letter.</div>`;}
+ return `<div class="soon"><b>Negotiation across every live offer.</b> Target and floor from the
+  fit analysis, their number when it lands, the gap, and a counter in your voice.</div>`;}
+
+function draw(){
+ const t=TITLES[view]||["",()=>""];
+ $("secT").textContent=t[0]; $("secS").textContent=t[1]();
+ $("view").innerHTML = view==="dash"?vDash() : view==="pipe"?vPipe() : vList(view);
+ if(view==="acct"&&$("acctEm"))$("acctEm").textContent=$("who").textContent;
+ if(view==="pipe")wirePipe();}
+
+function wirePipe(){
+ $("view").querySelectorAll(".ohead").forEach(h=>{
+  h.onclick=()=>h.parentElement.classList.toggle("open");});
+ $("view").querySelectorAll(".opp").forEach(card=>{
+  const o=D.opps.find(x=>x.id===card.dataset.id);
+  card.querySelectorAll(".tab").forEach(b=>{
+   b.onclick=e=>{e.stopPropagation();
+    card.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===b));
+    card.querySelector("[data-pane]").innerHTML=paneOf(o,b.dataset.t);};});});}
+
+/* ---------- session ---------- */
+async function start(s){
+ const em=s.user.email||"signed in";
+ $("who").textContent=em; $("av").textContent=(em[0]||"?").toUpperCase();
+ $("out").classList.add("hide"); $("app").classList.remove("hide");
+ await load(); drawNav(); draw();}
+const {data:{session}}=await sb.auth.getSession();
+if(session) start(session);
+sb.auth.onAuthStateChange((_e,s)=>{ if(s&&$("app").classList.contains("hide")) start(s); });
 </script></body></html>
