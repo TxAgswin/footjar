@@ -79,6 +79,27 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
  padding:10px}.sdiv,.sfoot{display:none}.snav{width:auto;white-space:nowrap}.wrap,.top{padding-inline:16px}}
 </style></head><body>
 <style>
+/* ---- greeting + setup ---- */
+.hello{margin-bottom:20px}
+.hello h2{font:400 32px/1.15 var(--serif);color:var(--ink2);margin:0 0 4px}
+.hello p{margin:0;color:var(--gray);font-size:14px}
+.panel.setup{border-color:#FFD9BE;background:linear-gradient(180deg,#FFFCF9,#fff)}
+.shead{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.sbar{flex:1;min-width:140px;height:8px;border-radius:99px;background:#F0E4D8;overflow:hidden}
+.sbar i{display:block;height:100%;background:linear-gradient(90deg,var(--or),var(--orD));transition:width .5s}
+.spct{font:800 15px var(--ui);color:var(--orD)}
+.steps{display:grid;gap:8px}
+.step{display:flex;align-items:center;gap:13px;padding:12px 14px;border:1px solid var(--line);
+ border-radius:11px;background:#fff;cursor:pointer;transition:.14s}
+.step:hover{border-color:var(--or)}
+.step.done{opacity:.62;cursor:default}.step.done:hover{border-color:var(--line)}
+.sdot{width:22px;height:22px;border-radius:50%;flex:0 0 22px;display:grid;place-items:center;
+ border:1.8px solid var(--line);font:700 11px var(--ui);color:#fff}
+.step.done .sdot{background:var(--green);border-color:var(--green)}
+.step b{display:block;font-size:14px;font-weight:600}
+.step span:not(.sdot):not(.rbtn){display:block;font-size:12.5px;color:var(--gray);margin-top:2px}
+.step em{margin-left:auto;font-style:normal;font-size:11.5px;font-weight:600;color:var(--green)}
+.step .rbtn{margin-left:auto}
 /* ---- account menu ---- */
 .acct{margin-left:auto;position:relative}
 .chip{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
@@ -128,6 +149,11 @@ input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
 .fico.pdf{background:#B4472E}.fico.md{background:#0F7B8A}.fico.doc{background:#0041D7}
 .dfile b{font-size:13.5px;font-weight:600}
 .dfile em{font-style:normal;font-size:11px;color:var(--soft);margin-left:auto}
+/* ---- segmented toggle ---- */
+.seg{display:inline-flex;background:#EEF1F8;border-radius:10px;padding:3px;margin-bottom:18px}
+.sg{border:0;background:none;padding:8px 20px;border-radius:8px;font:600 13.5px var(--ui);
+ color:var(--gray);cursor:pointer}
+.sg.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(6,26,82,.12)}
 /* ---- profile form ---- */
 .pform{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .pform .full{grid-column:1/-1}
@@ -400,6 +426,10 @@ async function load(){
    (D.files[f.opportunity_id]=D.files[f.opportunity_id]||[]).push({
      kind:k,title:f.title,bytes:f.bytes||0,file:f.storage_path||"",url:"#"});});
  D.filesReady=(dc.data||[]).length>0;
+ const m=new Date(); m.setDate(1); m.setHours(0,0,0,0);
+ const ul=await sb.from("usage_ledger").select("quantity")
+   .eq("item","networking_pass").gte("occurred_at",m.toISOString());
+ D.passesUsed=(ul.data||[]).reduce((n,x)=>n+(x.quantity||1),0);
  D.stages={}; (s.data||[]).forEach(x=>{(D.stages[x.opportunity_id]=D.stages[x.opportunity_id]||[]).push(x);});
  D.acts={};   (a.data||[]).forEach(x=>{(D.acts[x.opportunity_id]=D.acts[x.opportunity_id]||[]).push(x);});
 }
@@ -469,6 +499,31 @@ const TITLES={dash:["Dashboard",()=>D.opps.length+" opportunities on file"],
  cal:["Calendar",()=>"Interviews, follow-ups and deadlines"],
  acct:["Account",()=>"Plan, allowances and settings"]};
 
+function greet(){const h=new Date().getHours();
+ return h<12?"Good morning":h<18?"Good afternoon":"Good evening";}
+
+/* Only steps that can honestly be completed today. Nothing here is a dead button. */
+function setupSteps(){
+ const p=D.profile||{};
+ return [
+  {k:"signin", t:"Sign in with LinkedIn or Google", d:"One tap instead of a password.",
+   done:true, cta:null},
+  {k:"profile",t:"Fill in your profile",
+   d:"Name, contact details and salary floor. Everything written for you uses it.",
+   done:!!(p.full_name&&p.phone), go:"acct"},
+  {k:"privacy",t:"Confirm how your data is handled",
+   d:"One checkbox, recorded with a timestamp. Yours to export or delete any time.",
+   done:!!p.privacy_ack_at, go:"acct"},
+  {k:"jobs",   t:"Bring in some roles",
+   d:"Paste a link from any job site, or upload a list. Scoring is free and unlimited.",
+   done:D.opps.length>0, go:"pipe"},
+  {k:"network",t:"Import your connections",
+   d:"Request your own export from LinkedIn — it arrives by email in about ten minutes.",
+   done:D.contacts.length>0, go:"net"},
+  {k:"docs",   t:"Upload your résumé",
+   d:"It fills your profile and teaches Foot Jar how you actually write.",
+   done:D.filesReady, go:"docs"}];}
+
 function vDash(){
  const live=D.opps.filter(o=>o.status!=="passed");
  const k=[["Opportunities",D.opps.length,0,"pipe"],["Live",live.length,0,"pipe"],
@@ -477,7 +532,20 @@ function vDash(){
  const pot=Math.min(99,now+33);
  const recent=Object.values(D.acts).flat()
   .sort((a,b)=>(b.happened_on||"").localeCompare(a.happened_on||"")).slice(0,6);
- return `<div class="kpis">${k.map(x=>`<div class="kpi click${x[2]?" accent":""}" data-go="${x[3]}">
+ const st=setupSteps(), dn=st.filter(x=>x.done).length;
+ const pctSetup=Math.round(dn/st.length*100);
+ const setup=pctSetup===100?"":`<div class="panel setup">
+   <div class="shead"><div><h3 style="color:var(--or)">Getting set up</h3>
+     <div style="font:400 24px/1.2 var(--serif);color:var(--ink2);margin-top:4px">${dn} of ${st.length} done</div></div>
+    <div class="sbar"><i style="width:${pctSetup}%"></i></div><b class="spct">${pctSetup}%</b></div>
+   <div class="steps">${st.map(x=>`<div class="step${x.done?" done":""}"${x.go&&!x.done?` data-go="${x.go}"`:""}>
+     <span class="sdot">${x.done?"&#10003;":""}</span>
+     <div><b>${esc(x.t)}</b><span>${esc(x.d)}</span></div>
+     ${x.done?'<em>Done</em>':'<span class="rbtn">Start</span>'}</div>`).join("")}</div></div>`;
+ return `<div class="hello"><h2>${greet()}, ${esc((D.profile.full_name||D.email).split(" ")[0].split("@")[0])}</h2>
+   <p>${D.opps.length?`${live.length} live opportunities &middot; ${D.contacts.length} people in your network`:"Nothing in the pipeline yet."}</p></div>
+  ${setup}
+  <div class="kpis">${k.map(x=>`<div class="kpi click${x[2]?" accent":""}" data-go="${x[3]}">
    <div class="n">${x[1]}</div><div class="l">${x[0]}</div></div>`).join("")}</div>
   <div class="panel click" data-go="pipe"><h3>Landing likelihood &mdash; portfolio</h3>
    <div class="bar"><span class="pot" style="width:${pot}%"></span>
@@ -586,7 +654,7 @@ function vList(kind){
     ${r.linkedin_url?`<a class="rbtn" href="${esc(r.linkedin_url)}" target="_blank" rel="noopener">Open</a>`:""}
    </div>`).join("")}</div>`:'<p class="empty">No recruiters yet.</p>';}
  if(kind==="docs") return vDocs();
- if(kind==="acct") return vProfile();
+ if(kind==="acct") return vAcctShell();
  if(kind==="cal"){
   return `<div class="soon"><b>Calendar is not built yet.</b> It will carry interviews,
    follow-up dates and application deadlines, pulled from the opportunities rather than typed twice.</div>`;}
@@ -600,7 +668,67 @@ function vList(kind){
 function fld(id,lab,v,t){return `<div class="pf"><label for="${id}">${lab}</label>
  <input id="${id}" type="${t||"text"}" value="${esc(v==null?"":v)}"></div>`;}
 
-function vProfile(){
+let acctTab="profile";
+const PLANS={
+ free:      {n:"Free",       price:"$0",   passes:0,
+   inc:["5 roles scored a month","Read in full, not keyword-matched","A verdict and a reason on each","A free evaluation of where you stand","A strategy recommendation"]},
+ scout:     {n:"Scout",      price:"$9",   passes:0,
+   inc:["Everything in Free","Import your saved jobs from LinkedIn","Import a search, a link or a CSV","Unlimited scoring","Pipeline kept warm while you watch"]},
+ search:    {n:"Search",     price:"$39",  passes:5,
+   inc:["Everything in Scout","5 résumés and 5 cover letters a month","5 networking passes a month","Voiceprint interview included","ATS gate on every document"]},
+ campaign:  {n:"Campaign",   price:"$89",  passes:25,
+   inc:["Everything in Search","15 résumés and 15 cover letters a month","25 networking passes a month","Every person verified, outreach drafted","Recruiter shortlist in your city"]},
+ executive: {n:"Executive",  price:"$249", passes:-1,
+   inc:["Everything in Campaign","Unlimited roles and documents","Unlimited networking passes","Board and executive path mapping","A human reads your first three packages"]}};
+
+function vAccount(){
+ const key=(D.profile&&D.profile.plan)||"free", pl=PLANS[key]||PLANS.free;
+ const used=D.passesUsed||0;
+ const cap=pl.passes, left=cap<0?"Unlimited":Math.max(0,cap-used);
+ const pctBar=cap>0?Math.min(100,Math.round(used/cap*100)):0;
+ const others=Object.keys(PLANS).filter(k=>k!==key);
+ return `<div class="panel">
+  <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+   <div><h3 style="margin-bottom:8px">Your plan</h3>
+    <div style="font:400 34px/1 var(--serif);color:var(--ink2)">${pl.n}</div>
+    <div style="font-size:13px;color:var(--gray);margin-top:5px">${pl.price}${key==="free"?"":" a month"} &middot; cancel any time</div></div>
+   ${key==="executive"?"":`<a class="primary" href="/pricing/" target="_blank" rel="noopener"
+     style="margin-left:auto;max-width:190px;text-align:center;text-decoration:none;display:block">Upgrade plan</a>`}
+  </div>
+  <div style="margin-top:20px;padding-top:18px;border-top:1px solid #F1F4FA">
+   <h3>Networking passes</h3>
+   <div class="bar" style="margin-top:12px"><span class="cur" style="width:${pctBar}%"></span></div>
+   <p class="note">${cap<0?"Unlimited this month":`${used} of ${cap} used &middot; <b style="color:var(--or)">${left} left</b> this month`}${cap===0?" &mdash; networking passes start on the Search plan":""}</p>
+  </div>
+ </div>
+
+ <div class="panel"><h3>What ${pl.n} includes</h3>
+  <div style="margin-top:12px">${pl.inc.map(i=>`<div class="aev" style="border:0;padding:7px 0">
+   <div class="ah"><span class="at" style="background:#E4F0E9;color:var(--green)">&#10003;</span>
+   <span style="font-size:14px;color:var(--ink)">${esc(i)}</span></div></div>`).join("")}</div></div>
+
+ <div class="panel"><h3>Other plans</h3>
+  <div class="tiles" style="margin-top:12px">${others.map(k=>{const o=PLANS[k];
+   return `<div class="tile"><span class="tname"><b>${o.n} &middot; ${o.price}</b>
+    <em>${o.passes<0?"Unlimited passes":o.passes?o.passes+" passes a month":"No networking passes"}</em></span>
+    <a class="rbtn" href="/pricing/" target="_blank" rel="noopener">See</a></div>`;}).join("")}</div></div>
+
+ <div class="panel"><h3>Billing</h3>
+  <p class="empty" style="padding:10px 0">No billing activity. Nothing has been charged to this
+  account and no card is on file.</p></div>
+
+ <div class="panel"><h3>Account</h3>
+  <div class="aev"><div class="ah"><span class="ad">Email</span></div><div class="as" style="color:var(--ink)">${esc(D.email)}</div></div>
+  <div class="aev"><div class="ah"><span class="ad">Signed in with</span></div><div class="as" style="color:var(--ink)">${esc(D.provider||"email")}</div></div>
+  <div class="aev" style="border:0"><div class="ah"><span class="ad">Member since</span></div>
+   <div class="as" style="color:var(--ink)">${D.profile&&D.profile.created_at?fdate(String(D.profile.created_at).slice(0,10)):"today"}</div></div></div>`;}
+
+function vAcctShell(){
+ return `<div class="seg"><button class="sg${acctTab==="profile"?" on":""}" data-at="profile">Profile</button>
+  <button class="sg${acctTab==="account"?" on":""}" data-at="account">Account</button></div>
+  <div id="acctBody">${acctTab==="profile"?vProfileForm():vAccount()}</div>`;}
+
+function vProfileForm(){
  const p=D.profile||{};
  const av=p.avatar_url
   ?`<img src="${esc(p.avatar_url)}" alt="">`
@@ -693,7 +821,7 @@ function draw(){
  if(view==="pipe")wirePipe();
  else if(view==="dash")wireDash();
  else if(view==="docs")wireDocs();
- else if(view==="acct")wireProfile();}
+ else if(view==="acct")wireAcct();}
 
 function wirePipe(){
  $("view").querySelectorAll(".ohead").forEach(h=>{
@@ -723,7 +851,17 @@ function wireDocs(){
  $("view").querySelectorAll(".dhead").forEach(h=>{
   h.onclick=()=>h.parentElement.classList.toggle("open");});}
 
+function wireAcct(){
+ const seg=$("view").querySelector(".seg");
+ if(seg) seg.onclick=e=>{const b=e.target.closest("[data-at]"); if(!b)return;
+  acctTab=b.dataset.at;
+  seg.querySelectorAll(".sg").forEach(x=>x.classList.toggle("on",x===b));
+  $("acctBody").innerHTML = acctTab==="profile"?vProfileForm():vAccount();
+  if(acctTab==="profile") wireProfile();};
+ if(acctTab==="profile") wireProfile();}
+
 async function wireProfile(){
+ if(!$("pSave")) return;
  const g=i=>{const e=$(i);return e?(e.value.trim()||null):null;};
  $("avPick").onclick=()=>$("avFile").click();
  $("avFile").onchange=async e=>{
