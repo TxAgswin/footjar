@@ -29,6 +29,18 @@ button{width:100%;margin-top:16px;padding:14px;border:0;border-radius:10px;
 button:hover:not(:disabled){background:#E45A00}
 button:disabled{opacity:.55;cursor:default}
 .micro{margin:16px 0 0;font-size:12.5px;color:var(--gray);line-height:1.6}
+.sso{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  padding:12px 16px;margin-bottom:9px;border:1.5px solid var(--line);border-radius:10px;
+  background:#fff;color:var(--ink);font:600 15px var(--ui);cursor:pointer;transition:.15s}
+.sso:hover{background:#F7F9FF;border-color:#C9D6F5}
+.sso svg{width:19px;height:19px;flex:0 0 19px}
+.sso.li{background:#0A66C2;border-color:#0A66C2;color:#fff}
+.sso.li:hover{background:#095196;border-color:#095196}
+.sso.fb{background:#1877F2;border-color:#1877F2;color:#fff}
+.sso.fb:hover{background:#1462c9;border-color:#1462c9}
+.or{display:flex;align-items:center;gap:12px;margin:20px 0 18px;color:#98A0B8;
+  font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
+.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
 .msg{margin-top:18px;padding:13px 15px;border-radius:10px;font-size:14px;line-height:1.55;display:none}
 .msg.ok{display:block;background:#E9F6EF;color:#14683F;border:1px solid #BFE3D0}
 .msg.err{display:block;background:#FDECE7;color:#9B3B1E;border:1px solid #F6CDBE}
@@ -52,8 +64,12 @@ button:disabled{opacity:.55;cursor:default}
 
   <div id="signin">
     <h1>Sign in.</h1>
-    <p class="sub">An email address is the whole sign-up. We send a link, you click it,
-    you are in. No password to remember or lose.</p>
+    <p class="sub">One tap, or an email address. No password to remember or lose.</p>
+
+    <div id="oauth"></div>
+
+    <div class="or"><span>or use your email</span></div>
+
     <form id="f">
       <label for="em">Email address</label>
       <input id="em" type="email" required autocomplete="email" placeholder="you@example.com">
@@ -87,6 +103,31 @@ const sb = createClient(URL, ANON);
 
 const $ = id => document.getElementById(id);
 const say = (t, cls) => { const m = $("msg"); m.textContent = t; m.className = "msg " + cls; };
+
+/* Flip a provider to false until it is configured in Supabase, so nobody
+   clicks a button that cannot work yet. */
+const PROVIDERS = [
+  { id: "google",       label: "Continue with Google",   on: true,  cls: "",
+    icon: '<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.2c0-.8-.07-1.5-.2-2.2H12v4.2h6.1a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.5-5 3.5-8.4z"/><path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9a7 7 0 0 1-10.4-3.7H1.7v3A11.5 11.5 0 0 0 12 23.5z"/><path fill="#FBBC05" d="M5.5 14.1a6.9 6.9 0 0 1 0-4.4v-3H1.7a11.5 11.5 0 0 0 0 10.4z"/><path fill="#EA4335" d="M12 4.9c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.7 6.7l3.8 3a6.9 6.9 0 0 1 6.5-4.8z"/></svg>' },
+  { id: "linkedin_oidc", label: "Continue with LinkedIn", on: true, cls: "li",
+    icon: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.78-2.79-1.79 0-2.06 1.32-2.06 2.7V21h-4z"/></svg>' },
+  { id: "facebook",     label: "Continue with Facebook", on: false, cls: "fb",
+    icon: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6A22 22 0 0 0 14.3 3.5c-2.4 0-4 1.45-4 4.12V9.9H7.6V13h2.7v8z"/></svg>' },
+];
+
+$("oauth").innerHTML = PROVIDERS.filter(p => p.on).map(p =>
+  `<button class="sso ${p.cls}" data-p="${p.id}" type="button">${p.icon}<span>${p.label}</span></button>`
+).join("");
+
+$("oauth").addEventListener("click", async e => {
+  const btn = e.target.closest("button[data-p]");
+  if (!btn) return;
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: btn.dataset.p,
+    options: { redirectTo: window.location.href }
+  });
+  if (error) say(error.message, "err");
+});
 
 $("f").addEventListener("submit", async e => {
   e.preventDefault();
