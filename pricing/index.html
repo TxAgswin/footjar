@@ -820,6 +820,61 @@ nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     justify-content:center;padding:13px 18px;font-size:15px}
 }
 
+/* ---- contact-import tiles ---- */
+.icgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1120px;margin:0 auto}
+.ic{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 22px 26px;
+  display:flex;flex-direction:column;box-shadow:var(--sh)}
+.icico{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;
+  justify-content:center;margin-bottom:14px}
+.icico svg{width:22px;height:22px}
+.ic b{font-size:17px;font-weight:600;margin-bottom:7px}
+.ic p{margin:0 0 18px;font-size:13.8px;line-height:1.6;color:var(--gray);flex:1}
+.icbtn{display:inline-block;text-align:center;background:#fff;color:var(--or);
+  border:1.5px solid var(--or);border-radius:9px;padding:10px 16px;font:600 14px var(--ui);
+  text-decoration:none;transition:.15s}
+.icbtn:hover{background:var(--orT)}
+.ic em{display:block;font-style:normal;font-size:11.5px;color:var(--soft);margin-top:10px;
+  text-align:center}
+.icnote{max-width:760px;margin:30px auto 0;text-align:center;font-size:14px;line-height:1.7;
+  color:var(--gray)}
+.icnote b{color:var(--ink)}
+/* ---- how a pass runs ---- */
+.nwsteps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1120px;margin:0 auto}
+.nwstep{display:flex;gap:14px;align-items:flex-start}
+.nwn{flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:var(--tint);
+  color:var(--blue);font:700 14px var(--ui);display:flex;align-items:center;justify-content:center}
+.nwstep b{display:block;font-size:15.5px;font-weight:600;margin-bottom:5px}
+.nwstep p{margin:0;font-size:13.5px;line-height:1.6;color:var(--gray)}
+@media(max-width:1000px){.icgrid,.nwsteps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.icgrid,.nwsteps{grid-template-columns:1fr}}
+
+/* ---- utility bar, HubSpot shape ---- */
+.util{background:#fff;border-bottom:1px solid #EFF2F8;font-size:13px}
+.utin{display:flex;align-items:center;gap:22px;height:42px}
+.util a{color:var(--gray);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.util a:hover{color:var(--blue)}
+.uspacer{flex:1}
+.usearch{display:flex;align-items:center;gap:7px;background:#F5F7FC;border:1px solid #E7ECF7;
+  border-radius:99px;padding:5px 12px;min-width:190px}
+.usearch svg{width:14px;height:14px;fill:none;stroke:var(--soft);stroke-width:2;
+  stroke-linecap:round;flex:0 0 14px}
+.usearch input{border:0;background:none;outline:none;font:400 13px var(--ui);color:var(--ink);
+  width:100%}
+.usearch input::placeholder{color:#9AA5BF}
+.udrop{position:relative}
+.udrop>button{background:none;border:0;padding:0;cursor:pointer;font:400 13px var(--ui);
+  color:var(--gray);display:inline-flex;align-items:center;gap:6px}
+.udrop>button:hover{color:var(--blue)}
+.ucav{width:5px;height:5px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
+  transform:rotate(45deg) translateY(-2px)}
+.umenu{position:absolute;top:calc(100% + 10px);right:0;min-width:196px;background:#fff;
+  border:1px solid var(--line);border-radius:12px;box-shadow:var(--shL);padding:6px;
+  opacity:0;visibility:hidden;transform:translateY(-5px);transition:.16s;z-index:70}
+.udrop:hover .umenu,.udrop:focus-within .umenu{opacity:1;visibility:visible;transform:none}
+.umenu a{display:block;padding:9px 12px;border-radius:8px;font-size:13.5px;color:var(--ink)}
+.umenu a:hover{background:#F5F8FF;color:var(--blue)}
+@media(max-width:960px){ .util{display:none} }
+
 /* ---- the on-ramp ---- */
 .onramp{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;
   max-width:1000px;margin:34px auto 42px;padding:32px 34px;border-radius:22px;
@@ -899,20 +954,36 @@ nav.open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 </style></head><body>
 
+<div class="util"><div class="w utin">
+  <a href="mailto:support@footjar.com">Customer support</a>
+  <a href="mailto:sales@footjar.com">Contact sales</a>
+  <span class="uspacer"></span>
+  <form class="usearch" role="search" onsubmit="return false">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.4"/><path d="M16 16l4.4 4.4"/></svg>
+    <input type="search" placeholder="Search" aria-label="Search Foot Jar">
+  </form>
+  <a href="/pipeline/">Log in</a>
+  <div class="udrop"><button type="button">About<i class="ucav"></i></button>
+    <div class="umenu">
+      <a href="/#always">What Foot Jar is</a>
+      <a href="/how-it-works/">How it works</a>
+      <a href="/brand/">Brand guide</a>
+      <a href="mailto:sales@footjar.com">Contact sales</a>
+    </div></div>
+</div></div>
+
 <nav><div class="w nav">
   <a class="brand" href="/"><span style="display:inline-flex;align-items:center;gap:7px" role="img" aria-label="Foot Jar"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foot Jar"><path d="M23 10h18" stroke="#0041D7" stroke-width="3.1" stroke-linecap="round"/><path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#0041D7" stroke-width="3.1"/><path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg><span style="font:600 15px/1 'Segoe UI',system-ui,sans-serif;letter-spacing:-.01em;color:#0041D7">Foot<span style="color:#FD6B0E">Jar</span></span></span></a>
   <button class="navtoggle" type="button" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span></button>
   <div class="links">
     <div class="drop"><button type="button">Product</button>
-      <div class="mega"><a class="mi" href="/#scoring"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span><span><b>Opportunity scoring</b><em>Grade every role against your criteria</em></span></a><a class="mi" href="/#timeline"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 5h18v2H3zm0 6h13v2H3zm0 6h8v2H3zm12.5 3.5L14 19l3.5-3.5L21 19l-1.5 1.5-2-2z"/></svg></span><span><b>Pipeline &amp; timeline</b><em>One queue, one progress bar, no spreadsheet</em></span></a><a class="mi" href="/#ats"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5zm-1 15l-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9z"/></svg></span><span><b>ATS gate</b><em>Clear the scanner before a human ever sees it</em></span></a><a class="mi" href="/#voice"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 14a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 006 6.9V21h2v-3.1A7 7 0 0019 11z"/></svg></span><span><b>Your voice</b><em>Documents that sound like you wrote them</em></span></a><a class="mi" href="/#networking"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 8a3 3 0 100-6 3 3 0 000 6zM5 22a3 3 0 100-6 3 3 0 000 6zm14 0a3 3 0 100-6 3 3 0 000 6zM11 9.9l-4.2 6 1.7 1.2 4.2-6zm2 0l-1.7 1.2 4.2 6 1.7-1.2z"/></svg></span><span><b>Networking engine</b><em>Find the person who can actually hire you</em></span></a><a class="mi" href="/#always"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Always on</b><em>Your career record, kept warm between searches</em></span></a><a class="mi" href="/pipeline/"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Live pipeline</b><em>Publish your search to a real page</em></span></a></div></div>
+      <div class="mega"><a class="mi" href="/#scoring"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg></span><span><b>Opportunity Scoring &amp; Queue</b><em>Every role read in full, graded, and ranked</em></span></a><a class="mi" href="/#timeline"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 5h18v2H3zm0 6h13v2H3zm0 6h8v2H3zm12.5 3.5L14 19l3.5-3.5L21 19l-1.5 1.5-2-2z"/></svg></span><span><b>Pipeline &amp; Timeline</b><em>Eight stages per role. One bar for the whole search</em></span></a><a class="mi" href="/#ats"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5zm-1 15l-4-4 1.4-1.4L11 13.2l5.6-5.6L18 9z"/></svg></span><span><b>The ATS Gate</b><em>Clears the scanner before a human ever sees it</em></span></a><a class="mi" href="/#voice"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 14a3 3 0 003-3V5a3 3 0 10-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 006 6.9V21h2v-3.1A7 7 0 0019 11z"/></svg></span><span><b>Voiceprint</b><em>One conversation. Every document sounds like you</em></span></a><a class="mi" href="/networking/"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M12 8a3 3 0 100-6 3 3 0 000 6zM5 22a3 3 0 100-6 3 3 0 000 6zm14 0a3 3 0 100-6 3 3 0 000 6zM11 9.9l-4.2 6 1.7 1.2 4.2-6zm2 0l-1.7 1.2 4.2 6 1.7-1.2z"/></svg></span><span><b>Networking Engine</b><em>The shortest warm path to the person who can hire you</em></span></a><a class="mi" href="/#always"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Always On</b><em>Goes dormant between searches, keeps everything current</em></span></a><a class="mi" href="/pipeline/"><span class="mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#0041D7" aria-hidden="true"><path d="M3 3h2v16h16v2H3zm5 12h2V9H8zm4 0h2V5h-2zm4 0h2v-8h-2z"/></svg></span><span><b>Live Pipeline</b><em>Your whole search, on a page you can share</em></span></a></div></div>
     <a href="/how-it-works/">How it works</a>
-    <a href="/#networking">Networking</a>
     <a href="/pricing/">Pricing</a>
   </div>
   <div class="navcta">
-    <a class="signin" href="/pipeline/">Sign in</a>
-    <a class="btn btn-p" href="/pipeline/">Run your top 5 free</a>
+    <a class="btn btn-p" href="/pipeline/">Get started</a>
   </div>
 </div></nav><header style="padding:64px 0 8px"><div class="w hero">
       <h1 style="font-size:52px">Everything else helps you apply.<br>This one tells you when not to.</h1>
