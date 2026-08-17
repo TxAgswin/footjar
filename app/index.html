@@ -1,0 +1,133 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign in — Foot Jar</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--blue:#0041D7;--or:#FD6B0E;--ink:#12172B;--ink2:#061A52;--gray:#5A6178;
+  --line:#E3E8F5;--tint:#EEF3FF;--serif:'Instrument Serif',Georgia,serif;
+  --ui:Inter,-apple-system,'Segoe UI',sans-serif}
+body{margin:0;background:#FBF8F4;color:var(--ink);font:15px/1.6 var(--ui);
+  min-height:100vh;display:grid;place-items:center;padding:28px}
+.card{width:100%;max-width:430px;background:#fff;border:1px solid var(--line);
+  border-radius:20px;padding:40px 38px 34px;
+  box-shadow:0 1px 2px rgba(6,26,82,.05),0 30px 70px rgba(6,26,82,.12)}
+.mk{display:flex;align-items:center;gap:9px;margin-bottom:26px}
+.mk b{font:600 19px var(--ui);color:var(--blue);letter-spacing:-.01em}
+.mk b i{font-style:normal;color:var(--or)}
+h1{font:400 31px/1.15 var(--serif);margin:0 0 8px;color:var(--ink2)}
+p.sub{margin:0 0 26px;color:var(--gray);font-size:15px}
+label{display:block;font:600 12.5px var(--ui);letter-spacing:.04em;
+  text-transform:uppercase;color:var(--gray);margin-bottom:7px}
+input{width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:10px;
+  font:400 15.5px var(--ui);color:var(--ink);outline:none;background:#fff}
+input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,65,215,.1)}
+button{width:100%;margin-top:16px;padding:14px;border:0;border-radius:10px;
+  background:var(--or);color:#fff;font:600 15.5px var(--ui);cursor:pointer;transition:.15s}
+button:hover:not(:disabled){background:#E45A00}
+button:disabled{opacity:.55;cursor:default}
+.micro{margin:16px 0 0;font-size:12.5px;color:var(--gray);line-height:1.6}
+.msg{margin-top:18px;padding:13px 15px;border-radius:10px;font-size:14px;line-height:1.55;display:none}
+.msg.ok{display:block;background:#E9F6EF;color:#14683F;border:1px solid #BFE3D0}
+.msg.err{display:block;background:#FDECE7;color:#9B3B1E;border:1px solid #F6CDBE}
+.in{display:none}
+.in.on{display:block}
+.row{display:flex;justify-content:space-between;align-items:baseline;
+  padding:11px 0;border-bottom:1px solid #F2F5FB;font-size:14.5px}
+.row b{font-weight:600}
+.who{font-size:13.5px;color:var(--gray);margin:0 0 20px}
+.out{background:#fff;color:var(--gray);border:1.5px solid var(--line);margin-top:22px}
+.out:hover:not(:disabled){background:#F7F9FF;color:var(--blue)}
+</style></head><body>
+<div class="card">
+  <div class="mk">
+    <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+      <path d="M23 10h18" stroke="#0041D7" stroke-width="3.1" stroke-linecap="round"/>
+      <path d="M24 17.5h16a10 10 0 0 1 10 10v16a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10v-16a10 10 0 0 1 10-10z" stroke="#0041D7" stroke-width="3.1"/>
+      <path d="M40 22.5v27l-13-4.5v-18z" stroke="#FD6B0E" stroke-width="3.1" stroke-linejoin="round"/></svg>
+    <b>Foot<i>Jar</i></b>
+  </div>
+
+  <div id="signin">
+    <h1>Sign in.</h1>
+    <p class="sub">An email address is the whole sign-up. We send a link, you click it,
+    you are in. No password to remember or lose.</p>
+    <form id="f">
+      <label for="em">Email address</label>
+      <input id="em" type="email" required autocomplete="email" placeholder="you@example.com">
+      <button id="go" type="submit">Send me a link</button>
+    </form>
+    <p class="micro"><b>No credit card. No trial.</b> Your data is yours and is not visible
+    to anyone else, including us in the browser.</p>
+  </div>
+
+  <div id="app" class="in">
+    <h1>You are in.</h1>
+    <p class="who" id="who"></p>
+    <div class="row"><span>Opportunities</span><b id="n_opp">&mdash;</b></div>
+    <div class="row"><span>Contacts</span><b id="n_con">&mdash;</b></div>
+    <div class="row"><span>Documents</span><b id="n_doc">&mdash;</b></div>
+    <div class="row"><span>Recruiters</span><b id="n_rec">&mdash;</b></div>
+    <div class="row"><span>Networking passes used this month</span><b id="n_pass">&mdash;</b></div>
+    <p class="micro" id="rlsnote"></p>
+    <button class="out" id="signout" type="button">Sign out</button>
+  </div>
+
+  <div class="msg" id="msg"></div>
+</div>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const URL  = "https://lsjqmfhsekymyriybdxv.supabase.co";
+const ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanFtZmhzZWt5bXlyaXliZHh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5Mzc0NzksImV4cCI6MjEwMjUxMzQ3OX0.dug67zkdxV6Cnf1zoAniJkryvfPCICAQrd2z2-RlICw";
+const sb = createClient(URL, ANON);
+
+const $ = id => document.getElementById(id);
+const say = (t, cls) => { const m = $("msg"); m.textContent = t; m.className = "msg " + cls; };
+
+$("f").addEventListener("submit", async e => {
+  e.preventDefault();
+  $("go").disabled = true; $("go").textContent = "Sending…";
+  const { error } = await sb.auth.signInWithOtp({
+    email: $("em").value.trim(),
+    options: { emailRedirectTo: window.location.href }
+  });
+  $("go").disabled = false; $("go").textContent = "Send me a link";
+  if (error) say(error.message, "err");
+  else say("Check your inbox. The link signs you straight in and expires in an hour.", "ok");
+});
+
+$("signout").addEventListener("click", async () => {
+  await sb.auth.signOut(); location.reload();
+});
+
+async function count(table, extra) {
+  let q = sb.from(table).select("*", { count: "exact", head: true });
+  if (extra) q = extra(q);
+  const { count: c, error } = await q;
+  return error ? "error" : c;
+}
+
+async function show(session) {
+  $("signin").classList.remove("on"); $("signin").style.display = "none";
+  $("app").classList.add("on");
+  $("who").textContent = session.user.email;
+  const first = new Date(); first.setDate(1); first.setHours(0,0,0,0);
+  $("n_opp").textContent  = await count("opportunities");
+  $("n_con").textContent  = await count("contacts");
+  $("n_doc").textContent  = await count("documents");
+  $("n_rec").textContent  = await count("recruiters");
+  $("n_pass").textContent = await count("usage_ledger",
+    q => q.eq("item","networking_pass").gte("occurred_at", first.toISOString()));
+  $("rlsnote").innerHTML =
+    "These counts come straight from Postgres with row-level security on. " +
+    "Zeros mean the tables are empty, not that anything is broken.";
+}
+
+const { data: { session } } = await sb.auth.getSession();
+if (session) show(session);
+sb.auth.onAuthStateChange((_e, s) => { if (s) show(s); });
+</script></body></html>
